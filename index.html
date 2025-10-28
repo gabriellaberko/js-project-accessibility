@@ -3,11 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
+    <title>Quiz BONANZAAA</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <p>This is the starting point.</p>
-    <script src="js/main.js"></script>
+  <header>
+    <nav>
+      <!-- LOGO -->
+    </nav>
+  </header>
+  
+  <main>
+    <section class="intro-section">
+      <h1>Welcome to QUIZ BONANZAAA!</h1>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate aliquam sequi at minus mollitia iste est quae.</p>
+      <label class="text-field">
+        What's your player name?
+        <input 
+        type="text" 
+        placeholder="Enter your player name..." 
+        aria-label="player name" 
+        required>
+      </label>
+    </section>
+    
+    <section class="filter-section">
+      <form class="filter-form">
+        <fieldset>
+          <legend>Choose your quiz</legend>
+          <label class="drop-down">Choose category
+            <select name="category">
+              <option value="General knowledge">General knowledge</option>
+              <option value="Entertainment: Film">Film</option>
+              <option value="Entertainment: Music">Music</option>
+            </select>
+          </label>
+          <label class="drop-down">Choose difficulty
+            <select name="difficulty">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </label>
+          <p>Choose number of questions</p>
+            <label class="radio-button">10
+              <input 
+              type="radio" 
+              value="10">
+            </label>
+            <label class="radio-button">20
+              <input 
+              type="radio" 
+              value="20">
+            </label>
+            <label class="radio-button">30
+              <input 
+              type="radio" 
+              value="30" 
+              checked>
+            </label>
+        </fieldset>
+      </form>
+    </section>
+    <button>Start game</button>
+  </main>
+
+    <script src="/dist/script.js"></script>
   </body>
 </html>

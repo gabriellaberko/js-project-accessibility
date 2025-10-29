@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial'-scale=1.0" />
     <title>Quiz BONANZAAA</title>
     <link rel="stylesheet" href="css/styles.css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,34 +29,35 @@
       
       <h1>Welcome to QUIZ BONANZAAA!</h1>
       <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate aliquam sequi at minus mollitia iste est quae.</p>
-      <label class="text-field">
-        What's your player name?
+      <label for="player-name" class="text-field">What's your player name?</label>
         <input 
-        type="text" 
+        type="text"
+        id="player-name" 
         placeholder="Enter your player name..." 
-        aria-label="player name" 
-        required>
-      </label>
+        required
+        aria-required="true"
+        >
+      
     </section>
     
     <section class="filter-section">
       <form class="filter-form">
         <fieldset>
-          <legend>Choose your quiz</legend>
-          <label class="drop-down">Choose category
-            <select name="category">
-              <option value="General knowledge">General knowledge</option>
-              <option value="Entertainment: Film">Film</option>
-              <option value="Entertainment: Music">Music</option>
-            </select>
-          </label>
-          <label class="drop-down">Choose difficulty
-            <select name="difficulty">
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
-          </label>
+          <h2>Choose your quiz</h2>
+          <label for="category" class="drop-down">Choose category</label>
+          <select id="category" name="category">
+            <option value="General knowledge">General knowledge</option>
+            <option value="Entertainment: Film">Film</option>
+            <option value="Entertainment: Music">Music</option>
+          </select>
+     
+          <label for= "difficulty" class="drop-down">Choose difficulty</label>
+          <select id="difficulty" name="difficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+
           <p>Choose number of questions</p>
             <label class="radio-button">10
               <input 

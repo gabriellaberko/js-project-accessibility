@@ -1,7 +1,26 @@
 /* ------ INTERFACES ------ */
 
+interface fetchedObjectFormat {
+  category: string,
+  correct_answer: string
+  difficulty: string,
+  incorrect_answers: string[],
+  question: string,
+  type: string
+}
+
+interface questionObjectFormat {
+  question: string,
+  category: string,
+  difficulty: string,
+  allAnswers: string[],
+  correctAnswer: string
+}
 
 
+/* ------ GLOBAL VARIABLES ------ */
+
+const questionArray: questionObjectFormat[] = [];
 
 
 /* ------ FETCH API DATA ------ */
@@ -18,9 +37,26 @@ const fetchQuizAPI = async () => {
     }
     
     const data = await response.json();
+    const fetchedQuizQuestions: fetchedObjectFormat[] = data.results;
 
-    console.log(data);
+    fetchedQuizQuestions.map(object => {
 
+      // create an array with all answers, despite correct/incorrect
+      const allAnswers: string[] = object.incorrect_answers;
+      const correctAnswer: string = object.correct_answer
+      allAnswers.push(correctAnswer);
+    
+
+      const questionObject: questionObjectFormat = {
+        question: object.question,
+        category: object.category,
+        difficulty: object.difficulty,
+        allAnswers: allAnswers,
+        correctAnswer: object.correct_answer
+      }
+
+      questionArray.push(questionObject);
+    });
   }
   
   catch(error) {
@@ -28,7 +64,6 @@ const fetchQuizAPI = async () => {
   }
 
 };
-
 
 /* ------ EVENT LISTENER ------ */
 

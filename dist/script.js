@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+/* ------ GLOBAL VARIABLES ------ */
+const questionArray = [];
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const APIUrl = `https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple`;
@@ -18,7 +20,21 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = yield response.json();
-        console.log(data);
+        const fetchedQuizQuestions = data.results;
+        fetchedQuizQuestions.map(object => {
+            // create an array with all answers, despite correct/incorrect
+            const allAnswers = object.incorrect_answers;
+            const correctAnswer = object.correct_answer;
+            allAnswers.push(correctAnswer);
+            const questionObject = {
+                question: object.question,
+                category: object.category,
+                difficulty: object.difficulty,
+                allAnswers: allAnswers,
+                correctAnswer: object.correct_answer
+            };
+            questionArray.push(questionObject);
+        });
     }
     catch (error) {
         console.error("Fetch error:", error);

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
   <header>
@@ -18,12 +19,13 @@
     </div>
   </header>
   <main>
-    <div class="quiz-container">
-      <h1 class="question" id="question">Here wi will insert a question from the API with JS</h1>
-      <div class="answers" id="answers">
-        <button>Choice 1</button>
-        <button>Choice 2</button>
-        <button>Choice 3</button>
+    <div class="quiz-container h-screen justify-center flex gap-8">
+      <h1 class="question" id="question">Here we will insert a question from the API with JS</h1>
+      <div class="answers w-full p-4" id="answers">
+        <button class="p-4 bg-blue-500 text-white w-full sm:w-fit md:w-fit lg:w-full xl:w-full">Choice 1</button>
+        <button class="p-4 bg-blue-500 text-white w-full md:w-fit">Choice 2</button>
+        <button class="p-4 bg-blue-500 text-white w-full md:w-fit">Choice 3</button>
+        <!-- https://tailwindcss.com/docs/width -->
       </div>
     </div>
   </main>

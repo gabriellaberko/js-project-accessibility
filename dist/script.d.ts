@@ -15,4 +15,5 @@ interface questionObjectFormat {
 }
 declare const questionArray: questionObjectFormat[];
 declare const fetchQuizAPI: () => Promise<void>;
+declare const stored: string | null;
 //# sourceMappingURL=script.d.ts.map

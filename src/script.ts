@@ -27,7 +27,7 @@ const questionArray: questionObjectFormat[] = [];
 
 const fetchQuizAPI = async () => {
   const APIUrl = `https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple`;
-  
+
   try {
       
     const response = await fetch(APIUrl);
@@ -68,3 +68,25 @@ const fetchQuizAPI = async () => {
 /* ------ EVENT LISTENER ------ */
 
 document.addEventListener("DOMContentLoaded", fetchQuizAPI);
+
+/* ------ Logic to collect player pref and redirect to quiz.html ------ */
+
+document.getElementById("startBtn")?.addEventListener("click", () => {
+
+  const category = (document?.getElementById("category")! as HTMLSelectElement).value;
+  const difficulty = (document?.getElementById("difficulty")! as HTMLSelectElement).value;
+  const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
+  
+  localStorage.setItem("quizSettings", JSON.stringify({
+    category,
+    difficulty,
+    player
+  }));
+
+  console.log("Saved quiz settings:", { category, difficulty, player });
+
+  window.location.href = "quiz.html";
+});
+
+const stored = localStorage.getItem("quizSettings");
+console.log(stored);

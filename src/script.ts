@@ -167,6 +167,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 /* ------ Logic to collect player pref and redirect to quiz.html ------ */
 
+// We need to move this in to the "Submit" button instead to get it working with submitting results and usernames etc see line #268
+
 // document.getElementById("startBtn")?.addEventListener("click", () => {
 
 //   const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
@@ -240,7 +242,7 @@ const fetchScores = async() => {
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
-async function postScore(username: string) {
+const postScore = async(username: string) => {
   console.log("Posting new to scoreboard:", username);
   const response = await fetch(SCORE_API_URL, {
     method: "POST",

@@ -24,5 +24,7 @@ declare let storedQuestionArray: questionObjectFormat[];
 declare const question: HTMLElement;
 declare const answers: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
+declare const incrementIndex: () => void;
+declare const shuffleAnswers: (array: string[]) => void;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: Number) => void;
 //# sourceMappingURL=script.d.ts.map

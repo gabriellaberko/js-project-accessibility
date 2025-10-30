@@ -22,11 +22,18 @@ interface questionObjectFormat {
 
 const questionArray: questionObjectFormat[] = [];
 
+let amount: Number = 10;
+let category: Number = 9;
+let difficulty: String = "medium";
+
+// questions from local storage to use when testing, if we hit API limit
+let storedQuestionArray: questionObjectFormat[] = [];  
+
 
 /* ------ FETCH API DATA ------ */
 
 const fetchQuizAPI = async () => {
-  const APIUrl = `https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple`;
+  const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
   
   try {
       
@@ -38,6 +45,7 @@ const fetchQuizAPI = async () => {
     
     const data = await response.json();
     const fetchedQuizQuestions: fetchedObjectFormat[] = data.results;
+      
 
     fetchedQuizQuestions.map(object => {
 
@@ -61,8 +69,11 @@ const fetchQuizAPI = async () => {
   
   catch(error) {
     console.error("Fetch error:", error);
+    // add error message on start page
   }
-
+  // save question array to local storage to have when testing
+  localStorage.setItem("storedQuestionArray", JSON.stringify(questionArray));
+  storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));  
 };
 
 /* ------ EVENT LISTENER ------ */

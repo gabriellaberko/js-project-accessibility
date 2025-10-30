@@ -11,9 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
+let amount = 10;
+let category = 9;
+let difficulty = "medium";
+// questions from local storage to use when testing, if we hit API limit
+let storedQuestionArray = [];
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
-    const APIUrl = `https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple`;
+    const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
     try {
         const response = yield fetch(APIUrl);
         if (!response.ok) {
@@ -38,7 +43,11 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         console.error("Fetch error:", error);
+        // add error message on start page
     }
+    // save question array to local storage to have when testing
+    localStorage.setItem("storedQuestionArray", JSON.stringify(questionArray));
+    storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 });
 /* ------ EVENT LISTENER ------ */
 document.addEventListener("DOMContentLoaded", fetchQuizAPI);

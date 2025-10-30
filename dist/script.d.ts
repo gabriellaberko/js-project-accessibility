@@ -14,5 +14,9 @@ interface questionObjectFormat {
     correctAnswer: string;
 }
 declare const questionArray: questionObjectFormat[];
+declare let amount: Number;
+declare let category: Number;
+declare let difficulty: String;
+declare let storedQuestionArray: questionObjectFormat[];
 declare const fetchQuizAPI: () => Promise<void>;
 //# sourceMappingURL=script.d.ts.map

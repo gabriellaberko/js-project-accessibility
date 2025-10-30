@@ -121,3 +121,27 @@ document.addEventListener("DOMContentLoaded", fetchQuizAPI);
 
 
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
+/* ------ Logic to collect player pref and redirect to quiz.html ------ */
+
+document.getElementById("startBtn")?.addEventListener("click", () => {
+
+  const category = (document?.getElementById("category")! as HTMLSelectElement).value;
+  const difficulty = (document?.getElementById("difficulty")! as HTMLSelectElement).value;
+  const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
+  
+  localStorage.setItem("quizSettings", JSON.stringify({
+    category,
+    difficulty,
+    player
+  }));
+
+  console.log("Saved quiz settings:", { category, difficulty, player });
+
+  window.location.href = "quiz.html";
+});
+
+const stored = localStorage.getItem("quizSettings");
+console.log(stored);
+
+
+// TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray

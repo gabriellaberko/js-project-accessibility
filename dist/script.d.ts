@@ -22,4 +22,5 @@ declare const question: HTMLElement;
 declare const answers: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: Number) => void;
+declare const stored: string | null;
 //# sourceMappingURL=script.d.ts.map

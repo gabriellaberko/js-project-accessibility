@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
 let amount = 10;
@@ -71,5 +72,21 @@ const insertQuestionsAndAnswers = (array, index) => {
 // TO DO: create a function for adding scores
 /* ------ EVENT LISTENER ------ */
 document.addEventListener("DOMContentLoaded", fetchQuizAPI);
+// TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
+/* ------ Logic to collect player pref and redirect to quiz.html ------ */
+(_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+    const category = (document === null || document === void 0 ? void 0 : document.getElementById("category")).value;
+    const difficulty = (document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value;
+    const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
+    localStorage.setItem("quizSettings", JSON.stringify({
+        category,
+        difficulty,
+        player
+    }));
+    console.log("Saved quiz settings:", { category, difficulty, player });
+    window.location.href = "quiz.html";
+});
+const stored = localStorage.getItem("quizSettings");
+console.log(stored);
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
 //# sourceMappingURL=script.js.map

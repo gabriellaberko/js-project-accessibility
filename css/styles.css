@@ -7,6 +7,8 @@ body{
   margin: 0;
   padding: 0;
   outline: none;
+  box-sizing: border-box;
+  border: 0 solid;
 }
 
 header {
@@ -34,8 +36,6 @@ header {
   align-items: center;
   gap: 24px;
 }
-
-
 
 /*------ Quiz page  ------*/
 

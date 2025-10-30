@@ -29,10 +29,10 @@ const questionArray: questionObjectFormat[] = [];
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray: questionObjectFormat[] = [];  
 
-const quizSettings = JSON.parse(localStorage.getItem("quizSettings"));  
-let category: Number = parseInt(quizSettings.category);
-let difficulty: String = quizSettings.difficulty;
-let amount: Number = parseInt(quizSettings.amount);
+// const quizSettings = JSON.parse(localStorage.getItem("quizSettings"));  
+// let category: Number = parseInt(quizSettings.category);
+// let difficulty: String = quizSettings.difficulty;
+// let amount: Number = parseInt(quizSettings.amount);
 
 
 
@@ -45,7 +45,15 @@ const answers = document.getElementById("answers") as HTMLElement;
 /* ------ FETCH API DATA ------ */
 
 const fetchQuizAPI = async () => {
-  const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
+
+  const stored = localStorage.getItem("quizSettings");
+
+  const settings = JSON.parse(stored);
+  console.log("Loaded quiz settings:", settings);
+
+  const amount = 10;
+
+  const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${settings.category}&difficulty=${settings.difficulty.toLowerCase()}&type=multiple`;
  
   try {
       
@@ -58,7 +66,6 @@ const fetchQuizAPI = async () => {
     const data = await response.json();
     const fetchedQuizQuestions: fetchedObjectFormat[] = data.results;
       
-
     fetchedQuizQuestions.map(object => {
 
       // create an array with all answers, despite correct/incorrect
@@ -77,6 +84,8 @@ const fetchQuizAPI = async () => {
 
       questionArray.push(questionObject);
     });
+
+    console.log("Quiz questions fetched:", questionArray);
   }
   
   catch(error) {
@@ -124,9 +133,9 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) =
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const category: Number = parseInt(quizSettings.category);
-  const difficulty: String = quizSettings.difficulty;
-  const amount: Number = parseInt(quizSettings.amount);
+  // const category: Number = parseInt(quizSettings.category);
+  // const difficulty: String = quizSettings.difficulty;
+  // const amount: Number = parseInt(quizSettings.amount);
 
   await fetchQuizAPI();
 });

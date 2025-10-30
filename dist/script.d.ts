@@ -15,10 +15,6 @@ interface questionObjectFormat {
 }
 declare const questionArray: questionObjectFormat[];
 declare let storedQuestionArray: questionObjectFormat[];
-declare const quizSettings: any;
-declare let category: Number;
-declare let difficulty: String;
-declare let amount: Number;
 declare const question: HTMLElement;
 declare const answers: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;

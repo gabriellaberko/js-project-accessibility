@@ -17,16 +17,20 @@ const questionArray = [];
 // let difficulty: String = "medium";
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray = [];
-const quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
-let category = parseInt(quizSettings.category);
-let difficulty = quizSettings.difficulty;
-let amount = parseInt(quizSettings.amount);
+// const quizSettings = JSON.parse(localStorage.getItem("quizSettings"));  
+// let category: Number = parseInt(quizSettings.category);
+// let difficulty: String = quizSettings.difficulty;
+// let amount: Number = parseInt(quizSettings.amount);
 /* ------ DOM ELEMENTS ------ */
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
-    const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
+    const stored = localStorage.getItem("quizSettings");
+    const settings = JSON.parse(stored);
+    console.log("Loaded quiz settings:", settings);
+    const amount = 10;
+    const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${settings.category}&difficulty=${settings.difficulty.toLowerCase()}&type=multiple`;
     try {
         const response = yield fetch(APIUrl);
         if (!response.ok) {
@@ -48,6 +52,7 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
             };
             questionArray.push(questionObject);
         });
+        console.log("Quiz questions fetched:", questionArray);
     }
     catch (error) {
         console.error("Fetch error:", error);
@@ -76,9 +81,9 @@ const insertQuestionsAndAnswers = (array, index) => {
 // TO DO: create a function for adding scores
 /* ------ EVENT LISTENER ------ */
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
-    const category = parseInt(quizSettings.category);
-    const difficulty = quizSettings.difficulty;
-    const amount = parseInt(quizSettings.amount);
+    // const category: Number = parseInt(quizSettings.category);
+    // const difficulty: String = quizSettings.difficulty;
+    // const amount: Number = parseInt(quizSettings.amount);
     yield fetchQuizAPI();
 }));
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray

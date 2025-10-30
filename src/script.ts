@@ -50,7 +50,7 @@ const answers = document.getElementById("answers") as HTMLElement;
 
 const fetchQuizAPI = async () => {
 
-  const store = localStorage.getItem("quizSettings");
+  const store = localStorage.getItem("quizSettings")!;
   const settings = JSON.parse(store);
   
   console.log(typeof store);

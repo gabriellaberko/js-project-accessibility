@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
 // questions from local storage to use when testing, if we hit API limit
@@ -78,9 +77,10 @@ const insertQuestionsAndAnswers = (array, index) => {
     answers.innerHTML = "";
     const answerList = array[index].allAnswers;
     // insert data for question and answers
-    question.innerHTML += `
-    <h1>${array[index].question}</h1>
-  `;
+    // question.innerHTML += `
+    //   <h1>${array[index].question}</h1>
+    // `;
+    question.innerText = array[index].question; //instead of making 2 h1's as above
     // sort array items in a random order, so that the correct answer is not always the last item
     shuffleAnswers(answerList);
     console.log(answerList);
@@ -95,23 +95,119 @@ const insertQuestionsAndAnswers = (array, index) => {
 /* ------ EVENT LISTENER ------ */
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
     yield fetchQuizAPI();
+    yield fetchScores();
 }));
 /* ------ Logic to collect player pref and redirect to quiz.html ------ */
-(_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-    const category = parseInt((document === null || document === void 0 ? void 0 : document.getElementById("category")).value);
-    const difficulty = ((document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value).toLowerCase();
-    const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
-    //fix this one to pick up real value
-    const amount = parseInt("20");
-    // save the inputs from the user's filter options to local storage
-    localStorage.setItem("quizSettings", JSON.stringify({
-        category,
-        difficulty,
-        amount,
-        player
-    }));
-    // navigate to quiz page
-    window.location.href = "quiz.html";
+// document.getElementById("startBtn")?.addEventListener("click", () => {
+//   const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
+//   const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
+//   const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
+//   //fix this one to pick up real value
+//   const amount = parseInt("20");
+//   // save the inputs from the user's filter options to local storage
+//   localStorage.setItem("quizSettings", JSON.stringify({
+//     category,
+//     difficulty,
+//     amount,
+//     player
+//   }));
+//   // navigate to quiz page
+//   window.location.href = "quiz.html";
+// });
+/* ------ Fetch scores ------ */
+const SCORE_API_URL = `https://postgres.daniellauding.se/quiz_scores`;
+const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(SCORE_API_URL);
+        const result = yield response.json();
+        // Sortera högst först (valfritt)
+        result.sort((a, b) => b.score - a.score);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        console.log(result);
+        // html.innerHTML = result;
+        console.log(result.length);
+        /* result.map((player, i) => {
+          console.log(player.username);
+          return html.innerHTML += player.username;
+        }); */
+        const html = result.map((player, i) => `
+      <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4 player-${i}">
+        <span>${i + 1}</span>
+        <span>${player.username}</span>
+        <span>${player.score}</span>
+        <span>CATEGORY</span>
+        <span>Amount</span>
+        <span>Difficulty</span>
+      </li>
+    `).join("");
+        document.getElementById("score-list").innerHTML = html;
+        result.forEach((element) => console.log(element));
+    }
+    catch (error) {
+        console.error('Error:', error);
+    }
 });
+/* ------ Post scores ------ */
+// async function postScore(username, score) {
+function postScore(username) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("Posting new to scoreboard:", username);
+        const response = yield fetch(SCORE_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify({ username, score })
+            body: JSON.stringify({ username, score: 0 })
+        });
+        if (!response.ok)
+            throw new Error(`Server error: ${response.status}`);
+        try {
+            const result = yield response.json();
+            console.log("✅ Posted successfully:", result);
+            return result;
+        }
+        catch (_a) {
+            console.warn("⚠️ Server returned no JSON body");
+            return {};
+        }
+    });
+}
+const quizForm = document.getElementById("quiz-form");
+if (quizForm) {
+    quizForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
+        e.preventDefault();
+        console.log("🎯 Form submitted");
+        // const score = Number(document.getElementById("player-score").value);
+        const name = document.getElementById("player-name").value.trim();
+        const category = parseInt(document.getElementById("category").value);
+        const difficulty = document.getElementById("difficulty").value.toLowerCase();
+        const amount = 20;
+        // if (!name || isNaN(score)) {  
+        if (!name) {
+            alert("Write a name!");
+            return;
+        }
+        try {
+            const existing = yield fetch(SCORE_API_URL).then(r => r.json());
+            const alreadyExists = existing.some(p => p.username.toLowerCase() === name.toLowerCase());
+            if (alreadyExists) {
+                alert("That name already exists! Try another or add a number 😊");
+                return;
+            }
+            // await postScore(name, score);
+            localStorage.setItem("quizSettings", JSON.stringify({ category, difficulty, amount, player: name }));
+            yield postScore(name);
+            // alert("Score added!");
+            // await fetchScores(); // uppdatera listan
+            console.log("✅ Score posted, now redirecting...");
+            window.location.href = "quiz.html"; // move only AFTER postScore
+        }
+        catch (error) {
+            console.error("Error:", error);
+            // alert("Something went wrong 😢");
+        }
+    }));
+}
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
 //# sourceMappingURL=script.js.map

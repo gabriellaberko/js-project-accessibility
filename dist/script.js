@@ -12,11 +12,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
-let amount = 10;
-let category = 9;
-let difficulty = "medium";
+// let amount: Number = 10;
+// let category: Number = 9;
+// let difficulty: String = "medium";
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray = [];
+const quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
+let category = parseInt(quizSettings.category);
+let difficulty = quizSettings.difficulty;
+let amount = parseInt(quizSettings.amount);
 /* ------ DOM ELEMENTS ------ */
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
@@ -71,16 +75,24 @@ const insertQuestionsAndAnswers = (array, index) => {
 // TO DO: create a function that checks if the users chosedn answer is the correct one or not
 // TO DO: create a function for adding scores
 /* ------ EVENT LISTENER ------ */
-document.addEventListener("DOMContentLoaded", fetchQuizAPI);
+document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
+    const category = parseInt(quizSettings.category);
+    const difficulty = quizSettings.difficulty;
+    const amount = parseInt(quizSettings.amount);
+    yield fetchQuizAPI();
+}));
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
 /* ------ Logic to collect player pref and redirect to quiz.html ------ */
 (_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-    const category = (document === null || document === void 0 ? void 0 : document.getElementById("category")).value;
+    const category = parseInt((document === null || document === void 0 ? void 0 : document.getElementById("category")).value);
     const difficulty = (document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value;
     const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
+    //fix this one to pick up real value
+    const amount = parseInt("9");
     localStorage.setItem("quizSettings", JSON.stringify({
         category,
         difficulty,
+        amount,
         player
     }));
     console.log("Saved quiz settings:", { category, difficulty, player });

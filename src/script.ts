@@ -22,12 +22,17 @@ interface questionObjectFormat {
 
 const questionArray: questionObjectFormat[] = [];
 
-let amount: Number = 10;
-let category: Number = 9;
-let difficulty: String = "medium";
+// let amount: Number = 10;
+// let category: Number = 9;
+// let difficulty: String = "medium";
 
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray: questionObjectFormat[] = [];  
+
+const quizSettings = JSON.parse(localStorage.getItem("quizSettings"));  
+let category: Number = parseInt(quizSettings.category);
+let difficulty: String = quizSettings.difficulty;
+let amount: Number = parseInt(quizSettings.amount);
 
 
 
@@ -41,7 +46,7 @@ const answers = document.getElementById("answers") as HTMLElement;
 
 const fetchQuizAPI = async () => {
   const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
-  
+ 
   try {
       
     const response = await fetch(APIUrl);
@@ -117,7 +122,14 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) =
 
 /* ------ EVENT LISTENER ------ */
 
-document.addEventListener("DOMContentLoaded", fetchQuizAPI);
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const category: Number = parseInt(quizSettings.category);
+  const difficulty: String = quizSettings.difficulty;
+  const amount: Number = parseInt(quizSettings.amount);
+
+  await fetchQuizAPI();
+});
 
 
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
@@ -125,13 +137,16 @@ document.addEventListener("DOMContentLoaded", fetchQuizAPI);
 
 document.getElementById("startBtn")?.addEventListener("click", () => {
 
-  const category = (document?.getElementById("category")! as HTMLSelectElement).value;
+  const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
   const difficulty = (document?.getElementById("difficulty")! as HTMLSelectElement).value;
   const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
+  //fix this one to pick up real value
+  const amount = parseInt("9");
   
   localStorage.setItem("quizSettings", JSON.stringify({
     category,
     difficulty,
+    amount,
     player
   }));
 
@@ -139,6 +154,7 @@ document.getElementById("startBtn")?.addEventListener("click", () => {
 
   window.location.href = "quiz.html";
 });
+
 
 const stored = localStorage.getItem("quizSettings");
 console.log(stored);

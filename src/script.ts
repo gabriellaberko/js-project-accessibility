@@ -17,14 +17,17 @@ interface questionObjectFormat {
   correctAnswer: string
 }
 
+interface quizSettingsFormat {
+  amount: number,
+  category: number,
+  difficulty: string,
+  player: string
+}
+
 
 /* ------ GLOBAL VARIABLES ------ */
 
 const questionArray: questionObjectFormat[] = [];
-
-// let amount: Number = 10;
-// let category: Number = 9;
-// let difficulty: String = "medium";
 
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray: questionObjectFormat[] = [];  
@@ -42,18 +45,18 @@ const question = document.getElementById("question") as HTMLElement;
 const answers = document.getElementById("answers") as HTMLElement;
 
 
+
 /* ------ FETCH API DATA ------ */
 
 const fetchQuizAPI = async () => {
 
-  const stored = localStorage.getItem("quizSettings");
-
-  const settings = JSON.parse(stored);
+  const store = localStorage.getItem("quizSettings");
+  const settings = JSON.parse(store);
+  
+  console.log(typeof store);
   console.log("Loaded quiz settings:", settings);
 
-  const amount = 10;
-
-  const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${settings.category}&difficulty=${settings.difficulty.toLowerCase()}&type=multiple`;
+  const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
  
   try {
       
@@ -132,11 +135,6 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) =
 /* ------ EVENT LISTENER ------ */
 
 document.addEventListener("DOMContentLoaded", async () => {
-
-  // const category: Number = parseInt(quizSettings.category);
-  // const difficulty: String = quizSettings.difficulty;
-  // const amount: Number = parseInt(quizSettings.amount);
-
   await fetchQuizAPI();
 });
 
@@ -147,10 +145,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.getElementById("startBtn")?.addEventListener("click", () => {
 
   const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
-  const difficulty = (document?.getElementById("difficulty")! as HTMLSelectElement).value;
+  const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
   const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
   //fix this one to pick up real value
-  const amount = parseInt("9");
+  const amount = parseInt("20");
   
   localStorage.setItem("quizSettings", JSON.stringify({
     category,
@@ -165,8 +163,7 @@ document.getElementById("startBtn")?.addEventListener("click", () => {
 });
 
 
-const stored = localStorage.getItem("quizSettings");
-console.log(stored);
+
 
 
 // TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray

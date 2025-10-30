@@ -13,11 +13,16 @@ interface questionObjectFormat {
     allAnswers: string[];
     correctAnswer: string;
 }
+interface quizSettingsFormat {
+    amount: number;
+    category: number;
+    difficulty: string;
+    player: string;
+}
 declare const questionArray: questionObjectFormat[];
 declare let storedQuestionArray: questionObjectFormat[];
 declare const question: HTMLElement;
 declare const answers: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: Number) => void;
-declare const stored: string | null;
 //# sourceMappingURL=script.d.ts.map

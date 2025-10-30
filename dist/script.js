@@ -16,6 +16,9 @@ let category = 9;
 let difficulty = "medium";
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray = [];
+/* ------ DOM ELEMENTS ------ */
+const question = document.getElementById("question");
+const answers = document.getElementById("answers");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const APIUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
@@ -49,6 +52,24 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     localStorage.setItem("storedQuestionArray", JSON.stringify(questionArray));
     storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 });
+/* ------ LOGIC ------ */
+// TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
+// TO DO: create a function that inserts the questions and the answers. Anwsers need to be shuffled before inserted. The function needs to take an index as argument
+const insertQuestionsAndAnswers = (array, index) => {
+    // empty elements before filling them
+    question.innerHTML = "";
+    answers.innerHTML = "";
+    // insert data for question and answers
+    question.innerHTML += `
+
+  `;
+    answers.innerHTML += `
+
+  `;
+};
+// TO DO: create a function that checks if the users chosedn answer is the correct one or not
+// TO DO: create a function for adding scores
 /* ------ EVENT LISTENER ------ */
 document.addEventListener("DOMContentLoaded", fetchQuizAPI);
+// TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
 //# sourceMappingURL=script.js.map

@@ -18,5 +18,8 @@ declare let amount: Number;
 declare let category: Number;
 declare let difficulty: String;
 declare let storedQuestionArray: questionObjectFormat[];
+declare const question: HTMLElement;
+declare const answers: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
+declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: Number) => void;
 //# sourceMappingURL=script.d.ts.map

@@ -30,6 +30,13 @@ let difficulty: String = "medium";
 let storedQuestionArray: questionObjectFormat[] = [];  
 
 
+
+/* ------ DOM ELEMENTS ------ */
+
+const question = document.getElementById("question") as HTMLElement;
+const answers = document.getElementById("answers") as HTMLElement;
+
+
 /* ------ FETCH API DATA ------ */
 
 const fetchQuizAPI = async () => {
@@ -76,6 +83,41 @@ const fetchQuizAPI = async () => {
   storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));  
 };
 
+
+
+/* ------ LOGIC ------ */
+
+
+// TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
+
+// TO DO: create a function that inserts the questions and the answers. Anwsers need to be shuffled before inserted. The function needs to take an index as argument
+
+const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) => {
+
+  // empty elements before filling them
+  question.innerHTML = "";
+  answers.innerHTML = "";
+
+  // insert data for question and answers
+  question.innerHTML += `
+
+  `;
+
+  answers.innerHTML += `
+
+  `;
+
+};
+
+// TO DO: create a function that checks if the users chosedn answer is the correct one or not
+
+// TO DO: create a function for adding scores
+
+
+
 /* ------ EVENT LISTENER ------ */
 
 document.addEventListener("DOMContentLoaded", fetchQuizAPI);
+
+
+// TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray

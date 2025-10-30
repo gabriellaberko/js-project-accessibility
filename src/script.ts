@@ -154,40 +154,38 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) =
 
 // TO DO: create a function for adding scores
 
-
-
 /* ------ EVENT LISTENER ------ */
 
 document.addEventListener("DOMContentLoaded", async () => {
   await fetchQuizAPI();
-  await fetchScores();
+  if (document.getElementById("score-list")) fetchScores();
 });
 
+document.getElementById("finishBtn")?.addEventListener("click", async () => {
+  const player = JSON.parse(localStorage.getItem("quizSettings")).player;
+  await postScore(player);
+  window.location.href = "scoreboard.html";
+});
 
+document.getElementById("startBtn")?.addEventListener("click", () => {
 
-/* ------ Logic to collect player pref and redirect to quiz.html ------ */
-
-// We need to move this in to the "Submit" button instead to get it working with submitting results and usernames etc see line #268
-
-// document.getElementById("startBtn")?.addEventListener("click", () => {
-
-//   const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
-//   const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
-//   const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
-//   //fix this one to pick up real value
-//   const amount = parseInt("20");
+  const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
+  const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
+  const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
+  //fix this one to pick up real value
+  const amount = parseInt("20");
   
-//   // save the inputs from the user's filter options to local storage
-//   localStorage.setItem("quizSettings", JSON.stringify({
-//     category,
-//     difficulty,
-//     amount,
-//     player
-//   }));
+  // save the inputs from the user's filter options to local storage
+  localStorage.setItem("quizSettings", JSON.stringify({
+    category,
+    difficulty,
+    amount,
+    player
+  }));
 
-//   // navigate to quiz page
-//   window.location.href = "quiz.html";
-// });
+  // navigate to quiz page
+  window.location.href = "quiz.html";
+});
 
 
 
@@ -201,8 +199,8 @@ const fetchScores = async() => {
     const response = await fetch(SCORE_API_URL);
     const result = await response.json();
     
-  // Sortera högst först (valfritt)
-  result.sort((a, b) => b.score - a.score);
+    // Sortera högst först (valfritt)
+    result.sort((a, b) => b.score - a.score);
     
     if(!response.ok) {
       throw new Error(`Response status: ${response.status}`);
@@ -224,9 +222,9 @@ const fetchScores = async() => {
         <span>${i + 1}</span>
         <span>${player.username}</span>
         <span>${player.score}</span>
-        <span>CATEGORY</span>
+        <span>${player.category}</span>
         <span>Amount</span>
-        <span>Difficulty</span>
+        <span>${player.difficulty}</span>
       </li>
     `).join("");
 
@@ -242,13 +240,24 @@ const fetchScores = async() => {
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
-const postScore = async(username: string) => {
+const postScore = async(
+  username: string,
+  category: number,
+  difficulty: string,
+  amount: number
+) => {
   console.log("Posting new to scoreboard:", username);
   const response = await fetch(SCORE_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     // body: JSON.stringify({ username, score })
-    body: JSON.stringify({ username, score: 0 })
+    body: JSON.stringify({
+      username,
+      score: 0,
+      category: String(category),
+      difficulty: difficulty.toLowerCase(),
+      amount,
+    })
   });
 
   if (!response.ok) throw new Error(`Server error: ${response.status}`);
@@ -263,48 +272,39 @@ const postScore = async(username: string) => {
   }
 }
 
-const quizForm = document.getElementById("quiz-form");
+document.getElementById("finishBtn")?.addEventListener("click", async () => {
+  console.log("Finish button clicked");
 
-if (quizForm) {
-   quizForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    console.log("🎯 Form submitted");
+  const stored = localStorage.getItem("quizSettings");
+  if (!stored) {
+    alert("⚠️ No player data found. Start a quiz first!");
+    return;
+  }
 
-    // const score = Number(document.getElementById("player-score").value);
-    const name = (document.getElementById("player-name") as HTMLInputElement).value.trim();
-    const category = parseInt((document.getElementById("category") as HTMLSelectElement).value);
-    const difficulty = (document.getElementById("difficulty") as HTMLSelectElement).value.toLowerCase();
-    const amount = 20;
+  const { player, category, difficulty, amount } = JSON.parse(stored);
 
-    // if (!name || isNaN(score)) {  
-    if (!name) {
-      alert("Write a name!");
-      return;
-    }
+  if (!player) {
+    alert("⚠️ No player name found in local storage.");
+    return;
+  }
 
-    try {
-      const existing = await fetch(SCORE_API_URL).then(r => r.json());
-      const alreadyExists = existing.some(p => p.username.toLowerCase() === name.toLowerCase());
+  try {
+    console.log("📤 Posting score for:", player);
 
-      if (alreadyExists) {
-        alert("That name already exists! Try another or add a number 😊");
-        return;
-      }
+    // Example: here you could calculate score from quiz results
+    const score = 0;
 
-      // await postScore(name, score);
-      localStorage.setItem("quizSettings", JSON.stringify({ category, difficulty, amount, player: name }));
-      await postScore(name);
-      // alert("Score added!");
-      // await fetchScores(); // uppdatera listan
+    await postScore(player, category, difficulty, amount);
+    console.log("✅ Score posted successfully!");
 
-      console.log("✅ Score posted, now redirecting...");
-      window.location.href = "quiz.html"; // move only AFTER postScore
-    } catch (error) {
-      console.error("Error:", error);
-      // alert("Something went wrong 😢");
-    }
-  });
-}
+    // Optional: clear data or redirect
+    // localStorage.removeItem("quizSettings");
+    window.location.href = "scoreboard.html";
+  } catch (error) {
+    console.error("❌ Error posting score:", error);
+    alert("Something went wrong while saving your score.");
+  }
+});
 
 
 

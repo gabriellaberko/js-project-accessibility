@@ -29,6 +29,5 @@ declare const shuffleAnswers: (array: string[]) => void;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: Number) => void;
 declare const SCORE_API_URL = "https://postgres.daniellauding.se/quiz_scores";
 declare const fetchScores: () => Promise<void>;
-declare function postScore(username: string): Promise<any>;
-declare const quizForm: HTMLElement | null;
+declare const postScore: (username: string, category: number, difficulty: string, amount: number) => Promise<any>;
 //# sourceMappingURL=script.d.ts.map

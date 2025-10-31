@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial'-scale=1.0" />
+    <title>Quiz BONANZAAA – Scoreboard</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]">
+    <header>
+      <nav>
+        <img
+        class="logo"
+        src=""
+        alt="logo">
+      </nav>
+      <ul class="nav-links flex gap-4">
+        <li><a href="./index.html">Back</a></li>
+      </ul>
+    </header>
+    
+    <main class="flex flex-col justify-center gap-8 h-full">      
+      <section class="scoreboard-section max-w-2xl mx-auto flex gap-2 flex-col">
+        <h2 class="text-xl font-bold">Scoreboard</h2>
+
+        <!-- Filters -->
+        <form class="filter-form w-full mb-6">
+          <fieldset class="flex gap-2 flex-row gap-4">
+            <!-- Category -->
+            <div class="relative w-full">
+              <select
+                id="category"
+                name="category"
+                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                <option value="9">General knowledge</option>
+                <option value="11">Film</option>
+                <option value="12">Music</option>
+              </select>
+              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
+
+            <!-- Difficulty -->
+            <div class="relative w-full">
+              <select
+                id="difficulty"
+                name="difficulty"
+                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                <option value="Easy" selected>Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
+
+            <div class="relative w-full">
+              <select
+                id="qty"
+                name="qty"
+                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                <option value="Easy" selected>10</option>
+                <option value="Medium">20</option>
+                <option value="Hard">30</option>
+              </select>
+              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
+
+          </fieldset>
+        </form>
+
+        <!-- Scoreboard -->
+        <section class="scoreboard w-full">
+          <ul id="score-list" class="divide-y divide-gray-200 dark:divide-gray-700 rounded-lg overflow-hidden shadow-sm">
+            <!-- Header row -->
+            <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4">
+              <span>Rank</span>
+              <span>Player</span>
+              <span>Score</span>
+              <span>Category</span>
+              <span>Amount</span>
+              <span>Difficulty</span>
+            </li>
+
+            <!-- Example player rows -->
+            <li class="grid grid-cols-6 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+              <span>#1</span>
+              <span>Alice</span>
+              <span>980</span>
+              <span>General Knowledge</span>
+              <span>20</span>
+              <span>Medium</span>
+            </li>
+            <li class="grid grid-cols-6 bg-gray-50 dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+              <span>#2</span>
+              <span>Bob</span>
+              <span>875</span>
+              <span>Film</span>
+              <span>10</span>
+              <span>Hard</span>
+            </li>
+            <li class="grid grid-cols-6 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+              <span>#3</span>
+              <span>Charlie</span>
+              <span>820</span>
+              <span>Music</span>
+              <span>30</span>
+              <span>Easy</span>
+            </li>
+          </ul>
+        </section>
+      </section>
+    </main>
+
+  </div>
+  
+  <script src="/dist/script.js"></script>
+  </body>
+</html>

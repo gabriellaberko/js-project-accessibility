@@ -27,4 +27,7 @@ declare const fetchQuizAPI: () => Promise<void>;
 declare const incrementIndex: () => void;
 declare const shuffleAnswers: (array: string[]) => void;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: Number) => void;
+declare const SCORE_API_URL = "https://postgres.daniellauding.se/quiz_scores";
+declare const fetchScores: () => Promise<void>;
+declare const postScore: (username: string, category: number, difficulty: string, amount: number) => Promise<any>;
 //# sourceMappingURL=script.d.ts.map

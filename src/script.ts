@@ -161,12 +161,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (document.getElementById("score-list")) fetchScores();
 });
 
-document.getElementById("finishBtn")?.addEventListener("click", async () => {
-  const player = JSON.parse(localStorage.getItem("quizSettings")).player;
-  await postScore(player);
-  window.location.href = "scoreboard.html";
-});
-
 document.getElementById("startBtn")?.addEventListener("click", () => {
 
   const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);

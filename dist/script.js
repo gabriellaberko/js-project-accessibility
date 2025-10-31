@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b, _c;
+var _a, _b;
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
 // questions from local storage to use when testing, if we hit API limit
@@ -99,12 +99,7 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
     if (document.getElementById("score-list"))
         fetchScores();
 }));
-(_a = document.getElementById("finishBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
-    const player = JSON.parse(localStorage.getItem("quizSettings")).player;
-    yield postScore(player);
-    window.location.href = "scoreboard.html";
-}));
-(_b = document.getElementById("startBtn")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
+(_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
     const category = parseInt((document === null || document === void 0 ? void 0 : document.getElementById("category")).value);
     const difficulty = ((document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value).toLowerCase();
     const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
@@ -183,7 +178,7 @@ const postScore = (username, category, difficulty, amount) => __awaiter(void 0, 
         return {};
     }
 });
-(_c = document.getElementById("finishBtn")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+(_b = document.getElementById("finishBtn")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Finish button clicked");
     const stored = localStorage.getItem("quizSettings");
     if (!stored) {

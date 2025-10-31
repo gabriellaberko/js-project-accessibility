@@ -32,7 +32,7 @@ const questionArray: questionObjectFormat[] = [];
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray: questionObjectFormat[] = [];  
 
-let index = 0;
+let index: number = 0;
 
 
 
@@ -115,21 +115,17 @@ const incrementIndex = () => {
     index++ 
     insertQuestionsAndAnswers(questionArray, index)
   } 
-  else {
-    index = 0
-    // TO DO: show modal/prompt with final scores
-    // TO DO: show finish quiz button, hide submit question button
-  } 
 
-  submitAnswerButton.addEventListener("click", () => { 
-    if(index === questionArray.length - 1) {
-      finishQuizBtn.classList.remove("hidden")
-      nextQuestionBtn.classList.add("hidden")
-    }
-  });
-  
-  console.log(index)
+  // hide the nextQuestonBtn and show finishQuizBtn when clicking on submit answer on the last question
+  if(index === questionArray.length - 1) {
+    submitAnswerButton.addEventListener("click", () => { 
+      nextQuestionBtn.classList.add("hidden");
+      finishQuizBtn.classList.remove("hidden");
+      alert(`You did it! Here we will show a modal later on with the player's score!`);
+    });
+  }
 };
+
 
 
 const shuffleAnswers = (array: string[]) => {
@@ -140,9 +136,9 @@ const shuffleAnswers = (array: string[]) => {
   }
 };
 
-// TO DO: create a function that inserts the questions and the answers. Anwsers need to be shuffled before inserted. The function needs to take an index as argument
 
-const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) => {
+
+const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) => {
 
   // empty elements before filling them
   question.innerHTML = "";
@@ -169,7 +165,6 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) =
      `
   });
 };
-
 
 
 
@@ -328,16 +323,15 @@ document.getElementById("startBtn")?.addEventListener("click", () => {
 // om rätt ++ poäng
 
 
-submitAnswerButton.addEventListener("click", () => {
-  console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
-
+submitAnswerButton?.addEventListener("click", () => {
+  // console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
   submitAnswerButton.classList.add("hidden");
   nextQuestionBtn.classList.remove("hidden");
 
 });
 
 
-nextQuestionBtn.addEventListener("click", () => {
+nextQuestionBtn?.addEventListener("click", () => {
   submitAnswerButton.classList.remove("hidden");
   nextQuestionBtn.classList.add("hidden");
   incrementIndex();

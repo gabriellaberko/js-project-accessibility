@@ -67,18 +67,14 @@ const incrementIndex = () => {
         index++;
         insertQuestionsAndAnswers(questionArray, index);
     }
-    else {
-        index = 0;
-        // TO DO: show modal/prompt with final scores
-        // TO DO: show finish quiz button, hide submit question button
-    }
-    submitAnswerButton.addEventListener("click", () => {
-        if (index === questionArray.length - 1) {
-            finishQuizBtn.classList.remove("hidden");
+    // hide the nextQuestonBtn and show finishQuizBtn when clicking on submit answer on the last question
+    if (index === questionArray.length - 1) {
+        submitAnswerButton.addEventListener("click", () => {
             nextQuestionBtn.classList.add("hidden");
-        }
-    });
-    console.log(index);
+            finishQuizBtn.classList.remove("hidden");
+            alert(`You did it! Here we will show a modal later on with the player's score!`);
+        });
+    }
 };
 const shuffleAnswers = (array) => {
     // swap each answer with a random answer, starting from the last answer in the list until i is equal to the first item
@@ -87,7 +83,6 @@ const shuffleAnswers = (array) => {
         [array[i], array[randomAnswerInList]] = [array[randomAnswerInList], array[i]];
     }
 };
-// TO DO: create a function that inserts the questions and the answers. Anwsers need to be shuffled before inserted. The function needs to take an index as argument
 const insertQuestionsAndAnswers = (array, index) => {
     // empty elements before filling them
     question.innerHTML = "";
@@ -224,12 +219,12 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
 // - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
 //  byt till knapp som visar Nästa fråga
 // om rätt ++ poäng
-submitAnswerButton.addEventListener("click", () => {
-    console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
+submitAnswerButton === null || submitAnswerButton === void 0 ? void 0 : submitAnswerButton.addEventListener("click", () => {
+    // console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
     submitAnswerButton.classList.add("hidden");
     nextQuestionBtn.classList.remove("hidden");
 });
-nextQuestionBtn.addEventListener("click", () => {
+nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBtn.addEventListener("click", () => {
     submitAnswerButton.classList.remove("hidden");
     nextQuestionBtn.classList.add("hidden");
     incrementIndex();

@@ -42,7 +42,7 @@
       
       <section class="filter-section max-w-sm mx-auto">
         <h2 class="text-xl font-bold">Choose your quiz</h2>
-        <form class="filter-form w-full">
+        <form class="filter-form w-full" id="filter-form">
           <fieldset class="flex gap-2 flex-col">
             <!-- <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose category</label> -->
             <div class="relative">
@@ -50,7 +50,8 @@
                 id="category"
                 name="category"
                 class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+                >
                 <option value="9">General knowledge</option>
                 <option value="11">Film</option>
                 <option value="12">Music</option>
@@ -71,7 +72,8 @@
                 id="difficulty"
                 name="difficulty"
                 class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+                >
                 <option value="Easy" selected>Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
@@ -92,6 +94,7 @@
                   type="radio"
                   name="number-of-questions"
                   value="10"
+                  checked
                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="bordered-radio-1" class="radio-button w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">10</label>
               </div>
@@ -120,16 +123,18 @@
               <input 
                 type="text"
                 id="player-name" 
+                name="player-name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter your player name..." 
                 required
                 aria-required="true"
               >
             </div>
-            
           </fieldset>
+          <div class="relative">
+            <button type="submit" class="rounded-xl p-4 bg-green-500 text-white w-full  border-2 border-green-500" id="startBtn">Start quiz</button>
+          </div>
         </form>
-        <button class="rounded-xl p-4 bg-green-500 text-white w-full  border-2 border-green-500" id="startBtn">Start quiz</button>
       </section>
     </main>
 

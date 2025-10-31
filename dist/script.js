@@ -9,13 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray = [];
 let index = 0;
 /* ------ DOM ELEMENTS ------ */
+const filterForm = document.getElementById("filter-form");
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
 const submitAnswerButton = document.getElementById("submitAnswerBtn");
@@ -25,7 +25,6 @@ const finishQuizBtn = document.getElementById("finishQuizBtn");
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const store = localStorage.getItem("quizSettings");
     const settings = JSON.parse(store);
-    console.log(typeof store);
     console.log("Loaded quiz settings:", settings);
     const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
     try {
@@ -198,13 +197,14 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
     if (document.getElementById("score-list"))
         fetchScores();
 }));
-(_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-    const category = parseInt((document === null || document === void 0 ? void 0 : document.getElementById("category")).value);
-    const difficulty = ((document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value).toLowerCase();
-    const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
-    //fix this one to pick up real value
-    const amount = parseInt("10");
-    // save the inputs from the user's filter options to local storage
+filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const category = formData.get("category");
+    const difficulty = formData.get("difficulty").toLowerCase();
+    const amount = formData.get("number-of-questions");
+    const player = formData.get("player-name");
+    // save the inputs from the submitted filter form to local storage
     localStorage.setItem("quizSettings", JSON.stringify({
         category,
         difficulty,

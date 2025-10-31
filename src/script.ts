@@ -39,6 +39,7 @@ let index: number = 0;
 
 /* ------ DOM ELEMENTS ------ */
 
+const filterForm = document.getElementById("filter-form") as HTMLElement;
 const question = document.getElementById("question") as HTMLElement;
 const answers = document.getElementById("answers") as HTMLElement;
 const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
@@ -55,7 +56,6 @@ const fetchQuizAPI = async () => {
   const store = localStorage.getItem("quizSettings")!;
   const settings = JSON.parse(store);
   
-  console.log(typeof store);
   console.log("Loaded quiz settings:", settings);
 
   const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
@@ -295,15 +295,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (document.getElementById("score-list")) fetchScores();
 });
 
-document.getElementById("startBtn")?.addEventListener("click", () => {
 
-  const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
-  const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
-  const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
-  //fix this one to pick up real value
-  const amount = parseInt("10");
+
+filterForm?.addEventListener("submit", (e) => {
+
+  e.preventDefault();
+
+
+  const formData = new FormData(e.target);
+
+  const category = formData.get("category");
+  const difficulty = (formData.get("difficulty") as string).toLowerCase();
+  const amount = formData.get("number-of-questions");
+  const player = formData.get("player-name");
   
-  // save the inputs from the user's filter options to local storage
+  // save the inputs from the submitted filter form to local storage
   localStorage.setItem("quizSettings", JSON.stringify({
     category,
     difficulty,

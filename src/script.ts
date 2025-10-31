@@ -112,8 +112,8 @@ const fetchQuizAPI = async () => {
 
 const incrementIndex = () => {
   if (index < questionArray.length - 1) {
-    index++ 
-    insertQuestionsAndAnswers(questionArray, index)
+    index++;
+    insertQuestionsAndAnswers(questionArray, index);
   } 
 
   // hide the nextQuestonBtn and show finishQuizBtn when clicking on submit answer on the last question

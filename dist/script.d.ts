@@ -2,7 +2,7 @@ interface fetchedObjectFormat {
     category: string;
     correct_answer: string;
     difficulty: string;
-    incorrect_answers: string[];
+    incorrect_answers: string[[]];
     question: string;
     type: string;
 }
@@ -21,8 +21,12 @@ interface quizSettingsFormat {
 }
 declare const questionArray: questionObjectFormat[];
 declare let storedQuestionArray: questionObjectFormat[];
+declare let index: number;
 declare const question: HTMLElement;
 declare const answers: HTMLElement;
+declare const submitAnswerButton: HTMLElement;
+declare const nextQuestionBtn: HTMLElement;
+declare const finishQuizBtn: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
 declare const incrementIndex: () => void;
 declare const shuffleAnswers: (array: string[]) => void;

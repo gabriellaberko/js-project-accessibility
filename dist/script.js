@@ -9,14 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b;
+var _a;
 /* ------ GLOBAL VARIABLES ------ */
 const questionArray = [];
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray = [];
+let index = 0;
 /* ------ DOM ELEMENTS ------ */
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
+const submitAnswerButton = document.getElementById("submitAnswerBtn");
+const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+const finishQuizBtn = document.getElementById("finishQuizBtn");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const store = localStorage.getItem("quizSettings");
@@ -59,10 +63,22 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
 /* ------ LOGIC ------ */
 // TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
 const incrementIndex = () => {
-    let index = 0;
-    // What event listener should we have? When should we increment?
-    // index++;
-    insertQuestionsAndAnswers(questionArray, index);
+    if (index < questionArray.length - 1) {
+        index++;
+        insertQuestionsAndAnswers(questionArray, index);
+    }
+    else {
+        index = 0;
+        // TO DO: show modal/prompt with final scores
+        // TO DO: show finish quiz button, hide submit question button
+    }
+    submitAnswerButton.addEventListener("click", () => {
+        if (index === questionArray.length - 1) {
+            finishQuizBtn.classList.remove("hidden");
+            nextQuestionBtn.classList.add("hidden");
+        }
+    });
+    console.log(index);
 };
 const shuffleAnswers = (array) => {
     // swap each answer with a random answer, starting from the last answer in the list until i is equal to the first item
@@ -91,30 +107,6 @@ const insertQuestionsAndAnswers = (array, index) => {
      `;
     });
 };
-// TO DO: create a function that checks if the users chosedn answer is the correct one or not
-// TO DO: create a function for adding scores
-/* ------ EVENT LISTENER ------ */
-document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
-    yield fetchQuizAPI();
-    if (document.getElementById("score-list"))
-        fetchScores();
-}));
-(_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-    const category = parseInt((document === null || document === void 0 ? void 0 : document.getElementById("category")).value);
-    const difficulty = ((document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value).toLowerCase();
-    const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
-    //fix this one to pick up real value
-    const amount = parseInt("20");
-    // save the inputs from the user's filter options to local storage
-    localStorage.setItem("quizSettings", JSON.stringify({
-        category,
-        difficulty,
-        amount,
-        player
-    }));
-    // navigate to quiz page
-    window.location.href = "quiz.html";
-});
 /* ------ Fetch scores ------ */
 const SCORE_API_URL = `https://postgres.daniellauding.se/quiz_scores`;
 const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -178,7 +170,7 @@ const postScore = (username, category, difficulty, amount) => __awaiter(void 0, 
         return {};
     }
 });
-(_b = document.getElementById("finishBtn")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+finishQuizBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Finish button clicked");
     const stored = localStorage.getItem("quizSettings");
     if (!stored) {
@@ -205,5 +197,41 @@ const postScore = (username, category, difficulty, amount) => __awaiter(void 0, 
         alert("Something went wrong while saving your score.");
     }
 }));
-// TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
+/* ------ EVENT LISTENER ------ */
+document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
+    yield fetchQuizAPI();
+    if (document.getElementById("score-list"))
+        fetchScores();
+}));
+(_a = document.getElementById("startBtn")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+    const category = parseInt((document === null || document === void 0 ? void 0 : document.getElementById("category")).value);
+    const difficulty = ((document === null || document === void 0 ? void 0 : document.getElementById("difficulty")).value).toLowerCase();
+    const player = (document === null || document === void 0 ? void 0 : document.getElementById("player-name")).value;
+    //fix this one to pick up real value
+    const amount = parseInt("10");
+    // save the inputs from the user's filter options to local storage
+    localStorage.setItem("quizSettings", JSON.stringify({
+        category,
+        difficulty,
+        amount,
+        player
+    }));
+    // navigate to quiz page
+    window.location.href = "quiz.html";
+});
+// ## submitAnswerButton logic
+// - Klicka för att valdera om svar är rätt eller fel
+// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
+//  byt till knapp som visar Nästa fråga
+// om rätt ++ poäng
+submitAnswerButton.addEventListener("click", () => {
+    console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
+    submitAnswerButton.classList.add("hidden");
+    nextQuestionBtn.classList.remove("hidden");
+});
+nextQuestionBtn.addEventListener("click", () => {
+    submitAnswerButton.classList.remove("hidden");
+    nextQuestionBtn.classList.add("hidden");
+    incrementIndex();
+});
 //# sourceMappingURL=script.js.map

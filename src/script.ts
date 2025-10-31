@@ -4,7 +4,7 @@ interface fetchedObjectFormat {
   category: string,
   correct_answer: string
   difficulty: string,
-  incorrect_answers: string[],
+  incorrect_answers: string[[]],
   question: string,
   type: string
 }
@@ -32,6 +32,8 @@ const questionArray: questionObjectFormat[] = [];
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray: questionObjectFormat[] = [];  
 
+let index = 0;
+
 
 
 
@@ -39,6 +41,11 @@ let storedQuestionArray: questionObjectFormat[] = [];
 
 const question = document.getElementById("question") as HTMLElement;
 const answers = document.getElementById("answers") as HTMLElement;
+const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
+const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
+const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement; 
+
+
 
 
 /* ------ FETCH API DATA ------ */
@@ -104,11 +111,24 @@ const fetchQuizAPI = async () => {
 // TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
 
 const incrementIndex = () => {
-  let index = 0;
-  // What event listener should we have? When should we increment?
+  if (index < questionArray.length - 1) {
+    index++ 
+    insertQuestionsAndAnswers(questionArray, index)
+  } 
+  else {
+    index = 0
+    // TO DO: show modal/prompt with final scores
+    // TO DO: show finish quiz button, hide submit question button
+  } 
 
-  // index++;
-  insertQuestionsAndAnswers(questionArray, index)
+  submitAnswerButton.addEventListener("click", () => { 
+    if(index === questionArray.length - 1) {
+      finishQuizBtn.classList.remove("hidden")
+      nextQuestionBtn.classList.add("hidden")
+    }
+  });
+  
+  console.log(index)
 };
 
 
@@ -150,36 +170,6 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: Number) =
   });
 };
 
-// TO DO: create a function that checks if the users chosedn answer is the correct one or not
-
-// TO DO: create a function for adding scores
-
-/* ------ EVENT LISTENER ------ */
-
-document.addEventListener("DOMContentLoaded", async () => {
-  await fetchQuizAPI();
-  if (document.getElementById("score-list")) fetchScores();
-});
-
-document.getElementById("startBtn")?.addEventListener("click", () => {
-
-  const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
-  const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
-  const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
-  //fix this one to pick up real value
-  const amount = parseInt("20");
-  
-  // save the inputs from the user's filter options to local storage
-  localStorage.setItem("quizSettings", JSON.stringify({
-    category,
-    difficulty,
-    amount,
-    player
-  }));
-
-  // navigate to quiz page
-  window.location.href = "quiz.html";
-});
 
 
 
@@ -266,7 +256,7 @@ const postScore = async(
   }
 }
 
-document.getElementById("finishBtn")?.addEventListener("click", async () => {
+finishQuizBtn.addEventListener("click", async () => {
   console.log("Finish button clicked");
 
   const stored = localStorage.getItem("quizSettings");
@@ -302,4 +292,54 @@ document.getElementById("finishBtn")?.addEventListener("click", async () => {
 
 
 
-// TO DO: add an event listener on "Start game" button that triggers the function that inserts questions and answers from the first object in the questionArray
+
+/* ------ EVENT LISTENER ------ */
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchQuizAPI();
+  if (document.getElementById("score-list")) fetchScores();
+});
+
+document.getElementById("startBtn")?.addEventListener("click", () => {
+
+  const category = parseInt((document?.getElementById("category")! as HTMLSelectElement).value);
+  const difficulty = ((document?.getElementById("difficulty")! as HTMLSelectElement).value).toLowerCase();
+  const player = (document?.getElementById("player-name")! as HTMLSelectElement).value;
+  //fix this one to pick up real value
+  const amount = parseInt("10");
+  
+  // save the inputs from the user's filter options to local storage
+  localStorage.setItem("quizSettings", JSON.stringify({
+    category,
+    difficulty,
+    amount,
+    player
+  }));
+
+  // navigate to quiz page
+  window.location.href = "quiz.html";
+});
+
+
+// ## submitAnswerButton logic
+// - Klicka för att valdera om svar är rätt eller fel
+// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
+//  byt till knapp som visar Nästa fråga
+// om rätt ++ poäng
+
+
+submitAnswerButton.addEventListener("click", () => {
+  console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
+
+  submitAnswerButton.classList.add("hidden");
+  nextQuestionBtn.classList.remove("hidden");
+
+});
+
+
+nextQuestionBtn.addEventListener("click", () => {
+  submitAnswerButton.classList.remove("hidden");
+  nextQuestionBtn.classList.add("hidden");
+  incrementIndex();
+
+})

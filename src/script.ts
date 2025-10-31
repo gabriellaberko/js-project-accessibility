@@ -40,6 +40,7 @@ let index: number = 0;
 /* ------ DOM ELEMENTS ------ */
 
 const filterForm = document.getElementById("filter-form") as HTMLElement;
+const quizContainer = document.getElementById("quiz-container") as HTMLElement;
 const question = document.getElementById("question") as HTMLElement;
 const answers = document.getElementById("answers") as HTMLElement;
 const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
@@ -147,11 +148,9 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   const answerList: string[] = array[index].allAnswers;
   
   // insert data for question and answers
-  // question.innerHTML += `
-  //   <h1>${array[index].question}</h1>
-  // `;
-
-  question.innerText = array[index].question; //instead of making 2 h1's as above
+  question.innerHTML += `
+    <h1>${array[index].question}</h1>
+  `;
   
   // sort array items in a random order, so that the correct answer is not always the last item
   shuffleAnswers(answerList);

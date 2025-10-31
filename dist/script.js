@@ -16,6 +16,7 @@ let storedQuestionArray = [];
 let index = 0;
 /* ------ DOM ELEMENTS ------ */
 const filterForm = document.getElementById("filter-form");
+const quizContainer = document.getElementById("quiz-container");
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
 const submitAnswerButton = document.getElementById("submitAnswerBtn");
@@ -88,10 +89,9 @@ const insertQuestionsAndAnswers = (array, index) => {
     answers.innerHTML = "";
     const answerList = array[index].allAnswers;
     // insert data for question and answers
-    // question.innerHTML += `
-    //   <h1>${array[index].question}</h1>
-    // `;
-    question.innerText = array[index].question; //instead of making 2 h1's as above
+    question.innerHTML += `
+    <h1>${array[index].question}</h1>
+  `;
     // sort array items in a random order, so that the correct answer is not always the last item
     shuffleAnswers(answerList);
     console.log(answerList);

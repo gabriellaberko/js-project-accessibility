@@ -23,6 +23,7 @@ declare const questionArray: questionObjectFormat[];
 declare let storedQuestionArray: questionObjectFormat[];
 declare let index: number;
 declare const filterForm: HTMLElement;
+declare const quizContainer: HTMLElement;
 declare const question: HTMLElement;
 declare const answers: HTMLElement;
 declare const submitAnswerButton: HTMLElement;

@@ -170,7 +170,7 @@ const postScore = (username, category, difficulty, amount) => __awaiter(void 0, 
         return {};
     }
 });
-finishQuizBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+finishQuizBtn === null || finishQuizBtn === void 0 ? void 0 : finishQuizBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Finish button clicked");
     const stored = localStorage.getItem("quizSettings");
     if (!stored) {

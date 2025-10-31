@@ -4,7 +4,7 @@ interface fetchedObjectFormat {
   category: string,
   correct_answer: string
   difficulty: string,
-  incorrect_answers: string[[]],
+  incorrect_answers: string[],
   question: string,
   type: string
 }
@@ -256,7 +256,7 @@ const postScore = async(
   }
 }
 
-finishQuizBtn.addEventListener("click", async () => {
+finishQuizBtn?.addEventListener("click", async () => {
   console.log("Finish button clicked");
 
   const stored = localStorage.getItem("quizSettings");

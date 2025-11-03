@@ -58,6 +58,7 @@ const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement;
 const fetchQuizAPI = async () => {
 
   const stored = localStorage.getItem("quizSettings")!;
+
   const settings = JSON.parse(stored);
   
   console.log("Loaded quiz settings:", settings);
@@ -95,7 +96,8 @@ const fetchQuizAPI = async () => {
     });
 
     console.log("Quiz questions fetched:", questionArray);
-    incrementIndex();
+    // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
+    insertQuestionsAndAnswers(questionArray, index);
   }
   
   catch(error) {
@@ -131,6 +133,38 @@ const incrementIndex = () => {
 };
 
 
+const renderStepper = () => {
+  const oldStepper = document.querySelector(".stepper-container");
+  if (oldStepper) oldStepper.remove();
+
+  const stepperEl = document.createElement('div');
+  stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
+
+  const total = questionArray.length;
+  const current = index >= 0 ? index + 1 : 1;
+  
+  const stepList = Array.from({ length: total }).map((question, i) => `
+      <li class="stepper-item ${
+        i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"
+      } rounded-full w-3 h-3 flex items-center justify-center">
+        <span class="hidden">${i + 1} of ${questionArray.length}</span>
+      </li>
+    `)
+    .join("");
+
+  // Wrap in a <ul>
+  stepperEl.innerHTML = `
+    <div class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0">
+      <ul class="stepper flex gap-2">
+        ${stepList}
+      </ul>
+      <p class="text-sm text-white">${index + 1} of ${questionArray.length}</p>
+    </div>`;
+
+  // Add to DOM before the question
+  question.before(stepperEl);
+}
+
 
 const shuffleAnswers = (array: string[]) => {
   // swap each answer with a random answer, starting from the last answer in the list until i is equal to the first item
@@ -144,6 +178,7 @@ const shuffleAnswers = (array: string[]) => {
 
 const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) => {
 
+  renderStepper();
   // empty elements before filling them
   question.innerHTML = "";
   answers.innerHTML = "";

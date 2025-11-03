@@ -14,6 +14,7 @@ const questionArray = [];
 // questions from local storage to use when testing, if we hit API limit
 let storedQuestionArray = [];
 let index = 0;
+let chosenAnswer = "";
 /* ------ DOM ELEMENTS ------ */
 const filterForm = document.getElementById("filter-form");
 const quizContainer = document.getElementById("quiz-container");
@@ -97,8 +98,27 @@ const insertQuestionsAndAnswers = (array, index) => {
     console.log(answerList);
     answerList.forEach(answer => {
         answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2  border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
      `;
+    });
+};
+const checkAnswer = (chosenAnswer, index) => {
+    var _a;
+    if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
+        console.log("Jaa kan va rätt nu");
+        //add score / call score function
+    }
+    else {
+        console.log("HEJ HEJ");
+    }
+    document.querySelectorAll(".answer-button").forEach(btn => {
+        var _a;
+        if (btn.innerText === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
+            btn.classList.add("bg-green-300");
+        }
+        else {
+            btn.classList.add("bg-red-300");
+        }
     });
 };
 /* ------ Fetch scores ------ */
@@ -220,13 +240,26 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
 //  byt till knapp som visar Nästa fråga
 // om rätt ++ poäng
 submitAnswerButton === null || submitAnswerButton === void 0 ? void 0 : submitAnswerButton.addEventListener("click", () => {
-    // console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
     submitAnswerButton.classList.add("hidden");
     nextQuestionBtn.classList.remove("hidden");
+    checkAnswer(chosenAnswer, index);
 });
 nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBtn.addEventListener("click", () => {
     submitAnswerButton.classList.remove("hidden");
     nextQuestionBtn.classList.add("hidden");
     incrementIndex();
+});
+answers === null || answers === void 0 ? void 0 : answers.addEventListener("click", (e) => {
+    var _a;
+    const clickedAnswerButton = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.closest(".answer-button");
+    chosenAnswer = clickedAnswerButton.innerText;
+    //clickedAnswerButton.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500"";
+    document.querySelectorAll(".answer-button").forEach(btn => {
+        btn.classList.remove("outline", "outline-2", "outline-green-900");
+    });
+    clickedAnswerButton.classList.toggle("outline");
+    clickedAnswerButton.classList.toggle("outline-2");
+    clickedAnswerButton.classList.toggle("outline-green-900");
+    console.log(chosenAnswer);
 });
 //# sourceMappingURL=script.js.map

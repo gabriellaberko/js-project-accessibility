@@ -34,6 +34,8 @@ let storedQuestionArray: questionObjectFormat[] = [];
 
 let index: number = 0;
 
+let chosenAnswer: string = "";
+
 
 
 
@@ -158,10 +160,29 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   console.log(answerList)
 
   answerList.forEach(answer => {
-    
      answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2  border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
      `
+  });
+};
+
+
+
+const checkAnswer = (chosenAnswer: string, index: number) => {
+  if (chosenAnswer === questionArray[index]?.correctAnswer) {
+    console.log("Jaa kan va rätt nu")
+
+    //add score / call score function
+  } else {
+    console.log("HEJ HEJ")
+  }
+
+  document.querySelectorAll(".answer-button").forEach(btn => {
+    if (btn.innerText === questionArray[index]?.correctAnswer) {
+      btn.classList.add("bg-green-300");
+    } else {
+      btn.classList.add("bg-red-300");
+    }
   });
 };
 
@@ -329,10 +350,10 @@ filterForm?.addEventListener("submit", (e) => {
 
 
 submitAnswerButton?.addEventListener("click", () => {
-  // console.log("Rätt svar i alla frågor:", questionArray[3].correctAnswer);
   submitAnswerButton.classList.add("hidden");
   nextQuestionBtn.classList.remove("hidden");
 
+  checkAnswer(chosenAnswer, index);
 });
 
 
@@ -342,3 +363,22 @@ nextQuestionBtn?.addEventListener("click", () => {
   incrementIndex();
 
 })
+
+
+answers?.addEventListener("click", (e) => {
+  const clickedAnswerButton = e?.target?.closest(".answer-button");
+  chosenAnswer = clickedAnswerButton.innerText;
+  
+  //clickedAnswerButton.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500"";
+
+  document.querySelectorAll(".answer-button").forEach(btn => {
+    btn.classList.remove("outline", "outline-2", "outline-green-900");
+  })
+  
+  clickedAnswerButton.classList.toggle("outline");
+  clickedAnswerButton.classList.toggle("outline-2");
+  clickedAnswerButton.classList.toggle("outline-green-900");
+  
+  console.log(chosenAnswer);
+  
+});

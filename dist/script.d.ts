@@ -27,6 +27,7 @@ declare const filterForm: HTMLElement;
 declare const quizContainer: HTMLElement;
 declare const question: HTMLElement;
 declare const answers: HTMLElement;
+declare const conclusionDiv: HTMLElement;
 declare const submitAnswerButton: HTMLElement;
 declare const nextQuestionBtn: HTMLElement;
 declare const finishQuizBtn: HTMLElement;

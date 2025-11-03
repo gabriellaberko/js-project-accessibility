@@ -20,6 +20,7 @@ const filterForm = document.getElementById("filter-form");
 const quizContainer = document.getElementById("quiz-container");
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
+const conclusionDiv = document.getElementById("conclusion");
 const submitAnswerButton = document.getElementById("submitAnswerBtn");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
@@ -88,6 +89,7 @@ const insertQuestionsAndAnswers = (array, index) => {
     // empty elements before filling them
     question.innerHTML = "";
     answers.innerHTML = "";
+    conclusionDiv.innerHTML = "";
     const answerList = array[index].allAnswers;
     // insert data for question and answers
     question.innerHTML += `
@@ -120,11 +122,17 @@ const checkAnswer = (chosenAnswer, index) => {
             btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
             btn.classList.add("text-[rgba(150,231,110,1)]");
             btn.classList.add("outline", "outline-3", "outline-[rgba(150,231,110,1)]");
+            conclusionDiv.innerHTML = `
+        <p>Question solved. Good job!</p>
+      `;
         }
         else {
             btn.classList.add("bg-[rgba(82,63,56,1)]");
             btn.classList.add("text-[rgba(231,110,110,1)]");
             btn.classList.add("outline", "outline-3", "outline-[rgba(231,110,110,1)]");
+            conclusionDiv.innerHTML = `
+        <p>Question error. Bad job!</p>
+      `;
         }
     });
 };

@@ -45,6 +45,7 @@ const filterForm = document.getElementById("filter-form") as HTMLElement;
 const quizContainer = document.getElementById("quiz-container") as HTMLElement;
 const question = document.getElementById("question") as HTMLElement;
 const answers = document.getElementById("answers") as HTMLElement;
+const conclusionDiv = document.getElementById("conclusion") as HTMLElement;
 const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
 const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement; 
@@ -146,6 +147,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   // empty elements before filling them
   question.innerHTML = "";
   answers.innerHTML = "";
+  conclusionDiv.innerHTML = "";
 
   const answerList: string[] = array[index].allAnswers;
   
@@ -185,10 +187,19 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
       btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
       btn.classList.add("text-[rgba(150,231,110,1)]");
       btn.classList.add("outline", "outline-3", "outline-[rgba(150,231,110,1)]");
+
+
+      conclusionDiv.innerHTML = `
+        <p>Question solved. Good job!</p>
+      `;
     } else {
       btn.classList.add("bg-[rgba(82,63,56,1)]");
       btn.classList.add("text-[rgba(231,110,110,1)]");
       btn.classList.add("outline", "outline-3", "outline-[rgba(231,110,110,1)]");
+
+      conclusionDiv.innerHTML = `
+        <p>Question error. Bad job!</p>
+      `;
     }
   });
 };

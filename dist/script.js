@@ -110,7 +110,7 @@ const checkAnswer = (chosenAnswer, index) => {
     document.querySelectorAll(".answer-button").forEach(btn => {
         var _a;
         // reset styling for borders/outlines on the buttons
-        btn.className = "answer-button rounded-xl p-4 w-full md:w-1/2";
+        btn.className = "answer-button rounded-sm p-4 w-full md:w-1/2";
         // change styling of buttons to showcase right/wrong answers
         if (btn.innerText === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
             btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");

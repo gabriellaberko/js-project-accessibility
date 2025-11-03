@@ -174,7 +174,7 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
 
   document.querySelectorAll(".answer-button").forEach(btn => {
     // reset styling for borders/outlines on the buttons
-    btn.className = "answer-button rounded-xl p-4 w-full md:w-1/2"
+    btn.className = "answer-button rounded-sm p-4 w-full md:w-1/2"
 
     // change styling of buttons to showcase right/wrong answers
     if (btn.innerText === questionArray[index]?.correctAnswer) {

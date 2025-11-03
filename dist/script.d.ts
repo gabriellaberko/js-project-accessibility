@@ -23,6 +23,7 @@ declare const questionArray: questionObjectFormat[];
 declare let storedQuestionArray: questionObjectFormat[];
 declare let index: number;
 declare let chosenAnswer: string;
+declare let accumulatedScore: number;
 declare const filterForm: HTMLElement;
 declare const quizContainer: HTMLElement;
 declare const question: HTMLElement;
@@ -36,7 +37,8 @@ declare const incrementIndex: () => void;
 declare const shuffleAnswers: (array: string[]) => void;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: number) => void;
 declare const checkAnswer: (chosenAnswer: string, index: number) => void;
+declare const countAndSaveScore: () => void;
 declare const SCORE_API_URL = "https://postgres.daniellauding.se/quiz_scores";
 declare const fetchScores: () => Promise<void>;
-declare const postScore: (username: string, category: number, difficulty: string, amount: number) => Promise<any>;
+declare const postScore: (username: string, category: number, score: number, difficulty: string, amount: number) => Promise<any>;
 //# sourceMappingURL=script.d.ts.map

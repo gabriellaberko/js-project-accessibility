@@ -15,6 +15,7 @@ const questionArray = [];
 let storedQuestionArray = [];
 let index = 0;
 let chosenAnswer = "";
+let accumulatedScore = 0;
 /* ------ DOM ELEMENTS ------ */
 const filterForm = document.getElementById("filter-form");
 const quizContainer = document.getElementById("quiz-container");
@@ -26,8 +27,8 @@ const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
-    const store = localStorage.getItem("quizSettings");
-    const settings = JSON.parse(store);
+    const stored = localStorage.getItem("quizSettings");
+    const settings = JSON.parse(stored);
     console.log("Loaded quiz settings:", settings);
     const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
     try {
@@ -136,6 +137,21 @@ const checkAnswer = (chosenAnswer, index) => {
         }
     });
 };
+// Logic for counting scores: 
+// right answer = +10
+// wrong answer = +0
+// fast answer under 5 s = +5 extra
+// update and save score to quiz settings
+const countAndSaveScore = () => {
+    var _a;
+    if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
+        let quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
+        accumulatedScore = accumulatedScore + 10;
+        quizSettings.score = accumulatedScore;
+        console.log("Points:", accumulatedScore);
+        localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+    }
+};
 /* ------ Fetch scores ------ */
 const SCORE_API_URL = `https://postgres.daniellauding.se/quiz_scores`;
 const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -158,9 +174,9 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
       <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4 player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
-        <span>${player.score}</span>
+        <span>${player.score} PTS</span>
         <span>${player.category}</span>
-        <span>Amount</span>
+        <span>${player.amount}</span>
         <span>${player.difficulty}</span>
       </li>
     `).join("");
@@ -173,7 +189,7 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 /* ------ Post scores ------ */
 // async function postScore(username, score) {
-const postScore = (username, category, difficulty, amount) => __awaiter(void 0, void 0, void 0, function* () {
+const postScore = (username, category, score, difficulty, amount) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Posting new to scoreboard:", username);
     const response = yield fetch(SCORE_API_URL, {
         method: "POST",
@@ -181,7 +197,7 @@ const postScore = (username, category, difficulty, amount) => __awaiter(void 0, 
         // body: JSON.stringify({ username, score })
         body: JSON.stringify({
             username,
-            score: 0,
+            score,
             category: String(category),
             difficulty: difficulty.toLowerCase(),
             amount,
@@ -215,7 +231,7 @@ finishQuizBtn === null || finishQuizBtn === void 0 ? void 0 : finishQuizBtn.addE
         console.log("📤 Posting score for:", player);
         // Example: here you could calculate score from quiz results
         const score = 0;
-        yield postScore(player, category, difficulty, amount);
+        yield postScore(player, category, score, difficulty, amount);
         console.log("✅ Score posted successfully!");
         // Optional: clear data or redirect
         // localStorage.removeItem("quizSettings");
@@ -239,12 +255,14 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
     const difficulty = formData.get("difficulty").toLowerCase();
     const amount = formData.get("number-of-questions");
     const player = formData.get("player-name");
+    const score = accumulatedScore;
     // save the inputs from the submitted filter form to local storage
     localStorage.setItem("quizSettings", JSON.stringify({
         category,
         difficulty,
         amount,
-        player
+        player,
+        score,
     }));
     // navigate to quiz page
     window.location.href = "quiz.html";
@@ -258,6 +276,7 @@ submitAnswerButton === null || submitAnswerButton === void 0 ? void 0 : submitAn
     submitAnswerButton.classList.add("hidden");
     nextQuestionBtn.classList.remove("hidden");
     checkAnswer(chosenAnswer, index);
+    countAndSaveScore();
 });
 nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBtn.addEventListener("click", () => {
     submitAnswerButton.classList.remove("hidden");

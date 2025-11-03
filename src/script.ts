@@ -36,7 +36,7 @@ let index: number = 0;
 
 let chosenAnswer: string = "";
 
-
+let accumulatedScore: number = 0;
 
 
 /* ------ DOM ELEMENTS ------ */
@@ -57,8 +57,8 @@ const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement;
 
 const fetchQuizAPI = async () => {
 
-  const store = localStorage.getItem("quizSettings")!;
-  const settings = JSON.parse(store);
+  const stored = localStorage.getItem("quizSettings")!;
+  const settings = JSON.parse(stored);
   
   console.log("Loaded quiz settings:", settings);
 
@@ -204,6 +204,25 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   });
 };
 
+// Logic for counting scores: 
+// right answer = +10
+// wrong answer = +0
+// fast answer under 5 s = +5 extra
+// update and save score to quiz settings
+
+const countAndSaveScore = () => {
+  if (chosenAnswer === questionArray[index]?.correctAnswer) {
+
+    let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
+    accumulatedScore = accumulatedScore + 10;
+    quizSettings.score = accumulatedScore;
+    
+
+    console.log("Points:", accumulatedScore)
+    
+    localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+  }
+};
 
 
 /* ------ Fetch scores ------ */
@@ -238,9 +257,9 @@ const fetchScores = async() => {
       <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4 player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
-        <span>${player.score}</span>
+        <span>${player.score} PTS</span>
         <span>${player.category}</span>
-        <span>Amount</span>
+        <span>${player.amount}</span>
         <span>${player.difficulty}</span>
       </li>
     `).join("");
@@ -260,6 +279,7 @@ const fetchScores = async() => {
 const postScore = async(
   username: string,
   category: number,
+  score: number,
   difficulty: string,
   amount: number
 ) => {
@@ -270,7 +290,7 @@ const postScore = async(
     // body: JSON.stringify({ username, score })
     body: JSON.stringify({
       username,
-      score: 0,
+      score,
       category: String(category),
       difficulty: difficulty.toLowerCase(),
       amount,
@@ -311,7 +331,7 @@ finishQuizBtn?.addEventListener("click", async () => {
     // Example: here you could calculate score from quiz results
     const score = 0;
 
-    await postScore(player, category, difficulty, amount);
+    await postScore(player, category, score, difficulty, amount);
     console.log("✅ Score posted successfully!");
 
     // Optional: clear data or redirect
@@ -346,13 +366,15 @@ filterForm?.addEventListener("submit", (e) => {
   const difficulty = (formData.get("difficulty") as string).toLowerCase();
   const amount = formData.get("number-of-questions");
   const player = formData.get("player-name");
+  const score = accumulatedScore;
   
   // save the inputs from the submitted filter form to local storage
   localStorage.setItem("quizSettings", JSON.stringify({
     category,
     difficulty,
     amount,
-    player
+    player,
+    score,
   }));
 
   // navigate to quiz page
@@ -372,6 +394,7 @@ submitAnswerButton?.addEventListener("click", () => {
   nextQuestionBtn.classList.remove("hidden");
 
   checkAnswer(chosenAnswer, index);
+  countAndSaveScore();
 });
 
 

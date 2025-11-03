@@ -170,18 +170,25 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
 
 const checkAnswer = (chosenAnswer: string, index: number) => {
   if (chosenAnswer === questionArray[index]?.correctAnswer) {
-    console.log("Jaa kan va rätt nu")
-
-    //add score / call score function
+    console.log("Your chose the right answer")
+    // add score/update score
   } else {
-    console.log("HEJ HEJ")
+    console.log("You chose the wrong answer")
   }
 
   document.querySelectorAll(".answer-button").forEach(btn => {
+    // reset styling for borders/outlines on the buttons
+      btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2"
+
+    // change styling to display right/wrong answers
     if (btn.innerText === questionArray[index]?.correctAnswer) {
-      btn.classList.add("bg-green-300");
+      btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
+      btn.classList.add("text-[rgba(150,231,110,1)]");
+      btn.classList.add("outline", "outline-3", "outline-[rgba(150,231,110,1)]");
     } else {
-      btn.classList.add("bg-red-300");
+      btn.classList.add("bg-[rgba(82,63,56,1)]");
+      btn.classList.add("text-[rgba(231,110,110,1)]");
+      btn.classList.add("outline", "outline-3", "outline-[rgba(231,110,110,1)]");
     }
   });
 };
@@ -368,16 +375,15 @@ nextQuestionBtn?.addEventListener("click", () => {
 answers?.addEventListener("click", (e) => {
   const clickedAnswerButton = e?.target?.closest(".answer-button");
   chosenAnswer = clickedAnswerButton.innerText;
-  
-  //clickedAnswerButton.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500"";
 
   document.querySelectorAll(".answer-button").forEach(btn => {
-    btn.classList.remove("outline", "outline-2", "outline-green-900");
+    // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
+    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
   })
   
   clickedAnswerButton.classList.toggle("outline");
-  clickedAnswerButton.classList.toggle("outline-2");
-  clickedAnswerButton.classList.toggle("outline-green-900");
+  clickedAnswerButton.classList.toggle("outline-3");
+  clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
   
   console.log(chosenAnswer);
   

@@ -197,7 +197,7 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   // change message to display if right/wrong answer
   if(chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
-    <p>Question solved. Good job!</p>
+    <p>Right answer. Good job!</p>
   `;
   } else {
     conclusionDiv.innerHTML = `
@@ -211,14 +211,11 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
 // TO DO: add fast answer under 5 s = +5 extra
 const countAndSaveScore = () => {
   if (chosenAnswer === questionArray[index]?.correctAnswer) {
-
+    // update score
     let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
     accumulatedScore = accumulatedScore + 10;
     quizSettings.score = accumulatedScore;
-    
-
-    console.log("Points:", accumulatedScore)
-    
+    // save it back to local storage
     localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
   }
 };

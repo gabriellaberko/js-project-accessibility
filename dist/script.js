@@ -133,7 +133,7 @@ const checkAnswer = (chosenAnswer, index) => {
     // change message to display if right/wrong answer
     if (chosenAnswer === ((_b = questionArray[index]) === null || _b === void 0 ? void 0 : _b.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p>Question solved. Good job!</p>
+    <p>Right answer. Good job!</p>
   `;
     }
     else {
@@ -146,10 +146,11 @@ const checkAnswer = (chosenAnswer, index) => {
 const countAndSaveScore = () => {
     var _a;
     if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
+        // update score
         let quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
         accumulatedScore = accumulatedScore + 10;
         quizSettings.score = accumulatedScore;
-        console.log("Points:", accumulatedScore);
+        // save it back to local storage
         localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
     }
 };

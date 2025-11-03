@@ -141,7 +141,6 @@ const renderStepper = () => {
   stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
 
   const total = questionArray.length;
-  const current = index >= 0 ? index + 1 : 1;
   
   const stepList = Array.from({ length: total }).map((question, i) => `
       <li class="stepper-item ${
@@ -152,7 +151,6 @@ const renderStepper = () => {
     `)
     .join("");
 
-  // Wrap in a <ul>
   stepperEl.innerHTML = `
     <div class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0">
       <ul class="stepper flex gap-2">
@@ -161,7 +159,6 @@ const renderStepper = () => {
       <p class="text-sm text-white">${index + 1} of ${questionArray.length}</p>
     </div>`;
 
-  // Add to DOM before the question
   question.before(stepperEl);
 }
 

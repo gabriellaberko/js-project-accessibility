@@ -87,14 +87,12 @@ const renderStepper = () => {
     const stepperEl = document.createElement('div');
     stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
     const total = questionArray.length;
-    const current = index >= 0 ? index + 1 : 1;
     const stepList = Array.from({ length: total }).map((question, i) => `
       <li class="stepper-item ${i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"} rounded-full w-3 h-3 flex items-center justify-center">
         <span class="hidden">${i + 1} of ${questionArray.length}</span>
       </li>
     `)
         .join("");
-    // Wrap in a <ul>
     stepperEl.innerHTML = `
     <div class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0">
       <ul class="stepper flex gap-2">
@@ -102,7 +100,6 @@ const renderStepper = () => {
       </ul>
       <p class="text-sm text-white">${index + 1} of ${questionArray.length}</p>
     </div>`;
-    // Add to DOM before the question
     question.before(stepperEl);
 };
 const shuffleAnswers = (array) => {

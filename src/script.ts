@@ -30,7 +30,7 @@ interface quizSettingsFormat {
 const questionArray: questionObjectFormat[] = [];
 
 // questions from local storage to use when testing, if we hit API limit
-let storedQuestionArray: questionObjectFormat[] = [];  
+let storedQuestionArray: questionObjectFormat[] = [];
 
 let index: number = 0;
 
@@ -48,7 +48,7 @@ const answers = document.getElementById("answers") as HTMLElement;
 const conclusionDiv = document.getElementById("conclusion") as HTMLElement;
 const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
-const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement; 
+const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
 
 
 
@@ -59,29 +59,29 @@ const fetchQuizAPI = async () => {
 
   const stored = localStorage.getItem("quizSettings")!;
   const settings = JSON.parse(stored);
-  
+
   console.log("Loaded quiz settings:", settings);
 
   const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
- 
+
   try {
-      
+
     const response = await fetch(APIUrl);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    
+
     const data = await response.json();
     const fetchedQuizQuestions: fetchedObjectFormat[] = data.results;
-      
+
     fetchedQuizQuestions.map(object => {
 
       // create an array with all answers, despite correct/incorrect
       const allAnswers: string[] = object.incorrect_answers;
       const correctAnswer: string = object.correct_answer
       allAnswers.push(correctAnswer);
-    
+
 
       const questionObject: questionObjectFormat = {
         question: object.question,
@@ -97,14 +97,14 @@ const fetchQuizAPI = async () => {
     console.log("Quiz questions fetched:", questionArray);
     incrementIndex();
   }
-  
-  catch(error) {
+
+  catch (error) {
     console.error("Fetch error:", error);
     // add error message on start page
   }
   // save question array to local storage to have when testing
   localStorage.setItem("storedQuestionArray", JSON.stringify(questionArray));
-  storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));  
+  storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 };
 
 
@@ -118,11 +118,11 @@ const incrementIndex = () => {
   if (index < questionArray.length - 1) {
     index++;
     insertQuestionsAndAnswers(questionArray, index);
-  } 
+  }
 
   // hide the nextQuestonBtn and show finishQuizBtn when clicking on submit answer on the last question
-  if(index === questionArray.length - 1) {
-    submitAnswerButton.addEventListener("click", () => { 
+  if (index === questionArray.length - 1) {
+    submitAnswerButton.addEventListener("click", () => {
       nextQuestionBtn.classList.add("hidden");
       finishQuizBtn.classList.remove("hidden");
       alert(`You did it! Here we will show a modal later on with the player's score!`);
@@ -150,19 +150,19 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   conclusionDiv.innerHTML = "";
 
   const answerList: string[] = array[index].allAnswers;
-  
+
   // insert data for question and answers
   question.innerHTML += `
     <h1>${array[index].question}</h1>
   `;
-  
+
   // sort array items in a random order, so that the correct answer is not always the last item
   shuffleAnswers(answerList);
 
   console.log(answerList)
 
   answerList.forEach(answer => {
-     answers.innerHTML += ` 
+    answers.innerHTML += ` 
       <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
      `
   });
@@ -195,7 +195,7 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   });
 
   // change message to display if right/wrong answer
-  if(chosenAnswer === questionArray[index]?.correctAnswer) {
+  if (chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
     <p>Right answer. Good job!</p>
   `;
@@ -225,46 +225,46 @@ const countAndSaveScore = () => {
 
 const SCORE_API_URL = `https://postgres.daniellauding.se/quiz_scores`;
 
-const fetchScores = async() => {
-  
+const fetchScores = async () => {
+
   try {
     const response = await fetch(SCORE_API_URL);
     const result = await response.json();
-    
+
     // Sortera högst först (valfritt)
     result.sort((a, b) => b.score - a.score);
-    
-    if(!response.ok) {
+
+    if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
-    
+
     console.log(result);
-    
+
     // html.innerHTML = result;
-    
+
     console.log(result.length);
-    
+
     /* result.map((player, i) => {
       console.log(player.username);
       return html.innerHTML += player.username;
     }); */
-    
+
     const html = result.map((player, i) => `
       <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4 player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
         <span>${player.score} PTS</span>
-        <span>${player.category}</span>
+       <span>${player.category}</span>
         <span>${player.amount}</span>
         <span>${player.difficulty}</span>
       </li>
     `).join("");
 
     document.getElementById("score-list").innerHTML = html;
-    
+
     result.forEach((element) => console.log(element));
-    
-  } catch(error) {
+
+  } catch (error) {
     console.error('Error:', error);
   }
 }
@@ -272,7 +272,7 @@ const fetchScores = async() => {
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
-const postScore = async(
+const postScore = async (
   username: string,
   category: number,
   score: number,
@@ -363,7 +363,7 @@ filterForm?.addEventListener("submit", (e) => {
   const amount = formData.get("number-of-questions");
   const player = formData.get("player-name");
   const score = accumulatedScore;
-  
+
   // save the inputs from the submitted filter form to local storage
   localStorage.setItem("quizSettings", JSON.stringify({
     category,
@@ -410,11 +410,11 @@ answers?.addEventListener("click", (e) => {
     // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
     btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
   })
-  
+
   clickedAnswerButton.classList.toggle("outline");
   clickedAnswerButton.classList.toggle("outline-3");
   clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
-  
+
   console.log(chosenAnswer);
-  
+
 });

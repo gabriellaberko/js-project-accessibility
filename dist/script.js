@@ -91,6 +91,8 @@ const insertQuestionsAndAnswers = (array, index) => {
     question.innerHTML = "";
     answers.innerHTML = "";
     conclusionDiv.innerHTML = "";
+    // reset styling
+    conclusionDiv.className = "rounded-sm p-4 text-white w-full md:w-1/2";
     const answerList = array[index].allAnswers;
     // insert data for question and answers
     question.innerHTML += `
@@ -101,7 +103,7 @@ const insertQuestionsAndAnswers = (array, index) => {
     console.log(answerList);
     answerList.forEach(answer => {
         answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `;
     });
 };
@@ -133,13 +135,15 @@ const checkAnswer = (chosenAnswer, index) => {
     // change message to display if right/wrong answer
     if (chosenAnswer === ((_b = questionArray[index]) === null || _b === void 0 ? void 0 : _b.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p>Right answer. Good job!</p>
+    <p class="text-[rgba(150,231,110,1)]">You chose ${chosenAnswer} - it's the right answer. Good job!</p>
   `;
+        conclusionDiv.classList.add("bg-[rgba(56,82,64,1)]");
     }
     else {
         conclusionDiv.innerHTML = `
-    <p>Wrong answer. Bad job!</p>
+    <p class="text-[rgba(231,110,110,1)]">You chose ${chosenAnswer} - it's the wrong answer. Bad job!</p>
   `;
+        conclusionDiv.classList.add("bg-[rgba(82,63,56,1)]");
     }
 };
 // TO DO: add fast answer under 5 s = +5 extra
@@ -269,11 +273,6 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
     // navigate to quiz page
     window.location.href = "quiz.html";
 });
-// ## submitAnswerButton logic
-// - Klicka för att valdera om svar är rätt eller fel
-// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
-//  byt till knapp som visar Nästa fråga
-// om rätt ++ poäng
 submitAnswerButton === null || submitAnswerButton === void 0 ? void 0 : submitAnswerButton.addEventListener("click", () => {
     submitAnswerButton.classList.add("hidden");
     nextQuestionBtn.classList.remove("hidden");
@@ -286,16 +285,18 @@ nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBt
     incrementIndex();
 });
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("click", (e) => {
-    var _a;
-    const clickedAnswerButton = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.closest(".answer-button");
-    chosenAnswer = clickedAnswerButton.innerText;
+    const target = e.target || null;
+    const clickedAnswerButton = (target === null || target === void 0 ? void 0 : target.closest(".answer-button")) || null;
+    if (clickedAnswerButton) {
+        chosenAnswer = clickedAnswerButton.innerText;
+    }
+    // reset styling (outline) on all buttons
     document.querySelectorAll(".answer-button").forEach(btn => {
-        // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
-        btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
+        btn.classList.remove("outline", "outline-3", "outline-[rgba(110,157,231,1)]");
     });
+    // highlight chosen button with outline
     clickedAnswerButton.classList.toggle("outline");
     clickedAnswerButton.classList.toggle("outline-3");
     clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
-    console.log(chosenAnswer);
 });
 //# sourceMappingURL=script.js.map

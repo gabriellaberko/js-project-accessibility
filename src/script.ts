@@ -148,6 +148,8 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   question.innerHTML = "";
   answers.innerHTML = "";
   conclusionDiv.innerHTML = "";
+  // reset styling
+  conclusionDiv.className = "rounded-sm p-4 text-white w-full md:w-1/2";
 
   const answerList: string[] = array[index].allAnswers;
   
@@ -163,7 +165,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
 
   answerList.forEach(answer => {
      answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `
   });
 };
@@ -197,12 +199,14 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   // change message to display if right/wrong answer
   if(chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
-    <p>Right answer. Good job!</p>
+    <p class="text-[rgba(150,231,110,1)]">You chose ${chosenAnswer} - it's the right answer. Good job!</p>
   `;
+    conclusionDiv.classList.add("bg-[rgba(56,82,64,1)]");
   } else {
     conclusionDiv.innerHTML = `
-    <p>Wrong answer. Bad job!</p>
+    <p class="text-[rgba(231,110,110,1)]">You chose ${chosenAnswer} - it's the wrong answer. Bad job!</p>
   `;
+    conclusionDiv.classList.add("bg-[rgba(82,63,56,1)]");
   }
 
 };
@@ -378,12 +382,6 @@ filterForm?.addEventListener("submit", (e) => {
 });
 
 
-// ## submitAnswerButton logic
-// - Klicka för att valdera om svar är rätt eller fel
-// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
-//  byt till knapp som visar Nästa fråga
-// om rätt ++ poäng
-
 
 submitAnswerButton?.addEventListener("click", () => {
   submitAnswerButton.classList.add("hidden");
@@ -403,18 +401,21 @@ nextQuestionBtn?.addEventListener("click", () => {
 
 
 answers?.addEventListener("click", (e) => {
-  const clickedAnswerButton = e?.target?.closest(".answer-button");
-  chosenAnswer = clickedAnswerButton.innerText;
 
+  const target = e.target as HTMLElement || null;
+  const clickedAnswerButton = target?.closest(".answer-button") as HTMLElement || null;
+  if(clickedAnswerButton) {
+  chosenAnswer = clickedAnswerButton.innerText;
+  }
+
+  // reset styling (outline) on all buttons
   document.querySelectorAll(".answer-button").forEach(btn => {
-    // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
-    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
-  })
+    btn.classList.remove("outline", "outline-3", "outline-[rgba(110,157,231,1)]");
+  });
   
+
+  // highlight chosen button with outline
   clickedAnswerButton.classList.toggle("outline");
   clickedAnswerButton.classList.toggle("outline-3");
   clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
-  
-  console.log(chosenAnswer);
-  
 });

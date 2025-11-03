@@ -180,36 +180,35 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
 
   document.querySelectorAll(".answer-button").forEach(btn => {
     // reset styling for borders/outlines on the buttons
-      btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2"
+    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2"
 
     // change styling to display right/wrong answers
     if (btn.innerText === questionArray[index]?.correctAnswer) {
       btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
       btn.classList.add("text-[rgba(150,231,110,1)]");
       btn.classList.add("outline", "outline-3", "outline-[rgba(150,231,110,1)]");
-
-
-      conclusionDiv.innerHTML = `
-        <p>Question solved. Good job!</p>
-      `;
     } else {
       btn.classList.add("bg-[rgba(82,63,56,1)]");
       btn.classList.add("text-[rgba(231,110,110,1)]");
       btn.classList.add("outline", "outline-3", "outline-[rgba(231,110,110,1)]");
-
-      conclusionDiv.innerHTML = `
-        <p>Question error. Bad job!</p>
-      `;
     }
   });
+
+  // change message to display if right/wrong answer
+  if(chosenAnswer === questionArray[index]?.correctAnswer) {
+    conclusionDiv.innerHTML = `
+    <p>Question solved. Good job!</p>
+  `;
+  } else {
+    conclusionDiv.innerHTML = `
+    <p>Wrong answer. Bad job!</p>
+  `;
+  }
+
 };
 
-// Logic for counting scores: 
-// right answer = +10
-// wrong answer = +0
-// fast answer under 5 s = +5 extra
-// update and save score to quiz settings
 
+// TO DO: add fast answer under 5 s = +5 extra
 const countAndSaveScore = () => {
   if (chosenAnswer === questionArray[index]?.correctAnswer) {
 
@@ -318,7 +317,7 @@ finishQuizBtn?.addEventListener("click", async () => {
     return;
   }
 
-  const { player, category, difficulty, amount } = JSON.parse(stored);
+  const { player, category, difficulty, amount, score } = JSON.parse(stored);
 
   if (!player) {
     alert("⚠️ No player name found in local storage.");
@@ -329,7 +328,7 @@ finishQuizBtn?.addEventListener("click", async () => {
     console.log("📤 Posting score for:", player);
 
     // Example: here you could calculate score from quiz results
-    const score = 0;
+    // const score = 0;
 
     await postScore(player, category, score, difficulty, amount);
     console.log("✅ Score posted successfully!");

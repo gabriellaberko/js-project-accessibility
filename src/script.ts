@@ -148,8 +148,6 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   question.innerHTML = "";
   answers.innerHTML = "";
   conclusionDiv.innerHTML = "";
-  // reset styling
-  conclusionDiv.className = "rounded-sm p-4 text-white w-2/5";
 
   const answerList: string[] = array[index].allAnswers;
   
@@ -193,14 +191,12 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   // display message of choice and right/wrong answer
   if(chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
-    <p class="text-[rgba(150,231,110,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
+    <p class="p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
-    conclusionDiv.classList.add("bg-[rgba(56,82,64,1)]");
   } else {
     conclusionDiv.innerHTML = `
-    <p class="text-[rgba(231,110,110,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
+    <p class="p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
-    conclusionDiv.classList.add("bg-[rgba(82,63,56,1)]");
   }
 
 };

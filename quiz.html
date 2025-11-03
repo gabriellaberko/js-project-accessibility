@@ -36,29 +36,28 @@
       </nav>
     </header>
     <main>
-      <div class="quiz-container flex flex-col justify-center gap-8 h-full">
-        <div class="question text-3xl" id="question"></div>
+      <div class="quiz-container flex flex-col justify-center items-center gap-8 h-full">
+        <div class="question p-16 text-3xl" id="question"></div>
         <!-- <p class="category text-xs rounded-xl px-3 py-1 bg-gray-200">General Knowledge</p>
         <p class="category text-xs rounded-xl px-3 py-1 bg-gray-200">medium</p> -->
-        <div class="answers w-full p-4 items-center flex" id="answers">
-      </div>
-      <div id="conclusion" class="rounded-sm p-4 text-white w-2/5">
+        <div class="answers w-full p-4 items-center flex" id="answers"></div>
+        <div id="conclusion" class="conclusion w-full md:w-2/5 p-4"></div>
       </div>
     </main>
-    <footer>
-      <button id="finishQuizBtn" class="bg-green-500 text-white rounded-xl px-6 py-3 hidden">
-       Finish Quiz
-      </button>
-      <button id="submitAnswerBtn" class="bg-green-500 text-white rounded-xl px-6 py-3">
-       Submit answer
-      </button>
-      <button id="nextQuestionBtn" class="bg-green-500 text-white rounded-xl px-6 py-3 hidden">
-       Next question
-      </button>
-      <div class="timer">
-        <span class="indicator h-2 w-full bg-red block bg-black"></span>
+    <footer class="flex flex-col justify-center items-center gap-10 p-4">
+      <div class="timer flex w-full md:w-1/2 gap-8 items-center">
+        <span class="indicator h-2 w-full bg-[rgba(182,192,208, 1)] block bg-[rgba(77,85,99,1)]"></span>
         <p>10:32</p>
       </div>
+      <button id="finishQuizBtn" class="self-center bg-[rgba(102,131,180,1)] text-white rounded-sm w-full md:w-1/2 px-6 py-3 text-xl hidden">
+       Finish quiz
+      </button>
+      <button id="submitAnswerBtn" class="self-center bg-[rgba(102,131,180,1)] text-white rounded-sm w-full md:w-1/2 text-xl px-6 py-3">
+       Check answer
+      </button>
+      <button id="nextQuestionBtn" class="self-center bg-[rgba(102,131,180,1)] text-white rounded-sm w-full md:w-1/2 text-xl px-6 py-3 hidden">
+       Continue to next question
+      </button>
     </footer>
   </div>
 </body>

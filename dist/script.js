@@ -91,8 +91,6 @@ const insertQuestionsAndAnswers = (array, index) => {
     question.innerHTML = "";
     answers.innerHTML = "";
     conclusionDiv.innerHTML = "";
-    // reset styling
-    conclusionDiv.className = "rounded-sm p-4 text-white w-2/5";
     const answerList = array[index].allAnswers;
     // insert data for question and answers
     question.innerHTML += `
@@ -128,15 +126,13 @@ const checkAnswer = (chosenAnswer, index) => {
     // display message of choice and right/wrong answer
     if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p class="text-[rgba(150,231,110,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
+    <p class="p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
-        conclusionDiv.classList.add("bg-[rgba(56,82,64,1)]");
     }
     else {
         conclusionDiv.innerHTML = `
-    <p class="text-[rgba(231,110,110,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
+    <p class="p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
-        conclusionDiv.classList.add("bg-[rgba(82,63,56,1)]");
     }
 };
 // TO DO: add fast answer under 5 s = +5 extra

@@ -92,7 +92,7 @@ const insertQuestionsAndAnswers = (array, index) => {
     answers.innerHTML = "";
     conclusionDiv.innerHTML = "";
     // reset styling
-    conclusionDiv.className = "rounded-sm p-4 text-white w-full md:w-1/2";
+    conclusionDiv.className = "rounded-sm p-4 text-white w-2/5";
     const answerList = array[index].allAnswers;
     // insert data for question and answers
     question.innerHTML += `
@@ -108,19 +108,12 @@ const insertQuestionsAndAnswers = (array, index) => {
     });
 };
 const checkAnswer = (chosenAnswer, index) => {
-    var _a, _b;
-    if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
-        console.log("Your chose the right answer");
-        // add score/update score
-    }
-    else {
-        console.log("You chose the wrong answer");
-    }
+    var _a;
     document.querySelectorAll(".answer-button").forEach(btn => {
         var _a;
         // reset styling for borders/outlines on the buttons
-        btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2";
-        // change styling to display right/wrong answers
+        btn.className = "answer-button rounded-xl p-4 w-full md:w-1/2";
+        // change styling of buttons to showcase right/wrong answers
         if (btn.innerText === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
             btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
             btn.classList.add("text-[rgba(150,231,110,1)]");
@@ -132,16 +125,16 @@ const checkAnswer = (chosenAnswer, index) => {
             btn.classList.add("outline", "outline-3", "outline-[rgba(231,110,110,1)]");
         }
     });
-    // change message to display if right/wrong answer
-    if (chosenAnswer === ((_b = questionArray[index]) === null || _b === void 0 ? void 0 : _b.correctAnswer)) {
+    // display message of choice and right/wrong answer
+    if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p class="text-[rgba(150,231,110,1)]">You chose ${chosenAnswer} - it's the right answer. Good job!</p>
+    <p class="text-[rgba(150,231,110,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
         conclusionDiv.classList.add("bg-[rgba(56,82,64,1)]");
     }
     else {
         conclusionDiv.innerHTML = `
-    <p class="text-[rgba(231,110,110,1)]">You chose ${chosenAnswer} - it's the wrong answer. Bad job!</p>
+    <p class="text-[rgba(231,110,110,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
         conclusionDiv.classList.add("bg-[rgba(82,63,56,1)]");
     }

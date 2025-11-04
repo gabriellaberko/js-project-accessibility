@@ -44,16 +44,17 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
             const correctAnswer = object.correct_answer;
             allAnswers.push(correctAnswer);
             const questionObject = {
-                question: object.question,
+                question: decodeString(object.question),
                 category: object.category,
                 difficulty: object.difficulty,
-                allAnswers: allAnswers,
-                correctAnswer: object.correct_answer
+                allAnswers: allAnswers.map(answer => decodeString(answer)),
+                correctAnswer: decodeString(object.correct_answer)
             };
             questionArray.push(questionObject);
         });
         console.log("Quiz questions fetched:", questionArray);
-        incrementIndex();
+        // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
+        insertQuestionsAndAnswers(questionArray, index);
     }
     catch (error) {
         console.error("Fetch error:", error);
@@ -64,7 +65,15 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 });
 /* ------ LOGIC ------ */
-// TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
+// decode strings with with symbol coding (ampersands etc.) for special characters
+const decodeString = (string) => {
+    // create a HTML textarea element with the string
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = string;
+    // when the browser sees the symbol coding in the HTML text area it will automatically transform it into real letters
+    const decodedString = textarea.value;
+    return decodedString;
+};
 const incrementIndex = () => {
     if (index < questionArray.length - 1) {
         index++;
@@ -79,6 +88,28 @@ const incrementIndex = () => {
         });
     }
 };
+const renderStepper = () => {
+    const oldStepper = document.querySelector(".stepper-container");
+    if (oldStepper)
+        oldStepper.remove();
+    const stepperEl = document.createElement('div');
+    stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
+    const total = questionArray.length;
+    const stepList = Array.from({ length: total }).map((question, i) => `
+      <li class="stepper-item ${i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"} rounded-full w-3 h-3 flex items-center justify-center">
+        <span class="hidden">${i + 1} of ${questionArray.length}</span>
+      </li>
+    `)
+        .join("");
+    stepperEl.innerHTML = `
+    <div class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0">
+      <ul class="stepper flex gap-2">
+        ${stepList}
+      </ul>
+      <p class="text-sm text-white">${index + 1} of ${questionArray.length}</p>
+    </div>`;
+    question.before(stepperEl);
+};
 const shuffleAnswers = (array) => {
     // swap each answer with a random answer, starting from the last answer in the list until i is equal to the first item
     for (let i = array.length - 1; i > 0; i--) {
@@ -87,6 +118,7 @@ const shuffleAnswers = (array) => {
     }
 };
 const insertQuestionsAndAnswers = (array, index) => {
+    renderStepper();
     // empty elements before filling them
     question.innerHTML = "";
     answers.innerHTML = "";
@@ -94,31 +126,24 @@ const insertQuestionsAndAnswers = (array, index) => {
     const answerList = array[index].allAnswers;
     // insert data for question and answers
     question.innerHTML += `
-    <h1>${array[index].question}</h1>
+    <h1 class="text-center">${array[index].question}</h1>
   `;
     // sort array items in a random order, so that the correct answer is not always the last item
     shuffleAnswers(answerList);
     console.log(answerList);
     answerList.forEach(answer => {
         answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `;
     });
 };
 const checkAnswer = (chosenAnswer, index) => {
-    var _a, _b;
-    if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
-        console.log("Your chose the right answer");
-        // add score/update score
-    }
-    else {
-        console.log("You chose the wrong answer");
-    }
+    var _a;
     document.querySelectorAll(".answer-button").forEach(btn => {
         var _a;
         // reset styling for borders/outlines on the buttons
-        btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2";
-        // change styling to display right/wrong answers
+        btn.className = "answer-button rounded-sm p-4 w-full md:w-1/2";
+        // change styling of buttons to showcase right/wrong answers
         if (btn.innerText === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
             btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
             btn.classList.add("text-[rgba(150,231,110,1)]");
@@ -130,15 +155,15 @@ const checkAnswer = (chosenAnswer, index) => {
             btn.classList.add("outline", "outline-3", "outline-[rgba(231,110,110,1)]");
         }
     });
-    // change message to display if right/wrong answer
-    if (chosenAnswer === ((_b = questionArray[index]) === null || _b === void 0 ? void 0 : _b.correctAnswer)) {
+    // display message of choice and right/wrong answer
+    if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p>Right answer. Good job!</p>
+    <p class="p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
     }
     else {
         conclusionDiv.innerHTML = `
-    <p>Wrong answer. Bad job!</p>
+    <p class="p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
     }
 };
@@ -268,11 +293,6 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
     // navigate to quiz page
     window.location.href = "quiz.html";
 });
-// ## submitAnswerButton logic
-// - Klicka för att valdera om svar är rätt eller fel
-// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
-//  byt till knapp som visar Nästa fråga
-// om rätt ++ poäng
 submitAnswerButton === null || submitAnswerButton === void 0 ? void 0 : submitAnswerButton.addEventListener("click", () => {
     submitAnswerButton.classList.add("hidden");
     nextQuestionBtn.classList.remove("hidden");
@@ -285,16 +305,18 @@ nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBt
     incrementIndex();
 });
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("click", (e) => {
-    var _a;
-    const clickedAnswerButton = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.closest(".answer-button");
-    chosenAnswer = clickedAnswerButton.innerText;
+    const target = e.target || null;
+    const clickedAnswerButton = (target === null || target === void 0 ? void 0 : target.closest(".answer-button")) || null;
+    if (clickedAnswerButton) {
+        chosenAnswer = clickedAnswerButton.innerText;
+    }
+    // reset styling (outline) on all buttons
     document.querySelectorAll(".answer-button").forEach(btn => {
-        // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
-        btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
+        btn.classList.remove("outline", "outline-3", "outline-[rgba(110,157,231,1)]");
     });
+    // highlight chosen button with outline
     clickedAnswerButton.classList.toggle("outline");
     clickedAnswerButton.classList.toggle("outline-3");
     clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
-    console.log(chosenAnswer);
 });
 //# sourceMappingURL=script.js.map

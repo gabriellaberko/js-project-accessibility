@@ -115,7 +115,7 @@ const celebrationModal = () => {
 
   const modal = document.createElement("dialog");
   modal.id = "celebration-modal";
-  modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "mx-auto");
+  modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "my-auto", "mx-auto", "bg-[#101626]");
 
   const svg = `<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.875 18.75C15.3832 18.75 13.9524 19.3426 12.8975 20.3975C11.8426 21.4524 11.25 22.8832 11.25 24.375C11.25 25.8668 11.8426 27.2976 12.8975 28.3525C13.9524 29.4074 15.3832 30 16.875 30H22.5C24.5711 30 26.25 31.6789 26.25 33.75C26.25 35.8211 24.5711 37.5 22.5 37.5H16.875C13.394 37.5 10.0556 36.1172 7.59422 33.6558C5.13281 31.1944 3.75 27.856 3.75 24.375C3.75 20.894 5.13281 17.5556 7.59422 15.0942C10.0556 12.6328 13.394 11.25 16.875 11.25H22.5C24.5711 11.25 26.25 12.9289 26.25 15C26.25 17.0711 24.5711 18.75 22.5 18.75H16.875Z" fill="#E7E56E"/>
@@ -127,11 +127,16 @@ const celebrationModal = () => {
 </svg>`;
 
   modal.innerHTML = `
-    <h3 class="text-2xl font-bold mb-2">🎉 You did it!</h3>
-    <p class="mb-2">Great job finishing the quiz!</p>
-    ${svg}
-    <p class="mt-4 text-lg">Score: ${accumulatedScore} points</p>
-    <button id="finishQuizBtn" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
+    <h3 class="text-3xl font-bold mb-2 text-center text-white">You did it!</h3>
+    <p class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
+    <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
+      ${svg}
+      <div class="flex flex-col items-center mt-4">
+        <p class="text-2xl font-bold text-white">${accumulatedScore} points</p>
+        <p class="text-lg text-white"><span class="text-red-600">TODO:</span> 50 from position #1</p>
+      </div>
+    </div>
+    <button id="finishQuizBtn" class="self-center bg-[rgba(102,131,180,1)] text-white rounded-sm w-full mt-8 text-xl px-6 py-3">
       Submit to scoreboard
     </button>
   `;

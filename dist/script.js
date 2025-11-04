@@ -69,7 +69,7 @@ const celebrationModal = () => {
     (_a = document.getElementById("celebration-modal")) === null || _a === void 0 ? void 0 : _a.remove();
     const modal = document.createElement("dialog");
     modal.id = "celebration-modal";
-    modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "mx-auto");
+    modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "my-auto", "mx-auto", "bg-[#101626]");
     const svg = `<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.875 18.75C15.3832 18.75 13.9524 19.3426 12.8975 20.3975C11.8426 21.4524 11.25 22.8832 11.25 24.375C11.25 25.8668 11.8426 27.2976 12.8975 28.3525C13.9524 29.4074 15.3832 30 16.875 30H22.5C24.5711 30 26.25 31.6789 26.25 33.75C26.25 35.8211 24.5711 37.5 22.5 37.5H16.875C13.394 37.5 10.0556 36.1172 7.59422 33.6558C5.13281 31.1944 3.75 27.856 3.75 24.375C3.75 20.894 5.13281 17.5556 7.59422 15.0942C10.0556 12.6328 13.394 11.25 16.875 11.25H22.5C24.5711 11.25 26.25 12.9289 26.25 15C26.25 17.0711 24.5711 18.75 22.5 18.75H16.875Z" fill="#E7E56E"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M63.75 15C63.75 12.9289 65.4289 11.25 67.5 11.25H73.125C76.606 11.25 79.9444 12.6328 82.4058 15.0942C84.8672 17.5556 86.25 20.894 86.25 24.375C86.25 27.856 84.8672 31.1944 82.4058 33.6558C79.9444 36.1172 76.606 37.5 73.125 37.5H67.5C65.4289 37.5 63.75 35.8211 63.75 33.75C63.75 31.6789 65.4289 30 67.5 30H73.125C74.6168 30 76.0476 29.4074 77.1025 28.3525C78.1574 27.2976 78.75 25.8668 78.75 24.375C78.75 22.8832 78.1574 21.4524 77.1025 20.3975C76.0476 19.3426 74.6168 18.75 73.125 18.75H67.5C65.4289 18.75 63.75 17.0711 63.75 15Z" fill="#E7E56E"/>
@@ -79,11 +79,16 @@ const celebrationModal = () => {
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.75 7.5C18.75 5.42893 20.4289 3.75 22.5 3.75H67.5C69.5711 3.75 71.25 5.42893 71.25 7.5V33.75C71.25 40.7119 68.4844 47.3887 63.5616 52.3116C58.6387 57.2344 51.9619 60 45 60C38.0381 60 31.3613 57.2344 26.4384 52.3116C21.5156 47.3887 18.75 40.7119 18.75 33.75V7.5ZM26.25 11.25V33.75C26.25 38.7228 28.2254 43.4919 31.7417 47.0083C35.2581 50.5246 40.0272 52.5 45 52.5C49.9728 52.5 54.7419 50.5246 58.2583 47.0083C61.7746 43.4919 63.75 38.7228 63.75 33.75V11.25H26.25Z" fill="#E7E56E"/>
 </svg>`;
     modal.innerHTML = `
-    <h3 class="text-2xl font-bold mb-2">🎉 You did it!</h3>
-    <p class="mb-2">Great job finishing the quiz!</p>
-    ${svg}
-    <p class="mt-4 text-lg">Score: ${accumulatedScore} points</p>
-    <button id="finishQuizBtn" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
+    <h3 class="text-3xl font-bold mb-2 text-center text-white">You did it!</h3>
+    <p class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
+    <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
+      ${svg}
+      <div class="flex flex-col items-center mt-4">
+        <p class="text-2xl font-bold text-white">${accumulatedScore} points</p>
+        <p class="text-lg text-white"><span class="text-red-600">TODO:</span> 50 from position #1</p>
+      </div>
+    </div>
+    <button id="finishQuizBtn" class="self-center bg-[rgba(102,131,180,1)] text-white rounded-sm w-full mt-8 text-xl px-6 py-3">
       Submit to scoreboard
     </button>
   `;

@@ -38,3 +38,20 @@ header {
   align-items: center;
   gap: 24px;
 }
+
+/*------ Celebration Modal  ------*/
+
+#celebration-modal {
+  border: none;
+  background: rgba(16, 22, 38, 0.9);
+  border-radius: 16px;
+  color: white;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
+
+#celebration-modal::backdrop {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.45);
+}

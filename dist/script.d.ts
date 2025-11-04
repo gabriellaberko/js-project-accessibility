@@ -32,11 +32,8 @@ declare const conclusionDiv: HTMLElement;
 declare const submitAnswerButton: HTMLElement;
 declare const nextQuestionBtn: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
-<<<<<<< HEAD
 declare const celebrationModal: () => void;
-=======
 declare const decodeString: (string: string) => string;
->>>>>>> 594e6fff14af136d880ad3adedcfc5434ab4b7a5
 declare const incrementIndex: () => void;
 declare const renderStepper: () => void;
 declare const shuffleAnswers: (array: string[]) => void;

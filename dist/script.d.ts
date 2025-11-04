@@ -33,6 +33,7 @@ declare const submitAnswerButton: HTMLElement;
 declare const nextQuestionBtn: HTMLElement;
 declare const finishQuizBtn: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
+declare const decodeString: (string: string) => string;
 declare const incrementIndex: () => void;
 declare const renderStepper: () => void;
 declare const shuffleAnswers: (array: string[]) => void;

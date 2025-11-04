@@ -85,11 +85,11 @@ const fetchQuizAPI = async () => {
     
 
       const questionObject: questionObjectFormat = {
-        question: object.question,
+        question: decodeString(object.question),
         category: object.category,
         difficulty: object.difficulty,
-        allAnswers: allAnswers,
-        correctAnswer: object.correct_answer
+        allAnswers: allAnswers.map(answer => decodeString(answer)),
+        correctAnswer: decodeString(object.correct_answer)
       }
 
       questionArray.push(questionObject);
@@ -114,7 +114,17 @@ const fetchQuizAPI = async () => {
 /* ------ LOGIC ------ */
 
 
-// TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
+// decode strings with with symbol coding (ampersands etc.) for special characters
+const decodeString = (string: string) => {
+  // create a HTML textarea element with the string
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = string;
+  // when the browser sees the symbol coding in the HTML text area it will automatically transform it into real letters
+  const decodedString = textarea.value;
+  return decodedString;
+};
+
+
 
 const incrementIndex = () => {
   if (index < questionArray.length - 1) {

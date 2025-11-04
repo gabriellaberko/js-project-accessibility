@@ -31,7 +31,7 @@
             <!-- Category -->
             <div class="relative w-full">
               <select id="category" name="category" class="appearance-none bg-[rgba(16,22,38,1)] border-2 border-[rgba(56,65,82,1)] text-[rgba(255,255,255,1)] text-sm
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 rounded-4">
                 <option value="" disabled selected>Select category</option>
                 <option value="9">General knowledge</option>
                 <option value="11">Film</option>
@@ -47,7 +47,7 @@
             <!-- Difficulty -->
             <div class="relative w-full">
               <select id="difficulty" name="difficulty" class="appearance-none bg-[rgba(16,22,38,1)] border-2 border-[rgba(56,65,82,1)] text-[rgba(255,255,255,1)] text-sm
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 rounded-4">
                 <option value="" disabled selected>Select difficulty</option>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
@@ -63,7 +63,7 @@
             <!-- Number of questions -->
             <div class="relative w-full">
               <select id="qty" name="qty" class="appearance-none bg-[rgba(16,22,38,1)] border-2 border-[rgba(56,65,82,1)] text-[rgba(255,255,255,1)] text-sm
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 rounded-4">
                 <option value="" disabled selected>Select number of questions</option>
                 <option value="Easy">10</option>
                 <option value="Medium">20</option>
@@ -79,21 +79,22 @@
         </form>
 
         <!-- Scoreboard -->
-        <section class="scoreboard bg-[rgba(56,65,82,1)] max-w-3xl mx-auto flex flex-col">
+        <section class="scoreboard bg-[rgba(56,65,82,1)] max-w-3xl flex flex-col">
           <ul id="score-list" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
             <!-- Header row -->
-            <li
-              class="grid grid-cols-6 odd:bg-gray-100 even:bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4">
+            <li class="grid grid-cols-5 text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 gap-x">
               <span>Rank</span>
               <span>Player</span>
               <span>Score</span>
-              <span>Category</span>
               <span>Amount</span>
               <span>Difficulty</span>
             </li>
+          </ul>
+          <ul id="user-scores" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
+          </ul>
 
-            <!-- Example player rows -->
-            <!-- <li
+          <!-- Example player rows -->
+          <!-- <li
               class="grid grid-cols-6 odd:bg-gray-100 even:bg-gray-300 dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
               <span>#1</span>
               <span>Alice</span>
@@ -118,14 +119,12 @@
               <span>30</span>
               <span>Easy</span>
             </li> -->
-          </ul>
         </section>
+        <button class="ny-game-btn bg-[rgba(102,131,180,1)] text-[rgba(255,255,255,1)] text-sm p-2 rounded-4">Play
+          again</button>
       </section>
     </main>
-    <button class="ny-game-btn bg-[rgba(102,131,180,1)] text-[rgba(255,255,255,1)] text-sm p-2 m-4">Play
-      again</button>
   </div>
-
   <script src="/dist/script.js"></script>
 </body>
 

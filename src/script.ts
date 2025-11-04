@@ -58,6 +58,7 @@ const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElemen
 const fetchQuizAPI = async () => {
 
   const stored = localStorage.getItem("quizSettings")!;
+
   const settings = JSON.parse(stored);
   
   console.log("Loaded quiz settings:", settings);
@@ -84,18 +85,19 @@ const fetchQuizAPI = async () => {
     
 
       const questionObject: questionObjectFormat = {
-        question: object.question,
+        question: decodeString(object.question),
         category: object.category,
         difficulty: object.difficulty,
-        allAnswers: allAnswers,
-        correctAnswer: object.correct_answer
+        allAnswers: allAnswers.map(answer => decodeString(answer)),
+        correctAnswer: decodeString(object.correct_answer)
       }
 
       questionArray.push(questionObject);
     });
 
     console.log("Quiz questions fetched:", questionArray);
-    incrementIndex();
+    // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
+    insertQuestionsAndAnswers(questionArray, index);
   }
   
   catch(error) {
@@ -182,7 +184,17 @@ const celebrationModal = () => {
 /* ------ LOGIC ------ */
 
 
-// TO DO: create function that increments index for every question answered until reaching the length of the quiz questions (ex. 10)
+// decode strings with with symbol coding (ampersands etc.) for special characters
+const decodeString = (string: string) => {
+  // create a HTML textarea element with the string
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = string;
+  // when the browser sees the symbol coding in the HTML text area it will automatically transform it into real letters
+  const decodedString = textarea.value;
+  return decodedString;
+};
+
+
 
 const incrementIndex = () => {
   if (index < questionArray.length - 1) {
@@ -202,6 +214,35 @@ const incrementIndex = () => {
 };
 
 
+const renderStepper = () => {
+  const oldStepper = document.querySelector(".stepper-container");
+  if (oldStepper) oldStepper.remove();
+
+  const stepperEl = document.createElement('div');
+  stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
+
+  const total = questionArray.length;
+  
+  const stepList = Array.from({ length: total }).map((question, i) => `
+      <li class="stepper-item ${
+        i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"
+      } rounded-full w-3 h-3 flex items-center justify-center">
+        <span class="hidden">${i + 1} of ${questionArray.length}</span>
+      </li>
+    `)
+    .join("");
+
+  stepperEl.innerHTML = `
+    <div class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0">
+      <ul class="stepper flex gap-2">
+        ${stepList}
+      </ul>
+      <p class="text-sm text-white">${index + 1} of ${questionArray.length}</p>
+    </div>`;
+
+  question.before(stepperEl);
+}
+
 
 const shuffleAnswers = (array: string[]) => {
   // swap each answer with a random answer, starting from the last answer in the list until i is equal to the first item
@@ -215,6 +256,7 @@ const shuffleAnswers = (array: string[]) => {
 
 const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) => {
 
+  renderStepper();
   // empty elements before filling them
   question.innerHTML = "";
   answers.innerHTML = "";
@@ -234,7 +276,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
 
   answerList.forEach(answer => {
      answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `
   });
 };
@@ -242,18 +284,12 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
 
 
 const checkAnswer = (chosenAnswer: string, index: number) => {
-  if (chosenAnswer === questionArray[index]?.correctAnswer) {
-    console.log("Your chose the right answer")
-    // add score/update score
-  } else {
-    console.log("You chose the wrong answer")
-  }
 
   document.querySelectorAll(".answer-button").forEach(btn => {
     // reset styling for borders/outlines on the buttons
-    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2"
+    btn.className = "answer-button rounded-sm p-4 w-full md:w-1/2"
 
-    // change styling to display right/wrong answers
+    // change styling of buttons to showcase right/wrong answers
     if (btn.innerText === questionArray[index]?.correctAnswer) {
       btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
       btn.classList.add("text-[rgba(150,231,110,1)]");
@@ -265,14 +301,14 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
     }
   });
 
-  // change message to display if right/wrong answer
+  // display message of choice and right/wrong answer
   if(chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
-    <p>Right answer. Good job!</p>
+    <p class="p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
   } else {
     conclusionDiv.innerHTML = `
-    <p>Wrong answer. Bad job!</p>
+    <p class="p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
   }
 
@@ -412,12 +448,6 @@ filterForm?.addEventListener("submit", (e) => {
 });
 
 
-// ## submitAnswerButton logic
-// - Klicka för att valdera om svar är rätt eller fel
-// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
-//  byt till knapp som visar Nästa fråga
-// om rätt ++ poäng
-
 
 submitAnswerButton?.addEventListener("click", () => {
   submitAnswerButton.classList.add("hidden");
@@ -437,18 +467,21 @@ nextQuestionBtn?.addEventListener("click", () => {
 
 
 answers?.addEventListener("click", (e) => {
-  const clickedAnswerButton = e?.target?.closest(".answer-button");
-  chosenAnswer = clickedAnswerButton.innerText;
 
+  const target = e.target as HTMLElement || null;
+  const clickedAnswerButton = target?.closest(".answer-button") as HTMLElement || null;
+  if(clickedAnswerButton) {
+  chosenAnswer = clickedAnswerButton.innerText;
+  }
+
+  // reset styling (outline) on all buttons
   document.querySelectorAll(".answer-button").forEach(btn => {
-    // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
-    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
-  })
+    btn.classList.remove("outline", "outline-3", "outline-[rgba(110,157,231,1)]");
+  });
   
+
+  // highlight chosen button with outline
   clickedAnswerButton.classList.toggle("outline");
   clickedAnswerButton.classList.toggle("outline-3");
   clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
-  
-  console.log(chosenAnswer);
-  
 });

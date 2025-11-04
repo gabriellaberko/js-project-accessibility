@@ -163,7 +163,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
 
   answerList.forEach(answer => {
      answers.innerHTML += ` 
-      <button class="answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500">${answer}</button>
+      <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `
   });
 };
@@ -171,18 +171,12 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
 
 
 const checkAnswer = (chosenAnswer: string, index: number) => {
-  if (chosenAnswer === questionArray[index]?.correctAnswer) {
-    console.log("Your chose the right answer")
-    // add score/update score
-  } else {
-    console.log("You chose the wrong answer")
-  }
 
   document.querySelectorAll(".answer-button").forEach(btn => {
     // reset styling for borders/outlines on the buttons
-    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2"
+    btn.className = "answer-button rounded-sm p-4 w-full md:w-1/2"
 
-    // change styling to display right/wrong answers
+    // change styling of buttons to showcase right/wrong answers
     if (btn.innerText === questionArray[index]?.correctAnswer) {
       btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
       btn.classList.add("text-[rgba(150,231,110,1)]");
@@ -194,14 +188,14 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
     }
   });
 
-  // change message to display if right/wrong answer
+  // display message of choice and right/wrong answer
   if(chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
-    <p>Right answer. Good job!</p>
+    <p class="p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
   } else {
     conclusionDiv.innerHTML = `
-    <p>Wrong answer. Bad job!</p>
+    <p class="p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
   }
 
@@ -378,12 +372,6 @@ filterForm?.addEventListener("submit", (e) => {
 });
 
 
-// ## submitAnswerButton logic
-// - Klicka för att valdera om svar är rätt eller fel
-// - Om rätt/fel -> , visa rätta svaret/ljud pos neg? 
-//  byt till knapp som visar Nästa fråga
-// om rätt ++ poäng
-
 
 submitAnswerButton?.addEventListener("click", () => {
   submitAnswerButton.classList.add("hidden");
@@ -403,18 +391,21 @@ nextQuestionBtn?.addEventListener("click", () => {
 
 
 answers?.addEventListener("click", (e) => {
-  const clickedAnswerButton = e?.target?.closest(".answer-button");
-  chosenAnswer = clickedAnswerButton.innerText;
 
+  const target = e.target as HTMLElement || null;
+  const clickedAnswerButton = target?.closest(".answer-button") as HTMLElement || null;
+  if(clickedAnswerButton) {
+  chosenAnswer = clickedAnswerButton.innerText;
+  }
+
+  // reset styling (outline) on all buttons
   document.querySelectorAll(".answer-button").forEach(btn => {
-    // btn.classList.remove("border", "border-3", "border-[rgba(110,157,231,1)]");
-    btn.className = "answer-button rounded-xl p-4 text-black w-full md:w-1/2 border-2 border-grey-500";
-  })
+    btn.classList.remove("outline", "outline-3", "outline-[rgba(110,157,231,1)]");
+  });
   
+
+  // highlight chosen button with outline
   clickedAnswerButton.classList.toggle("outline");
   clickedAnswerButton.classList.toggle("outline-3");
   clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
-  
-  console.log(chosenAnswer);
-  
 });

@@ -30,7 +30,7 @@ interface quizSettingsFormat {
 const questionArray: questionObjectFormat[] = [];
 
 // questions from local storage to use when testing, if we hit API limit
-let storedQuestionArray: questionObjectFormat[] = [];  
+let storedQuestionArray: questionObjectFormat[] = [];
 
 let index: number = 0;
 
@@ -48,7 +48,7 @@ const answers = document.getElementById("answers") as HTMLElement;
 const conclusionDiv = document.getElementById("conclusion") as HTMLElement;
 const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
-const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement; 
+const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
 
 
 
@@ -60,29 +60,29 @@ const fetchQuizAPI = async () => {
   const stored = localStorage.getItem("quizSettings")!;
 
   const settings = JSON.parse(stored);
-  
+
   console.log("Loaded quiz settings:", settings);
 
   const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
- 
+
   try {
-      
+
     const response = await fetch(APIUrl);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    
+
     const data = await response.json();
     const fetchedQuizQuestions: fetchedObjectFormat[] = data.results;
-      
+
     fetchedQuizQuestions.map(object => {
 
       // create an array with all answers, despite correct/incorrect
       const allAnswers: string[] = object.incorrect_answers;
       const correctAnswer: string = object.correct_answer
       allAnswers.push(correctAnswer);
-    
+
 
       const questionObject: questionObjectFormat = {
         question: decodeString(object.question),
@@ -99,14 +99,14 @@ const fetchQuizAPI = async () => {
     // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
     insertQuestionsAndAnswers(questionArray, index);
   }
-  
-  catch(error) {
+
+  catch (error) {
     console.error("Fetch error:", error);
     // add error message on start page
   }
   // save question array to local storage to have when testing
   localStorage.setItem("storedQuestionArray", JSON.stringify(questionArray));
-  storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));  
+  storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 };
 
 
@@ -130,11 +130,11 @@ const incrementIndex = () => {
   if (index < questionArray.length - 1) {
     index++;
     insertQuestionsAndAnswers(questionArray, index);
-  } 
+  }
 
   // hide the nextQuestonBtn and show finishQuizBtn when clicking on submit answer on the last question
-  if(index === questionArray.length - 1) {
-    submitAnswerButton.addEventListener("click", () => { 
+  if (index === questionArray.length - 1) {
+    submitAnswerButton.addEventListener("click", () => {
       nextQuestionBtn.classList.add("hidden");
       finishQuizBtn.classList.remove("hidden");
       alert(`You did it! Here we will show a modal later on with the player's score!`);
@@ -192,12 +192,12 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   conclusionDiv.innerHTML = "";
 
   const answerList: string[] = array[index].allAnswers;
-  
+
   // insert data for question and answers
   question.innerHTML += `
     <h1 class="text-center">${array[index].question}</h1>
   `;
-  
+
   // sort array items in a random order, so that the correct answer is not always the last item
   shuffleAnswers(answerList);
 
@@ -261,46 +261,45 @@ const countAndSaveScore = () => {
 
 const SCORE_API_URL = `https://postgres.daniellauding.se/quiz_scores`;
 
-const fetchScores = async() => {
-  
+const fetchScores = async () => {
+
   try {
     const response = await fetch(SCORE_API_URL);
     const result = await response.json();
-    
+
     // Sortera högst först (valfritt)
     result.sort((a, b) => b.score - a.score);
-    
-    if(!response.ok) {
+
+    if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
-    
+
     console.log(result);
-    
+
     // html.innerHTML = result;
-    
+
     console.log(result.length);
-    
+
     /* result.map((player, i) => {
       console.log(player.username);
       return html.innerHTML += player.username;
     }); */
-    
+
     const html = result.map((player, i) => `
-      <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4 player-${i}">
+      <li class="grid grid-cols-5 auto-cols-auto justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4"player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
-        <span>${player.score} PTS</span>
-        <span>${player.category}</span>
+        <span>${player.score} points</span>
         <span>${player.amount}</span>
         <span>${player.difficulty}</span>
       </li>
     `).join("");
 
-    document.getElementById("score-list").innerHTML = html;
-    
+    document.getElementById("user-scores").innerHTML = html;
+
     result.forEach((element) => console.log(element));
-    
-  } catch(error) {
+
+  } catch (error) {
     console.error('Error:', error);
   }
 }
@@ -308,7 +307,7 @@ const fetchScores = async() => {
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
-const postScore = async(
+const postScore = async (
   username: string,
   category: number,
   score: number,
@@ -399,7 +398,7 @@ filterForm?.addEventListener("submit", (e) => {
   const amount = formData.get("number-of-questions");
   const player = formData.get("player-name");
   const score = accumulatedScore;
-  
+
   // save the inputs from the submitted filter form to local storage
   localStorage.setItem("quizSettings", JSON.stringify({
     category,

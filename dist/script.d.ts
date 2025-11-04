@@ -34,6 +34,7 @@ declare const nextQuestionBtn: HTMLElement;
 declare const finishQuizBtn: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
 declare const incrementIndex: () => void;
+declare const renderStepper: () => void;
 declare const shuffleAnswers: (array: string[]) => void;
 declare const insertQuestionsAndAnswers: (array: questionObjectFormat, index: number) => void;
 declare const checkAnswer: (chosenAnswer: string, index: number) => void;

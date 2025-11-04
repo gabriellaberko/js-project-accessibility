@@ -195,7 +195,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   
   // insert data for question and answers
   question.innerHTML += `
-    <h1>${array[index].question}</h1>
+    <h1 class="text-center">${array[index].question}</h1>
   `;
   
   // sort array items in a random order, so that the correct answer is not always the last item

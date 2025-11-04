@@ -188,7 +188,7 @@ const insertQuestionsAndAnswers = (array, index) => {
     const answerList = array[index].allAnswers;
     // insert data for question and answers
     question.innerHTML += `
-    <h1>${array[index].question}</h1>
+    <h1 class="text-center">${array[index].question}</h1>
   `;
     // sort array items in a random order, so that the correct answer is not always the last item
     shuffleAnswers(answerList);
@@ -260,16 +260,15 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
           return html.innerHTML += player.username;
         }); */
         const html = result.map((player, i) => `
-      <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4 player-${i}">
+      <li class="grid grid-cols-5 justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4 player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
-        <span>${player.score} PTS</span>
-        <span>${player.category}</span>
+        <span>${player.score} points</span>
         <span>${player.amount}</span>
         <span>${player.difficulty}</span>
       </li>
     `).join("");
-        document.getElementById("score-list").innerHTML = html;
+        document.getElementById("user-scores").innerHTML = html;
         result.forEach((element) => console.log(element));
     }
     catch (error) {

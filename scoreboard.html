@@ -1,101 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial'-scale=1.0" />
-    <title>Quiz BONANZAAA – Scoreboard</title>
-    <link rel="stylesheet" href="css/styles.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-    <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial'-scale=1.0" />
+  <title>Quiz BONANZAAA – Scoreboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[rgba(16,22,38,1)]">
+  <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]">
     <header>
       <nav>
-        <img
-        class="logo"
-        src=""
-        alt="logo">
+        <img class="logo" src="" alt="logo">
       </nav>
       <ul class="nav-links flex gap-4">
         <li><a href="./index.html">Back</a></li>
       </ul>
     </header>
-    
-    <main class="flex flex-col justify-center gap-8 h-full">      
-      <section class="scoreboard-section max-w-2xl mx-auto flex gap-2 flex-col">
-        <h2 class="text-xl font-bold">Scoreboard</h2>
 
-        <!-- Filters -->
-        <form class="filter-form w-full mb-6">
-          <fieldset class="flex gap-2 flex-row gap-4">
+    <main class="flex flex-col items-center gap-16 h-full">
+      <section class="scoreboard-section w-full max-w-3xl mx-auto flex gap-4 flex-col px-4">
+        <h2 class="text-3xl text-center font-bold text-[rgba(255,255,255,1)]">Scoreboard</h2>
+
+        <!-- Filter-form -->
+        <form class="filter-form w-full">
+          <fieldset class="flex gap-2 flex-col gap-4">
+
             <!-- Category -->
             <div class="relative w-full">
-              <select
-                id="category"
-                name="category"
-                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
+              <select id="category" name="category" class="appearance-none bg-[rgba(16,22,38,1)] border-2 border-[rgba(56,65,82,1)] text-[rgba(255,255,255,1)] text-sm
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 rounded-4">
+                <option value="" disabled selected>Select category</option>
                 <option value="9">General knowledge</option>
                 <option value="11">Film</option>
                 <option value="12">Music</option>
               </select>
-              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2" width="16" height="16">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
               </svg>
             </div>
 
             <!-- Difficulty -->
             <div class="relative w-full">
-              <select
-                id="difficulty"
-                name="difficulty"
-                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
-                <option value="Easy" selected>Easy</option>
+              <select id="difficulty" name="difficulty" class="appearance-none bg-[rgba(16,22,38,1)] border-2 border-[rgba(56,65,82,1)] text-[rgba(255,255,255,1)] text-sm
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 rounded-4">
+                <option value="" disabled selected>Select difficulty</option>
+                <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
               </select>
-              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2" width="16" height="16">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
               </svg>
             </div>
 
+            <!-- Number of questions -->
             <div class="relative w-full">
-              <select
-                id="qty"
-                name="qty"
-                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10">
-                <option value="Easy" selected>10</option>
+              <select id="qty" name="qty" class="appearance-none bg-[rgba(16,22,38,1)] border-2 border-[rgba(56,65,82,1)] text-[rgba(255,255,255,1)] text-sm
+                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 rounded-4">
+                <option value="" disabled selected>Select number of questions</option>
+                <option value="Easy">10</option>
                 <option value="Medium">20</option>
                 <option value="Hard">30</option>
               </select>
-              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2" width="16" height="16">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
               </svg>
             </div>
-
           </fieldset>
         </form>
 
         <!-- Scoreboard -->
-        <section class="scoreboard w-full">
-          <ul id="score-list" class="divide-y divide-gray-200 dark:divide-gray-700 rounded-lg overflow-hidden shadow-sm">
+        <section class="scoreboard bg-[rgba(56,65,82,1)] max-w-3xl flex flex-col">
+          <ul id="score-list" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
             <!-- Header row -->
-            <li class="grid grid-cols-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs font-medium py-3 px-4">
+            <li class="grid grid-cols-5 text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 gap-x">
               <span>Rank</span>
               <span>Player</span>
               <span>Score</span>
-              <span>Category</span>
               <span>Amount</span>
               <span>Difficulty</span>
             </li>
+          </ul>
+          <ul id="user-scores" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
+          </ul>
 
-            <!-- Example player rows -->
-            <li class="grid grid-cols-6 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+          <!-- Example player rows -->
+          <!-- <li
+              class="grid grid-cols-6 odd:bg-gray-100 even:bg-gray-300 dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
               <span>#1</span>
               <span>Alice</span>
               <span>980</span>
@@ -118,14 +118,14 @@
               <span>Music</span>
               <span>30</span>
               <span>Easy</span>
-            </li>
-          </ul>
+            </li> -->
         </section>
+        <button class="ny-game-btn bg-[rgba(102,131,180,1)] text-[rgba(255,255,255,1)] text-sm p-2 rounded-4">Play
+          again</button>
       </section>
     </main>
-
   </div>
-  
   <script src="/dist/script.js"></script>
-  </body>
+</body>
+
 </html>

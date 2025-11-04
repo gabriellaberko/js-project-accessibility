@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/styles.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="bg-[#0B1120] text-gray-200 min-h-screen flex flex-col justify-center items-center px-4">
     <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]">
     <header>
       <nav>
@@ -25,33 +25,25 @@
       </ul>
     </header>
     
-    <main class="flex flex-col justify-center gap-8 h-full">
-      <section class="intro-section max-w-sm mx-auto text-center">
+    <main class="w-full bg-[#111827] rounded-2xl shadow-lg p-8 flex flex-col gap-6 text-center">
+      <section class="intro-section mx-auto text-center">
 
-        <!-- <h1 class="text-4xl font-bold text-blue-600">Hello Tailwind 👋</h1>
-        <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-          Click me
-        </button> -->
-
-        <!-- https://tailwindcss.com/docs/installation/using-vite -->
-        
-        <h1 class="text-4xl">Welcome to QUIZ BONANZAAA!</h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate aliquam sequi at minus mollitia iste est quae.</p>
+<!-- Intro text -->
+        <h1 class="text-3xl font-extrabold text-white mb-2">Welcome to QUIZ BONANZAAA!</h1>
+        <p class="text-sm text-gray-400">Get ready to test your knowledge. <br> Answer questions, earn points, and see how high you can score!</p>
         
       </section>
-      
-      <section class="filter-section max-w-sm mx-auto">
-        <h2 class="text-xl font-bold">Choose your quiz</h2>
-        <form class="filter-form w-full" id="filter-form">
+      <!-- filter section -->
+      <section class="filter-section mx-auto w-full">
+        <h2 class="text-xl font-bold text-gray-200 mx-auto text-center">Choose your quiz</h2>
+        <form class="flex flex-col gap-4 text-left w-full" id="filter-form">
           <fieldset class="flex gap-2 flex-col">
-            <!-- <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose category</label> -->
             <div class="relative">
               <select
                 id="category"
                 name="category"
-                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
-                >
+                class="w-full appearance-none rounded-sm bg-[#1F2937] border border-gray-600 text-gray-200 text-sm p-2.5 pr-10 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <option value="" disabled selected hidden>Choose category</option>
                 <option value="9">General knowledge</option>
                 <option value="11">Film</option>
                 <option value="12">Music</option>
@@ -64,17 +56,15 @@
               </svg>
             </div>
 
-
-
-            <!-- <label for= "difficulty" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose difficulty</label> -->
             <div class="relative">
               <select
                 id="difficulty"
                 name="difficulty"
-                class="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+                class="w-full appearance-none rounded-sm bg-[#1F2937] border border-gray-600 text-gray-200 text-sm 
+                p-2.5 pr-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
-                <option value="Easy" selected>Easy</option>
+                <option value="" disabled selected hidden>Choose difficulty</option>
+                <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
               </select>
@@ -86,45 +76,61 @@
               </svg>
             </div>
 
-            <p>Choose number of questions</p>
+
+            <!-- Number of questions, radio buttons -->
+            <p class="text-white mb-2 text-center">Choose number of questions</p>
             <div class="flex gap-2">
-              <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700 w-full">
+
+              <div class="flex justify-center items-center border border-gray-600 rounded-sm w-full">
                 <input 
                   id="bordered-radio-1"
                   type="radio"
                   name="number-of-questions"
                   value="10"
                   checked
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="bordered-radio-1" class="radio-button w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">10</label>
+                  class="w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-gray-600
+       appearance-none [webkit-appearance:none] bg-transparent
+       checked:bg-[#6683b4] checked:border-[#6683b4]
+       outline-none focus:outline-none focus:ring-0 transition-colors">
+                <label for="bordered-radio-1" class="radio-button py-2 ms-2 text-sm font-medium text-white">10</label>
               </div>
-              <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700 w-full">
+
+
+              <div class="flex justify-center items-center border border-gray-600 rounded-sm w-full">
                 <input 
                   id="bordered-radio-2"
                   type="radio"
                   name="number-of-questions"
                   value="20"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="bordered-radio-2" class="radio-button w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">20</label>
+                  class="w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-gray-600
+       appearance-none [webkit-appearance:none] bg-transparent
+       checked:bg-[#6683b4] checked:border-[#6683b4]
+       outline-none focus:outline-none focus:ring-0 transition-colors">
+                <label for="bordered-radio-2" class="radio-button py-2 ms-2 text-sm font-medium text-white">20</label>
               </div>
-              <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700 w-full">
+
+
+              <div class="flex justify-center items-center border border-gray-600 rounded-sm w-full">
                 <input 
                   id="bordered-radio-3"
                   type="radio" 
                   name="number-of-questions"
                   value="30"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="bordered-radio-3" class="radio-button w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">30</label>
+                  class="w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-gray-600
+       appearance-none [webkit-appearance:none] bg-transparent
+       checked:bg-[#6683b4] checked:border-[#6683b4]
+       outline-none focus:outline-none focus:ring-0 transition-colors">
+                <label for="bordered-radio-3" class="radio-button py-2 ms-2 text-sm font-medium text-white">30</label>
               </div>
             </div>
-            
+
+            <!-- Playername and start button -->
             <div class="flex flex-col gap-2">
-              <label for="player-name" class="text-field">What's your player name?</label>
               <input 
                 type="text"
                 id="player-name" 
                 name="player-name"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-[#1F2937] border border-gray-600 text-white text-sm gap-2 rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Enter your player name..." 
                 required
                 aria-required="true"
@@ -132,7 +138,8 @@
             </div>
           </fieldset>
           <div class="relative">
-            <button type="submit" class="rounded-xl p-4 bg-green-500 text-white w-full  border-2 border-green-500" id="startBtn">Start quiz</button>
+            <button type="submit" class="rounded-sm font-bold p-4 bg-[#6683b4] text-white w-full
+           transition-colors duration-200 hover:bg-[#5875a5]" id="startBtn">Start quiz</button>
           </div>
         </form>
       </section>

@@ -55,3 +55,9 @@ header {
   backdrop-filter: blur(8px);
   background-color: rgba(0, 0, 0, 0.45);
 }
+
+/* TO DO: differentiate from regular click focus */
+:focus {
+  outline: 3px solid rgba(110,157,231,1);
+  outline-offset: 2px;
+ }

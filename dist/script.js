@@ -24,7 +24,7 @@ const answers = document.getElementById("answers");
 const conclusionDiv = document.getElementById("conclusion");
 const submitAnswerButton = document.getElementById("submitAnswerBtn");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
-// const finishQuizBtn = document.getElementById ("finishQuizBtn") as HTMLElement; 
+const finishQuizBtn = document.getElementById("finishQuizBtn");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const stored = localStorage.getItem("quizSettings");
@@ -192,12 +192,17 @@ const insertQuestionsAndAnswers = (array, index) => {
   `;
     // sort array items in a random order, so that the correct answer is not always the last item
     shuffleAnswers(answerList);
-    console.log(answerList);
     answerList.forEach(answer => {
         answers.innerHTML += ` 
       <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `;
     });
+    // set focus to first button as default
+    const firstButton = answers.querySelector(".answer-button");
+    if (firstButton) {
+        firstButton.focus();
+        firstButton.click();
+    }
 };
 const checkAnswer = (chosenAnswer, index) => {
     var _a;
@@ -260,7 +265,7 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
           return html.innerHTML += player.username;
         }); */
         const html = result.map((player, i) => `
-      <li class="grid grid-cols-5 justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4 player-${i}">
+      <li class="grid grid-cols-5 auto-cols-auto justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4"player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
         <span>${player.score} points</span>
@@ -353,5 +358,57 @@ answers === null || answers === void 0 ? void 0 : answers.addEventListener("clic
     clickedAnswerButton.classList.toggle("outline");
     clickedAnswerButton.classList.toggle("outline-3");
     clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
+});
+/* ------ ACCESSIBILITY LOGIC ------ */
+//keyboard navigation
+answers.addEventListener("keydown", (e) => {
+    const buttons = Array.from(answers.querySelectorAll(".answer-button"));
+    const buttonIndex = buttons.indexOf(document.activeElement);
+    switch (e.key) {
+        case "Enter":
+            e.preventDefault(); // safety check
+            document.activeElement.click();
+            break;
+        case " ":
+        case "Spacebar":
+            e.preventDefault(); // safety check
+            if (!submitAnswerButton.classList.contains("hidden")) {
+                submitAnswerButton.click();
+            }
+            else if (!nextQuestionBtn.classList.contains("hidden")) {
+                nextQuestionBtn.click();
+            }
+            else if (finishQuizBtn) {
+                finishQuizBtn.click();
+            }
+            break;
+        case "ArrowRight":
+        case "ArrowDown":
+            e.preventDefault(); // safety check
+            if (buttonIndex < buttons.length - 1) {
+                buttons[buttonIndex + 1].focus();
+            }
+            else {
+                buttons[0].focus();
+            }
+            break;
+        case "ArrowLeft":
+        case "ArrowUp":
+            e.preventDefault(); // safety check
+            // go the other way around from arrow right and down
+            if (buttonIndex > 0) {
+                buttons[buttonIndex - 1].focus();
+            }
+            else {
+                buttons[buttons.length - 1].focus();
+            }
+            break;
+        case "Home":
+            //move to first item
+            break;
+        case "End":
+            //move to last item
+            break;
+    }
 });
 //# sourceMappingURL=script.js.map

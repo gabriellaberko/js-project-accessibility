@@ -11,15 +11,13 @@
 
     <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]  md:max-w-sm">
       <header class="flex justify-between px-0 p-2 md:p-4 m-0">
-        <nav>
-          <img
-            class="logo"
-            src=""
-            alt="logo">
-        </nav>
-        <ul class="nav-links list-style-none flex gap-4">
+        <img
+          class="logo"
+          src=""
+          alt="brand-logo">
+        <ul class="list-style-none flex gap-4">
           <li>
-            <a href="/scoreboard.html" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7] rounded-sm inline-flex items-center justify-center" aria-label="Scoreboard">
+            <a href="/scoreboard.html" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7] rounded-sm inline-flex items-center justify-center" aria-label="scoreboard">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 5C4.10218 5 3.72064 5.15804 3.43934 5.43934C3.15804 5.72064 3 6.10218 3 6.5C3 6.89782 3.15804 7.27936 3.43934 7.56066C3.72064 7.84196 4.10218 8 4.5 8H6C6.55228 8 7 8.44772 7 9C7 9.55228 6.55228 10 6 10H4.5C3.57174 10 2.6815 9.63125 2.02513 8.97487C1.36875 8.3185 1 7.42826 1 6.5C1 5.57174 1.36875 4.6815 2.02513 4.02513C2.6815 3.36875 3.57174 3 4.5 3H6C6.55228 3 7 3.44772 7 4C7 4.55228 6.55228 5 6 5H4.5Z" fill="white"/>
               <path fill-rule="evenodd" clip-rule="evenodd" d="M17 4C17 3.44772 17.4477 3 18 3H19.5C20.4283 3 21.3185 3.36875 21.9749 4.02513C22.6313 4.6815 23 5.57174 23 6.5C23 7.42826 22.6313 8.3185 21.9749 8.97487C21.3185 9.63125 20.4283 10 19.5 10H18C17.4477 10 17 9.55228 17 9C17 8.44772 17.4477 8 18 8H19.5C19.8978 8 20.2794 7.84196 20.5607 7.56066C20.842 7.27936 21 6.89782 21 6.5C21 6.10218 20.842 5.72064 20.5607 5.43934C20.2794 5.15804 19.8978 5 19.5 5H18C17.4477 5 17 4.55228 17 4Z" fill="white"/>
@@ -53,7 +51,7 @@
                 <select
                   id="category"
                   name="category"
-                  class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14"
+                  class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14"
                   required
                   >
                   <option value="" disabled selected hidden>Choose category</option>
@@ -69,12 +67,12 @@
                 </svg>
               </div>
 
-              <div class="relative">
+              <div class="form-element-wrapper relative">
                 <label for="difficulty" class="sr-only">Choose difficulty</label>
                 <select
                   id="difficulty"
                   name="difficulty"
-                  class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14"
+                  class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14"
                   required
                   >
                   <option value="" disabled selected hidden>Choose difficulty</option>
@@ -96,14 +94,14 @@
                 <div class="flex flex-row gap-2 w-full">
                   <label 
                     for="bordered-radio-1"
-                    class="flex justify-center items-center border border-gray-600 rounded-md border-2 w-full         cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:bg-[#1F2937] focus-within:ring-[#6E9DE7] transition-all duration-150 py-2">
+                    class="flex justify-center items-center border border-gray-600 rounded-md border-2 w-full cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:bg-[#1F2937] focus-within:ring-[#6E9DE7] transition-all duration-150 py-2">
                     <input 
                       id="bordered-radio-1"
                       type="radio"
                       name="number-of-questions"
                       value="10"
                       checked 
-                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6683b4] checked:border-[#6683b4] transition-colors outline-1">
+                      class="form-element peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6683b4] checked:border-[#6683b4] transition-colors outline-1">
                     <span class="radio-button py-2 ms-2 text-sm font-medium text-white">10</span>
                   </label>
                   <label
@@ -114,7 +112,7 @@
                       type="radio"
                       name="number-of-questions"
                       value="20"
-                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
+                      class="form-element peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
                     <span class="radio-button py-2 ms-2 text-sm font-medium text-white">20</span>
                   </label>
                   <label
@@ -125,7 +123,7 @@
                       type="radio" 
                       name="number-of-questions"
                       value="30"
-                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
+                      class="form-element peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
                     <span class="radio-button py-2 ms-2 text-sm font-medium text-white">30</span>
                   </label>
                 </div>
@@ -138,14 +136,14 @@
                 type="text"
                 id="player-name" 
                 name="player-name"
-                class="bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-white text-md gap-2 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-4 p-12 h-14"
+                class="form-element bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-white text-md gap-2 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-4 p-12 h-14"
                 placeholder="Enter your player name..." 
                 required
               >
             </div>
                       
             <div class="relative">
-              <button type="submit" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center" id="startBtn">Start quiz</button>
+              <button type="submit" class="form-element rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center" id="startBtn">Start quiz</button>
             </div>
           </form>
         </section>

@@ -22,25 +22,27 @@
           </a>
         </li>
       </ul>
-      <nav>
+      <div>
         <img
           class="logo"
           src=""
-          alt="logo">
-      </nav>
+          alt="brand-logo">
+     </div>
     </header>
 
     <main class="flex flex-col items-center gap-16 h-full">
-      <section class="scoreboard-section w-full max-w-3xl mx-auto flex gap-4 flex-col px-4">
-        <h2 class="text-3xl text-center font-bold text-[rgba(255,255,255,1)]">Scoreboard</h2>
 
-        <!-- Filter-form -->
+  <!-- Filter-form -->
+      <section class="scoreboard-section w-full max-w-3xl mx-auto flex gap-4 flex-col px-4" aria-labelledby="filter-title">
+        <h2 id="filter-title" class="text-3xl text-center font-bold text-[rgba(255,255,255,1)]">Scoreboard</h2>
+
         <form class="filter-form w-full">
           <fieldset class="flex gap-2 flex-col gap-4">
 
             <!-- Category -->
             <div class="relative w-full">
-              <select id="category" name="category" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
+              <label for="category" class="sr-only">Category</label>
+               <select id="category" name="category" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select category</option>
                 <option value="9">General knowledge</option>
                 <option value="11">Film</option>
@@ -55,6 +57,7 @@
 
             <!-- Difficulty -->
             <div class="relative w-full">
+              <label for="difficulty" class="sr-only">Difficulty</label>
               <select id="difficulty" name="difficulty" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select difficulty</option>
                 <option value="Easy">Easy</option>
@@ -70,6 +73,7 @@
 
             <!-- Number of questions -->
             <div class="relative w-full">
+              <label for="qty" class="sr-only">Number of questions</label>
               <select id="qty" name="qty" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select number of questions</option>
                 <option value="Easy">10</option>
@@ -86,7 +90,8 @@
         </form>
 
         <!-- Scoreboard -->
-        <section class="scoreboard bg-[rgba(56,65,82,1)] max-w-3xl flex flex-col">
+        <section class="scoreboard bg-[rgba(56,65,82,1)] max-w-3xl flex flex-col" aria-labelledby="score-board-title">
+          <!-- ska vi ha en h2 här, med titel? -->
           <ul id="score-list" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
             <!-- Header row -->
             <li class="grid grid-cols-5 text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 gap-x">
@@ -100,32 +105,6 @@
           <ul id="user-scores" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
           </ul>
 
-          <!-- Example player rows -->
-          <!-- <li
-              class="grid grid-cols-6 odd:bg-gray-100 even:bg-gray-300 dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-              <span>#1</span>
-              <span>Alice</span>
-              <span>980</span>
-              <span>General Knowledge</span>
-              <span>20</span>
-              <span>Medium</span>
-            </li>
-            <li class="grid grid-cols-6 bg-gray-50 dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-              <span>#2</span>
-              <span>Bob</span>
-              <span>875</span>
-              <span>Film</span>
-              <span>10</span>
-              <span>Hard</span>
-            </li>
-            <li class="grid grid-cols-6 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-              <span>#3</span>
-              <span>Charlie</span>
-              <span>820</span>
-              <span>Music</span>
-              <span>30</span>
-              <span>Easy</span>
-            </li> -->
         </section>
         <button class="ny-game-btn rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center flex">Play
           again</button>

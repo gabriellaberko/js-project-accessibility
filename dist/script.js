@@ -22,6 +22,7 @@ const quizContainer = document.getElementById("quiz-container");
 const question = document.getElementById("question");
 const answers = document.getElementById("answers");
 const conclusionDiv = document.getElementById("conclusion");
+const startButton = document.getElementById("startBtn");
 const submitAnswerButton = document.getElementById("submitAnswerBtn");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
@@ -65,11 +66,14 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 });
 const celebrationModal = () => {
-    var _a;
+    var _a, _b;
     (_a = document.getElementById("celebration-modal")) === null || _a === void 0 ? void 0 : _a.remove();
     const modal = document.createElement("dialog");
     modal.id = "celebration-modal";
     modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "my-auto", "mx-auto", "bg-[#101626]");
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "celebration-title");
     const svg = `<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.875 18.75C15.3832 18.75 13.9524 19.3426 12.8975 20.3975C11.8426 21.4524 11.25 22.8832 11.25 24.375C11.25 25.8668 11.8426 27.2976 12.8975 28.3525C13.9524 29.4074 15.3832 30 16.875 30H22.5C24.5711 30 26.25 31.6789 26.25 33.75C26.25 35.8211 24.5711 37.5 22.5 37.5H16.875C13.394 37.5 10.0556 36.1172 7.59422 33.6558C5.13281 31.1944 3.75 27.856 3.75 24.375C3.75 20.894 5.13281 17.5556 7.59422 15.0942C10.0556 12.6328 13.394 11.25 16.875 11.25H22.5C24.5711 11.25 26.25 12.9289 26.25 15C26.25 17.0711 24.5711 18.75 22.5 18.75H16.875Z" fill="#E7E56E"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M63.75 15C63.75 12.9289 65.4289 11.25 67.5 11.25H73.125C76.606 11.25 79.9444 12.6328 82.4058 15.0942C84.8672 17.5556 86.25 20.894 86.25 24.375C86.25 27.856 84.8672 31.1944 82.4058 33.6558C79.9444 36.1172 76.606 37.5 73.125 37.5H67.5C65.4289 37.5 63.75 35.8211 63.75 33.75C63.75 31.6789 65.4289 30 67.5 30H73.125C74.6168 30 76.0476 29.4074 77.1025 28.3525C78.1574 27.2976 78.75 25.8668 78.75 24.375C78.75 22.8832 78.1574 21.4524 77.1025 20.3975C76.0476 19.3426 74.6168 18.75 73.125 18.75H67.5C65.4289 18.75 63.75 17.0711 63.75 15Z" fill="#E7E56E"/>
@@ -79,12 +83,12 @@ const celebrationModal = () => {
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.75 7.5C18.75 5.42893 20.4289 3.75 22.5 3.75H67.5C69.5711 3.75 71.25 5.42893 71.25 7.5V33.75C71.25 40.7119 68.4844 47.3887 63.5616 52.3116C58.6387 57.2344 51.9619 60 45 60C38.0381 60 31.3613 57.2344 26.4384 52.3116C21.5156 47.3887 18.75 40.7119 18.75 33.75V7.5ZM26.25 11.25V33.75C26.25 38.7228 28.2254 43.4919 31.7417 47.0083C35.2581 50.5246 40.0272 52.5 45 52.5C49.9728 52.5 54.7419 50.5246 58.2583 47.0083C61.7746 43.4919 63.75 38.7228 63.75 33.75V11.25H26.25Z" fill="#E7E56E"/>
 </svg>`;
     modal.innerHTML = `
-    <h3 class="text-3xl font-bold mb-2 text-center text-white">You did it!</h3>
+    <h2 id="celebration-title" class="text-3xl font-bold mb-2 text-center text-white">You did it!</h2>
     <p class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <p class="text-2xl font-bold text-white">${accumulatedScore} points</p>
+        <h3 class="text-2xl font-bold text-white" id="score-heading">${accumulatedScore} points</h3>
       </div>
     </div>
     <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
@@ -92,7 +96,14 @@ const celebrationModal = () => {
     </button>
   `;
     document.body.appendChild(modal);
+    const previouslyFocused = document.activeElement;
     modal.showModal();
+    (_b = modal.querySelector("button")) === null || _b === void 0 ? void 0 : _b.focus();
+    modal.addEventListener("close", () => {
+        previouslyFocused === null || previouslyFocused === void 0 ? void 0 : previouslyFocused.focus();
+    });
+    const focusable = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
+    focusable === null || focusable === void 0 ? void 0 : focusable.focus();
     // Move the button in here as its rendered
     const finishButton = modal.querySelector("#finishQuizBtn");
     finishButton === null || finishButton === void 0 ? void 0 : finishButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -157,18 +168,18 @@ const renderStepper = () => {
     stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
     const total = questionArray.length;
     const stepList = Array.from({ length: total }).map((question, i) => `
-      <li class="stepper-item ${i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"} rounded-full w-3 h-3 flex items-center justify-center">
-        <span class="hidden">${i + 1} of ${questionArray.length}</span>
+      <li role="listitem" class="stepper-item ${i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"} rounded-full w-2 h-2 flex items-center justify-center" aria-label="Question ${i + 1} of ${questionArray.length}">
+        <span class="sr-only hidden">${i + 1} of ${questionArray.length}</span>
       </li>
     `)
         .join("");
     stepperEl.innerHTML = `
-    <div class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0">
-      <ul class="stepper flex gap-2">
+    <nav class="flex flex-col items-center gap-2 fixed top-4 left-0 right-0" role="navigation" aria-label="Question progress">
+      <ul class="stepper flex gap-1" aria-live="polite">
         ${stepList}
       </ul>
-      <p class="text-xs text-white opacity-50">${index + 1} of ${questionArray.length}</p>
-    </div>`;
+      <p class="text-xs text-white opacity-50" aria-live="off">${index + 1} of ${questionArray.length}</p>
+    </nav>`;
     question.before(stepperEl);
 };
 const shuffleAnswers = (array) => {
@@ -193,7 +204,7 @@ const insertQuestionsAndAnswers = (array, index) => {
     shuffleAnswers(answerList);
     answerList.forEach(answer => {
         answers.innerHTML += ` 
-      <button class="answer-button hover:bg-[#5875a5] h-14 rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
+      <button class="answer-button hover:bg-[#5875a5] min-h-14 rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `;
     });
     // set focus to first button as default
@@ -224,12 +235,12 @@ const checkAnswer = (chosenAnswer, index) => {
     // display message of choice and right/wrong answer
     if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p class=" rounded-sm p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
+    <p class=" rounded-md text-sm p-2 px-3 text-center text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
     }
     else {
         conclusionDiv.innerHTML = `
-    <p class="rounded-sm p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
+    <p class="rounded-md p-2 px-3 text-center text-sm text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
     }
 };
@@ -312,6 +323,12 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
     yield fetchQuizAPI();
     if (document.getElementById("score-list"))
         fetchScores();
+    // set focus to first form element as default
+    if (filterForm) {
+        const firstFilterElement = filterForm.querySelector(".form-element");
+        console.log("first element in focus");
+        firstFilterElement.focus();
+    }
 }));
 filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -359,8 +376,70 @@ answers === null || answers === void 0 ? void 0 : answers.addEventListener("clic
     clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
 });
 /* ------ ACCESSIBILITY LOGIC ------ */
-//keyboard navigation
-answers.addEventListener("keydown", (e) => {
+/*---- Keyboard Navigation ----*/
+// start page:
+filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListener("keydown", (e) => {
+    const el = e.target;
+    // collect focusable elements
+    const formElements = Array.from(filterForm.querySelectorAll('select, input:not([type="hidden"]), button, [tabindex]:not([tabindex="-1"])'));
+    const formElementIndex = formElements.indexOf(document.activeElement);
+    // 🧠 Handle <select> separately when user presses Enter
+    if (el.tagName === "SELECT" && e.key === "Enter") {
+        e.preventDefault(); // prevent accidental submit
+        // find next element and move focus there
+        if (formElementIndex >= 0 && formElementIndex < formElements.length - 1) {
+            setTimeout(() => formElements[formElementIndex + 1].focus(), 50);
+        }
+        return; // done, don't run rest
+    }
+    // Move to the next focusable field if there is one
+    if (i >= 0 && i < formElements.length - 1) {
+        formElements[i + 1].focus();
+    }
+    switch (e.key) {
+        case "Enter":
+            // Allow Enter to activate radios, checkboxes, or buttons only
+            if (el.type === "radio" || el.tagName === "BUTTON") {
+                e.preventDefault();
+                el.click();
+            }
+            else if (el.tagName === "INPUT" && el.type === "text") {
+                // allow typing + pressing Enter to do nothing, not submit
+                e.preventDefault();
+            }
+            break;
+        case " ":
+        case "Spacebar":
+            e.preventDefault(); // safety check
+            if (startButton) {
+                startButton.click();
+            }
+            break;
+        case "ArrowRight":
+        case "ArrowDown":
+            e.preventDefault(); // safety check
+            if (formElementIndex < formElements.length - 1) {
+                formElements[formElementIndex + 1].focus();
+            }
+            else {
+                formElements[0].focus();
+            }
+            break;
+        case "ArrowLeft":
+        case "ArrowUp":
+            e.preventDefault(); // safety check
+            // go the other way around from arrow right and down
+            if (formElementIndex > 0) {
+                formElements[formElementIndex - 1].focus();
+            }
+            else {
+                formElements[formElements.length - 1].focus();
+            }
+            break;
+    }
+});
+// quiz page:
+answers === null || answers === void 0 ? void 0 : answers.addEventListener("keydown", (e) => {
     const buttons = Array.from(answers.querySelectorAll(".answer-button"));
     const buttonIndex = buttons.indexOf(document.activeElement);
     switch (e.key) {

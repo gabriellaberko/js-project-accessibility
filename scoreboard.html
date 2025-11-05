@@ -39,13 +39,16 @@
       <section class="scoreboard-section w-full max-w-3xl mx-auto flex gap-4 flex-col px-4" aria-labelledby="filter-title">
         <h1 id="filter-title" class="text-3xl text-center font-bold text-[rgba(255,255,255,1)]">Scoreboard</h1>
 
-        <form class="filter-form w-full">
+        <form class="filter-form w-full" id="filter-form">
           <fieldset class="flex gap-2 flex-col gap-4">
             <legend>Filter results</legend>
             <!-- Category -->
             <div class="relative w-full">
               <label for="category" class="sr-only">Category</label>
-               <select id="category" name="category" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
+               <select 
+                id="category" 
+                name="category" 
+                class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select category</option>
                 <option value="9">General knowledge</option>
                 <option value="11">Film</option>
@@ -61,7 +64,10 @@
             <!-- Difficulty -->
             <div class="relative w-full">
               <label for="difficulty" class="sr-only">Difficulty</label>
-              <select id="difficulty" name="difficulty" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
+              <select 
+                id="difficulty" 
+                name="difficulty" 
+                class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select difficulty</option>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
@@ -77,7 +83,10 @@
             <!-- Number of questions -->
             <div class="relative w-full">
               <label for="qty" class="sr-only">Number of questions</label>
-              <select id="qty" name="qty" class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
+              <select 
+                id="qty" 
+                name="qty" 
+                class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select number of questions</option>
                 <option value="Easy">10</option>
                 <option value="Medium">20</option>

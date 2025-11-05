@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
     yield fetchQuizAPI();
     if (document.getElementById("score-list"))
         fetchScores();
-    // set focus to first form element as default
+    // set focus to first form element as default on start & scoreboard page (as both have filterForm)
     if (filterForm) {
         const firstFilterElement = filterForm.querySelector(".form-element");
         console.log("first element in focus");
@@ -388,7 +388,7 @@ answers === null || answers === void 0 ? void 0 : answers.addEventListener("clic
 });
 /* ------ ACCESSIBILITY LOGIC ------ */
 /*---- Keyboard Navigation ----*/
-// start page:
+// start page & scoreboard page:
 filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListener("keydown", (e) => {
     const el = e.target;
     // collect focusable elements

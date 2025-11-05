@@ -437,13 +437,14 @@ const postScore = async (
 
 /* ------ EVENT LISTENER ------ */
 
+
 document.addEventListener("DOMContentLoaded", async () => {
   await fetchQuizAPI();
   if (document.getElementById("score-list")) fetchScores();
 
-  // set focus to first form element as default
+  // set focus to first form element as default on start & scoreboard page (as both have filterForm)
   if(filterForm) {
-    const firstFilterElement = filterForm.querySelector(".form-element");
+    const firstFilterElement = filterForm.querySelector(".form-element") as HTMLElement;
     console.log("first element in focus")
     firstFilterElement.focus();
   }
@@ -536,7 +537,7 @@ answers?.addEventListener("click", (e) => {
 
 /*---- Keyboard Navigation ----*/
 
-// start page:
+// start page & scoreboard page:
 
 filterForm?.addEventListener("keydown", (e) => {
 
@@ -548,7 +549,7 @@ filterForm?.addEventListener("keydown", (e) => {
       'select, input:not([type="hidden"]), button, [tabindex]:not([tabindex="-1"])'
     )
   );
-  const formElementIndex = formElements.indexOf(document.activeElement);
+  const formElementIndex = formElements.indexOf(document. activeElement);
 
   // 🧠 Handle <select> separately when user presses Enter
   if (el.tagName === "SELECT" && e.key === "Enter") {

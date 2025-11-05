@@ -51,6 +51,7 @@ const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLEle
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
 const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
 const playAgainBtn = document.getElementById("playAgainBtn") as HTMLElement;
+const scoreboardSection = document.getElementById("scoreboard-section") as HTMLElement;
 
 
 
@@ -532,6 +533,7 @@ answers?.addEventListener("click", (e) => {
 
 
 
+
 /* ------ ACCESSIBILITY LOGIC ------ */
 
 
@@ -603,6 +605,20 @@ filterForm?.addEventListener("keydown", (e) => {
         formElements[formElementIndex - 1].focus();
       } else {
         formElements[formElements.length - 1].focus();
+      }
+      break;
+  }
+});
+
+
+scoreboardSection?.addEventListener("keydown", (e) => {
+  switch(e.key) {
+
+    case " ": 
+    case "Spacebar":
+      e.preventDefault(); // safety check
+      if(playAgainBtn){
+        playAgainBtn.click();
       }
       break;
   }

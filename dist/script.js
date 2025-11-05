@@ -27,6 +27,7 @@ const submitAnswerButton = document.getElementById("submitAnswerBtn");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
 const playAgainBtn = document.getElementById("playAgainBtn");
+const scoreboardSection = document.getElementById("scoreboard-section");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const stored = localStorage.getItem("quizSettings");
@@ -445,6 +446,17 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
             }
             else {
                 formElements[formElements.length - 1].focus();
+            }
+            break;
+    }
+});
+scoreboardSection === null || scoreboardSection === void 0 ? void 0 : scoreboardSection.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case " ":
+        case "Spacebar":
+            e.preventDefault(); // safety check
+            if (playAgainBtn) {
+                playAgainBtn.click();
             }
             break;
     }

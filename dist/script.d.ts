@@ -33,6 +33,7 @@ declare const startButton: HTMLElement;
 declare const submitAnswerButton: HTMLElement;
 declare const nextQuestionBtn: HTMLElement;
 declare const finishQuizBtn: HTMLElement;
+declare const playAgainBtn: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
 declare const celebrationModal: () => void;
 declare const decodeString: (string: string) => string;

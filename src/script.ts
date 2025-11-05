@@ -50,6 +50,7 @@ const startButton = document.getElementById("startBtn") as HTMLElement;
 const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLElement;
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
 const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
+const playAgainBtn = document.getElementById("playAgainBtn") as HTMLElement;
 
 
 
@@ -380,13 +381,13 @@ const fetchScores = async () => {
     }); */
 
     const html = result.map((player, i) => `
-      <li class="grid grid-cols-5 auto-cols-auto justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4"player-${i}">
+      <tb class="grid grid-cols-5 auto-cols-auto justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4 player-${i}">
         <span>${i + 1}</span>
         <span>${player.username}</span>
         <span>${player.score} points</span>
         <span>${player.amount}</span>
         <span>${player.difficulty}</span>
-      </li>
+      </tb>
     `).join("");
 
     document.getElementById("user-scores").innerHTML = html;
@@ -492,7 +493,20 @@ nextQuestionBtn?.addEventListener("click", () => {
   nextQuestionBtn.classList.add("hidden");
   incrementIndex();
 
-})
+});
+
+
+playAgainBtn?.addEventListener("click", () => {
+  // reset score
+  let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
+  accumulatedScore = 0;
+  quizSettings.score = 0;
+  // save it back to local storage
+  localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+
+  // navigate to quiz page
+  window.location.href = "quiz.html";
+});
 
 
 answers?.addEventListener("click", (e) => {

@@ -133,10 +133,9 @@ const celebrationModal = () => {
       ${svg}
       <div class="flex flex-col items-center mt-4">
         <p class="text-2xl font-bold text-white">${accumulatedScore} points</p>
-        <p class="text-lg text-white"><span class="text-red-600">TODO:</span> 50 from position #1</p>
       </div>
     </div>
-    <button id="finishQuizBtn" class="self-center bg-[rgba(102,131,180,1)] text-white rounded-sm w-full mt-8 text-xl px-6 py-3">
+    <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
       Submit to scoreboard
     </button>
   `;

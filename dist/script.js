@@ -168,7 +168,7 @@ const renderStepper = () => {
       <ul class="stepper flex gap-2">
         ${stepList}
       </ul>
-      <p class="text-sm text-white">${index + 1} of ${questionArray.length}</p>
+      <p class="text-xs text-white opacity-50">${index + 1} of ${questionArray.length}</p>
     </div>`;
     question.before(stepperEl);
 };
@@ -194,7 +194,7 @@ const insertQuestionsAndAnswers = (array, index) => {
     shuffleAnswers(answerList);
     answerList.forEach(answer => {
         answers.innerHTML += ` 
-      <button class="answer-button rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
+      <button class="answer-button hover:bg-[#5875a5] h-14 rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `;
     });
     // set focus to first button as default
@@ -225,12 +225,12 @@ const checkAnswer = (chosenAnswer, index) => {
     // display message of choice and right/wrong answer
     if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p class="p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
+    <p class=" rounded-sm p-4 text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
     }
     else {
         conclusionDiv.innerHTML = `
-    <p class="p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
+    <p class="rounded-sm p-4 text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
     }
 };

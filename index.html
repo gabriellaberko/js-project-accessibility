@@ -8,159 +8,152 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-[#0B1120] text-gray-200 min-h-screen flex flex-col justify-center items-center px-4">
-    <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]">
-    <header>
-      <nav>
-        <img
-        class="logo"
-        src=""
-        alt="logo">
-      </nav>
-      <ul class="nav-links flex gap-4">
-        <li>
-          <a href="/scoreboard.html">
-            Scoreboard
-          </a>
-        </li>
-      </ul>
-    </header>
-    
-    <main class="w-full bg-[#111827] rounded-2xl shadow-lg p-8 flex flex-col gap-6 text-center">
-      <section class="intro-section mx-auto text-center">
 
-<!-- Intro text -->
-        <h1 class="text-3xl font-extrabold text-white mb-2">Welcome to QUIZ BONANZAAA!</h1>
-        <p class="text-sm text-gray-400">Get ready to test your knowledge. <br> Answer questions, earn points, and see how high you can score!</p>
-        
-      </section>
-      <!-- filter section -->
-      <section class="filter-section mx-auto w-full">
-        <h2 class="text-xl font-bold text-gray-200 mx-auto text-center">Choose your quiz</h2>
-        <form class="flex flex-col gap-4 text-left w-full" id="filter-form">
-          <fieldset class="flex gap-2 flex-col">
-            <div class="relative">
-              <select
-                id="category"
-                name="category"
-                class="w-full appearance-none rounded-sm bg-[#1F2937] border border-gray-600 text-gray-200 text-sm p-2.5 pr-10 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <option value="" disabled selected hidden>Choose category</option>
-                <option value="9">General knowledge</option>
-                <option value="11">Film</option>
-                <option value="12">Music</option>
-              </select>
-
-              <!-- custom arrow -->
-              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+    <div class="wrapper min-h-screen grid grid-rows-[auto,1fr,auto]  md:max-w-sm">
+      <header class="flex justify-between px-0 p-2 md:p-4 m-0">
+        <nav>
+          <img
+            class="logo"
+            src=""
+            alt="logo">
+        </nav>
+        <ul class="nav-links list-style-none flex gap-4">
+          <li>
+            <a href="/scoreboard.html">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 5C4.10218 5 3.72064 5.15804 3.43934 5.43934C3.15804 5.72064 3 6.10218 3 6.5C3 6.89782 3.15804 7.27936 3.43934 7.56066C3.72064 7.84196 4.10218 8 4.5 8H6C6.55228 8 7 8.44772 7 9C7 9.55228 6.55228 10 6 10H4.5C3.57174 10 2.6815 9.63125 2.02513 8.97487C1.36875 8.3185 1 7.42826 1 6.5C1 5.57174 1.36875 4.6815 2.02513 4.02513C2.6815 3.36875 3.57174 3 4.5 3H6C6.55228 3 7 3.44772 7 4C7 4.55228 6.55228 5 6 5H4.5Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M17 4C17 3.44772 17.4477 3 18 3H19.5C20.4283 3 21.3185 3.36875 21.9749 4.02513C22.6313 4.6815 23 5.57174 23 6.5C23 7.42826 22.6313 8.3185 21.9749 8.97487C21.3185 9.63125 20.4283 10 19.5 10H18C17.4477 10 17 9.55228 17 9C17 8.44772 17.4477 8 18 8H19.5C19.8978 8 20.2794 7.84196 20.5607 7.56066C20.842 7.27936 21 6.89782 21 6.5C21 6.10218 20.842 5.72064 20.5607 5.43934C20.2794 5.15804 19.8978 5 19.5 5H18C17.4477 5 17 4.55228 17 4Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M3 22C3 21.4477 3.44772 21 4 21H20C20.5523 21 21 21.4477 21 22C21 22.5523 20.5523 23 20 23H4C3.44772 23 3 22.5523 3 22Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M10 13.66C10.5523 13.66 11 14.1077 11 14.66V17C11 18.1503 10.0612 18.8364 9.44791 19.1185L9.44612 19.1193C8.71901 19.4521 8 20.5118 8 22C8 22.5523 7.55228 23 7 23C6.44772 23 6 22.5523 6 22C6 19.9687 6.98057 18.0488 8.61284 17.3012C8.76516 17.231 8.88328 17.1424 8.95106 17.0652C8.98459 17.027 8.99636 17.0035 9 16.9938V14.66C9 14.1077 9.44772 13.66 10 13.66ZM9.00141 16.9885C9.00155 16.9885 9.00137 16.9898 9.00045 16.9925C9.00081 16.9899 9.00127 16.9885 9.00141 16.9885Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M14 13.66C14.5523 13.66 15 14.1077 15 14.66V16.9938C15.0036 17.0035 15.0154 17.027 15.0489 17.0652C15.1167 17.1424 15.2348 17.231 15.3872 17.3012C17.0194 18.0488 18 19.9687 18 22C18 22.5523 17.5523 23 17 23C16.4477 23 16 22.5523 16 22C16 20.5118 15.281 19.4521 14.5539 19.1193L14.5521 19.1185C13.9388 18.8364 13 18.1503 13 17V14.66C13 14.1077 13.4477 13.66 14 13.66ZM14.9986 16.9885C14.9987 16.9885 14.9992 16.9899 14.9995 16.9925C14.9986 16.9898 14.9985 16.9885 14.9986 16.9885Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M5 2C5 1.44772 5.44772 1 6 1H18C18.5523 1 19 1.44772 19 2V9C19 10.8565 18.2625 12.637 16.9497 13.9497C15.637 15.2625 13.8565 16 12 16C10.1435 16 8.36301 15.2625 7.05025 13.9497C5.7375 12.637 5 10.8565 5 9V2ZM7 3V9C7 10.3261 7.52678 11.5979 8.46447 12.5355C9.40215 13.4732 10.6739 14 12 14C13.3261 14 14.5979 13.4732 15.5355 12.5355C16.4732 11.5979 17 10.3261 17 9V3H7Z" fill="white"/>
               </svg>
-            </div>
+              <span class="sr-only">Scoreboard</span>
+            </a>
+          </li>
+        </ul>
+      </header>
+      
+      <main class="w-full shadow-lg flex flex-col text-center justify-center md:self-center">
+        <section 
+          class="intro-section mx-auto text-center mb-0 flex flex-col items-center mb-16 md:mb-12 md:mt-12" 
+          aria-labelledby="intro-text">
+          <!-- Intro text -->
+            <h1 id="intro-text" class="text-3xl font-extrabold text-white mb-2">Welcome to QUIZ BONANZAAA!</h1>
+            <p class="text-md text-gray-400">Get ready to test your knowledge. Answer questions, earn points, and see how high you can score! Choose your game settings below.</p>
+        </section>
+        <!-- filter section -->
+        <section 
+          class="filter-section mx-auto w-full flex flex-col items-center gap-2">
+          <form class="flex flex-col gap-6 text-left w-full" id="filter-form">
+            <fieldset class="flex gap-3 flex-col">
+              <legend class="text-sm font-bold text-gray-200 mb-2 p-0 text-left w-full">Choose type of quiz</legend>
+              <div class="relative">
+                <label for="category" class="sr-only">Choose category</label>
+                <select
+                  id="category"
+                  name="category"
+                  class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14"
+                  required
+                  >
+                  <option value="" disabled selected hidden>Choose category</option>
+                  <option value="9">General knowledge</option>
+                  <option value="11">Film</option>
+                  <option value="12">Music</option>
+                </select>
 
-            <div class="relative">
-              <select
-                id="difficulty"
-                name="difficulty"
-                class="w-full appearance-none rounded-sm bg-[#1F2937] border border-gray-600 text-gray-200 text-sm 
-                p-2.5 pr-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                >
-                <option value="" disabled selected hidden>Choose difficulty</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </select>
+                <!-- custom arrow -->
+                <svg class="absolute right-7 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
 
-              <!-- custom arrow -->
-              <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
-              </svg>
-            </div>
+              <div class="relative">
+                <label for="difficulty" class="sr-only">Choose difficulty</label>
+                <select
+                  id="difficulty"
+                  name="difficulty"
+                  class="w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14"
+                  required
+                  >
+                  <option value="" disabled selected hidden>Choose difficulty</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
 
-
-            <!-- Number of questions, radio buttons -->
-            
-            <div class="flex gap-2">
-
-              <fieldset class="flex gap-2 flex-col w-full" role="radiogroup">
-
-                <label class="text-white text-center w-full">Choose number of questions</label>
-
+                <!-- custom arrow -->
+                <svg class="absolute right-7 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" 
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
+            </fieldset>
+              <!-- Number of questions, radio buttons -->
+            <fieldset class="flex gap-2 flex-col w-full" role="radiogroup">
+                <legend class="text-white text-left w-full text-sm font-bold text-gray-200 text-left mx-auto mt-4 mb-2">Choose number of questions</legend>
                 <div class="flex flex-row gap-2 w-full">
-
                   <label 
                     for="bordered-radio-1"
-                    class="flex justify-center items-center border border-gray-600 rounded-sm w-full
-             cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:ring-[#6E9DE7]
-             transition-all duration-150">
+                    class="flex justify-center items-center border border-gray-600 rounded-md border-2 w-full         cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:bg-[#1F2937] focus-within:ring-[#6E9DE7] transition-all duration-150 py-2">
                     <input 
                       id="bordered-radio-1"
                       type="radio"
                       name="number-of-questions"
                       value="10"
-                      checked
-                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-gray-600
-          appearance-none [webkit-appearance:none] bg-transparent
-          checked:bg-[#6683b4] checked:border-[#6683b4] transition-colors outline-1">
+                      checked 
+                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6683b4] checked:border-[#6683b4] transition-colors outline-1">
                     <span class="radio-button py-2 ms-2 text-sm font-medium text-white">10</span>
                   </label>
-
                   <label
                     for="bordered-radio-2"
-                    class="flex justify-center items-center border border-gray-600 rounded-sm w-full
-             cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:ring-[#6E9DE7]
-             transition-all duration-150">
+                    class="flex justify-center items-center border border-gray-600 rounded-md border-2 w-full cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:bg-[#1F2937] focus-within:ring-[#6E9DE7] transition-all duration-150 py-2">
                     <input 
                       id="bordered-radio-2"
                       type="radio"
                       name="number-of-questions"
                       value="20"
-                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
+                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
                     <span class="radio-button py-2 ms-2 text-sm font-medium text-white">20</span>
                   </label>
-
                   <label
                     for="bordered-radio-3"
-                    class="flex justify-center items-center border border-gray-600 rounded-sm w-full
-             cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:ring-[#6E9DE7]
-             transition-all duration-150">
+                    class="flex justify-center items-center border border-gray-600 rounded-md border-2 w-full cursor-pointer focus-within:border-[#6E9DE7] focus-within:ring-2 focus-within:bg-[#1F2937] focus-within:ring-[#6E9DE7] transition-all duration-150 py-2">
                     <input 
                       id="bordered-radio-3"
                       type="radio" 
                       name="number-of-questions"
                       value="30"
-                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
+                      class="peer w-4 h-4 aspect-square shrink-0 align-middle rounded-full border border-2 border-gray-600 appearance-none [webkit-appearance:none] bg-transparent checked:bg-[#6E9DE7] checked:border-[#6E9DE7] transition-colors outline-1">
                     <span class="radio-button py-2 ms-2 text-sm font-medium text-white">30</span>
                   </label>
-
                 </div>
-
-              </fieldset>
-              
-            </div>
-
-            <!-- Playername and start button -->
-            <div class="flex flex-col gap-2">
+            </fieldset>
+                
+              <!-- Playername and start button -->
+            <div class="flex flex-col gap-1">
+              <label for="player-name" class="text-white text-left w-full text-md text-left text-sm font-bold text-gray-200 mt-0  mb-1">Enter your player name</label>
               <input 
                 type="text"
                 id="player-name" 
                 name="player-name"
-                class="bg-[#1F2937] border border-gray-600 text-white text-sm gap-2 rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                class="bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-white text-md gap-2 rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-4 p-12 h-14"
                 placeholder="Enter your player name..." 
                 required
-                aria-required="true"
               >
             </div>
-          </fieldset>
-          <div class="relative">
-            <button type="submit" class="rounded-sm font-bold p-4 bg-[#6683b4] text-white w-full
-           transition-colors duration-200 hover:bg-[#5875a5]" id="startBtn">Start quiz</button>
-          </div>
-        </form>
-      </section>
-    </main>
-
-  </div>
-  
+                      
+            <div class="relative">
+              <button type="submit" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center" id="startBtn">Start quiz</button>
+            </div>
+          </form>
+        </section>
+      </main>
+     <footer class="py-8" role="contentinfo">
+      <p class="text-center text-xs opacity-50">Made by Daniel, Gabriella, Leon & Marina © 2025. All rights reserved.</p>
+    </footer>
+    </div>
   <script src="/dist/script.js"></script>
   </body>
 </html>

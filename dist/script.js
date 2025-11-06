@@ -27,6 +27,7 @@ const submitAnswerButton = document.getElementById("submitAnswerBtn");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
 const playAgainBtn = document.getElementById("playAgainBtn");
+const backToStartBtn = document.getElementById("back-to-start-button");
 const scoreboardSection = document.getElementById("scoreboard-section");
 const celebrationDialog = document.getElementById("celebration-modal");
 /* ------ FETCH API DATA ------ */
@@ -367,15 +368,20 @@ nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBt
     nextQuestionBtn.classList.add("hidden");
     incrementIndex();
 });
+// reset scores if navigating back to start
+[backToStartBtn, playAgainBtn].forEach(button => {
+    button === null || button === void 0 ? void 0 : button.addEventListener("click", () => {
+        // reset scores
+        let quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
+        accumulatedScore = 0;
+        quizSettings.score = 0;
+        // save it back to local storage
+        localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+    });
+});
 playAgainBtn === null || playAgainBtn === void 0 ? void 0 : playAgainBtn.addEventListener("click", () => {
-    // reset score
-    let quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
-    accumulatedScore = 0;
-    quizSettings.score = 0;
-    // save it back to local storage
-    localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
-    // navigate to quiz page
-    window.location.href = "quiz.html";
+    // navigate to start page
+    window.location.href = "index.html";
 });
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("click", (e) => {
     const target = e.target || null;

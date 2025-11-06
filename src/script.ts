@@ -51,6 +51,7 @@ const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLEle
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
 const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
 const playAgainBtn = document.getElementById("playAgainBtn") as HTMLElement;
+const backToStartBtn = document.getElementById("back-to-start-button") as HTMLElement;
 const scoreboardSection = document.getElementById("scoreboard-section") as HTMLElement;
 const celebrationDialog = document.getElementById("celebration-modal") as HTMLElement;
 
@@ -500,16 +501,24 @@ nextQuestionBtn?.addEventListener("click", () => {
 });
 
 
-playAgainBtn?.addEventListener("click", () => {
-  // reset score
-  let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
-  accumulatedScore = 0;
-  quizSettings.score = 0;
-  // save it back to local storage
-  localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
 
-  // navigate to quiz page
-  window.location.href = "quiz.html";
+// reset scores if navigating back to start
+[backToStartBtn, playAgainBtn].forEach(button => {
+  button?.addEventListener("click", () => {
+    // reset scores
+    let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
+    accumulatedScore = 0;
+    quizSettings.score = 0;
+    // save it back to local storage
+    localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+ });
+});
+
+
+
+playAgainBtn?.addEventListener("click", () => {
+  // navigate to start page
+  window.location.href = "index.html";
 });
 
 

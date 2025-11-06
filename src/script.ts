@@ -2,7 +2,7 @@
 
 interface fetchedObjectFormat {
   category: string,
-  correct_answer: string
+  correct_answer: string,
   difficulty: string,
   incorrect_answers: string[],
   question: string,
@@ -235,7 +235,7 @@ const incrementIndex = () => {
     insertQuestionsAndAnswers(questionArray, index);
   }
 
-  // hide the nextQuestonBtn and show finishQuizBtn when clicking on submit answer on the last question
+  // hide the nextQuestionBtn and show finishQuizBtn when clicking on submit answer on the last question
   if (index === questionArray.length - 1) {
     submitAnswerButton.addEventListener("click", () => {
       nextQuestionBtn.classList.add("hidden");
@@ -312,7 +312,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   // set focus to first button as default
   const firstButton = answers.querySelector(".answer-button");
   if (firstButton) {
-    firstButton.focus();
+    firstButton?.focus();
     firstButton.click();
   }
 

@@ -79,6 +79,8 @@ const celebrationModal = () => {
     modal.setAttribute("role", "dialog");
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-labelledby", "celebration-title");
+    modal.setAttribute("aria-describedby", "celebration-description");
+    modal.setAttribute("tabindex", "-1");
     const svg = `<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.875 18.75C15.3832 18.75 13.9524 19.3426 12.8975 20.3975C11.8426 21.4524 11.25 22.8832 11.25 24.375C11.25 25.8668 11.8426 27.2976 12.8975 28.3525C13.9524 29.4074 15.3832 30 16.875 30H22.5C24.5711 30 26.25 31.6789 26.25 33.75C26.25 35.8211 24.5711 37.5 22.5 37.5H16.875C13.394 37.5 10.0556 36.1172 7.59422 33.6558C5.13281 31.1944 3.75 27.856 3.75 24.375C3.75 20.894 5.13281 17.5556 7.59422 15.0942C10.0556 12.6328 13.394 11.25 16.875 11.25H22.5C24.5711 11.25 26.25 12.9289 26.25 15C26.25 17.0711 24.5711 18.75 22.5 18.75H16.875Z" fill="#E7E56E"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M63.75 15C63.75 12.9289 65.4289 11.25 67.5 11.25H73.125C76.606 11.25 79.9444 12.6328 82.4058 15.0942C84.8672 17.5556 86.25 20.894 86.25 24.375C86.25 27.856 84.8672 31.1944 82.4058 33.6558C79.9444 36.1172 76.606 37.5 73.125 37.5H67.5C65.4289 37.5 63.75 35.8211 63.75 33.75C63.75 31.6789 65.4289 30 67.5 30H73.125C74.6168 30 76.0476 29.4074 77.1025 28.3525C78.1574 27.2976 78.75 25.8668 78.75 24.375C78.75 22.8832 78.1574 21.4524 77.1025 20.3975C76.0476 19.3426 74.6168 18.75 73.125 18.75H67.5C65.4289 18.75 63.75 17.0711 63.75 15Z" fill="#E7E56E"/>
@@ -89,11 +91,11 @@ const celebrationModal = () => {
 </svg>`;
     modal.innerHTML = `
     <h2 id="celebration-title" class="text-3xl font-bold mb-2 text-center text-white">You did it!</h2>
-    <p class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
+    <p id="celebration-description" class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 class="text-2xl font-bold text-white" id="score-heading">${accumulatedScore} points</h3>
+        <h3 id="score-heading" aria-live="polite" role="status" class="text-2xl font-bold text-white" id="score-heading">${accumulatedScore} points</h3>
       </div>
     </div>
     <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
@@ -103,6 +105,7 @@ const celebrationModal = () => {
     document.body.appendChild(modal);
     const previouslyFocused = document.activeElement;
     modal.showModal();
+    modal.focus();
     (_b = modal.querySelector("button")) === null || _b === void 0 ? void 0 : _b.focus();
     modal.addEventListener("close", () => {
         previouslyFocused === null || previouslyFocused === void 0 ? void 0 : previouslyFocused.focus();
@@ -112,7 +115,6 @@ const celebrationModal = () => {
     // Move the button in here as its rendered
     const finishButton = modal.querySelector("#finishQuizBtn");
     finishButton === null || finishButton === void 0 ? void 0 : finishButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
-        // console.log("Finish button clicked");
         modal.close();
         const stored = localStorage.getItem("quizSettings");
         if (!stored) {

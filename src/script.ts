@@ -65,7 +65,7 @@ const fetchQuizAPI = async () => {
 
   const settings = JSON.parse(stored);
 
-  console.log("Loaded quiz settings:", settings);
+  // console.log("Loaded quiz settings:", settings);
 
   const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
 
@@ -99,9 +99,11 @@ const fetchQuizAPI = async () => {
       questionArray.push(questionObject);
     });
 
-    console.log("Quiz questions fetched:", questionArray);
+    // console.log("Quiz questions fetched:", questionArray);
     // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
-    insertQuestionsAndAnswers(questionArray, index);
+    if (document.body.contains(document.getElementById("question"))) {
+      insertQuestionsAndAnswers(questionArray, index);
+    }
   }
 
   catch (error) {
@@ -164,7 +166,7 @@ const celebrationModal = () => {
 
   const finishButton = modal.querySelector("#finishQuizBtn");
   finishButton?.addEventListener("click", async () => {
-    console.log("Finish button clicked");
+    // console.log("Finish button clicked");
     modal.close();
 
     const stored = localStorage.getItem("quizSettings");
@@ -181,19 +183,19 @@ const celebrationModal = () => {
     }
 
     try {
-      console.log("📤 Posting score for:", player);
+      // console.log("📤 Posting score for:", player);
 
       // Example: here you could calculate score from quiz results
       // const score = 0;
 
       await postScore(player, category, score, difficulty, amount);
-      console.log("✅ Score posted successfully!");
+      // console.log("✅ Score posted successfully!");
 
       // Optional: clear data or redirect
       // localStorage.removeItem("quizSettings");
       window.location.href = "scoreboard.html";
     } catch (error) {
-      console.error("❌ Error posting score:", error);
+      // console.error("❌ Error posting score:", error);
       alert("Something went wrong while saving your score.");
     }
   });
@@ -236,10 +238,10 @@ const incrementIndex = () => {
 
 const renderStepper = () => {
   const oldStepper = document.querySelector(".stepper-container");
-  if (oldStepper) oldStepper.remove();
+  if (oldStepper) oldStepper?.remove();
 
-  const stepperEl = document.createElement('div');
-  stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
+  const stepperEl = document?.createElement('div');
+  stepperEl.classList?.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
 
   const total = questionArray.length;
 
@@ -259,7 +261,7 @@ const renderStepper = () => {
       <p class="text-xs text-white opacity-50" aria-live="off">${index + 1} of ${questionArray.length}</p>
     </nav>`;
 
-  question.before(stepperEl);
+  question?.before(stepperEl);
 }
 
 
@@ -274,7 +276,6 @@ const shuffleAnswers = (array: string[]) => {
 
 
 const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) => {
-
   renderStepper();
   // empty elements before filling them
   question.innerHTML = "";
@@ -370,11 +371,11 @@ const fetchScores = async () => {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    console.log(result);
+    // console.log(result);
 
     // html.innerHTML = result;
 
-    console.log(result.length);
+    // console.log(result.length);
 
     /* result.map((player, i) => {
       console.log(player.username);
@@ -393,7 +394,7 @@ const fetchScores = async () => {
 
     document.getElementById("user-scores").innerHTML = html;
 
-    result.forEach((element) => console.log(element));
+    // result.forEach((element) => console.log(element));
 
   } catch (error) {
     console.error('Error:', error);
@@ -410,7 +411,7 @@ const postScore = async (
   difficulty: string,
   amount: number
 ) => {
-  console.log("Posting new to scoreboard:", username);
+  // console.log("Posting new to scoreboard:", username);
   const response = await fetch(SCORE_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -428,7 +429,7 @@ const postScore = async (
 
   try {
     const result = await response.json();
-    console.log("✅ Posted successfully:", result);
+    // console.log("✅ Posted successfully:", result);
     return result;
   } catch {
     console.warn("⚠️ Server returned no JSON body");
@@ -446,7 +447,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // set focus to first form element as default on start & scoreboard page (as both have filterForm)
   if (filterForm) {
     const firstFilterElement = filterForm.querySelector(".form-element") as HTMLElement;
-    console.log("first element in focus")
+    // console.log("first element in focus")
     firstFilterElement.focus();
   }
 });

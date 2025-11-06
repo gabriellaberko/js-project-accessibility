@@ -33,7 +33,7 @@ const celebrationDialog = document.getElementById("celebration-modal");
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const stored = localStorage.getItem("quizSettings");
     const settings = JSON.parse(stored);
-    console.log("Loaded quiz settings:", settings);
+    // console.log("Loaded quiz settings:", settings);
     const APIUrl = `https://opentdb.com/api.php?amount=${settings.amount}&category=${settings.category}&difficulty=${settings.difficulty}&type=multiple`;
     try {
         const response = yield fetch(APIUrl);
@@ -56,9 +56,11 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
             };
             questionArray.push(questionObject);
         });
-        console.log("Quiz questions fetched:", questionArray);
+        // console.log("Quiz questions fetched:", questionArray);
         // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
-        insertQuestionsAndAnswers(questionArray, index);
+        if (document.body.contains(document.getElementById("question"))) {
+            insertQuestionsAndAnswers(questionArray, index);
+        }
     }
     catch (error) {
         console.error("Fetch error:", error);
@@ -110,7 +112,7 @@ const celebrationModal = () => {
     // Move the button in here as its rendered
     const finishButton = modal.querySelector("#finishQuizBtn");
     finishButton === null || finishButton === void 0 ? void 0 : finishButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("Finish button clicked");
+        // console.log("Finish button clicked");
         modal.close();
         const stored = localStorage.getItem("quizSettings");
         if (!stored) {
@@ -123,17 +125,17 @@ const celebrationModal = () => {
             return;
         }
         try {
-            console.log("📤 Posting score for:", player);
+            // console.log("📤 Posting score for:", player);
             // Example: here you could calculate score from quiz results
             // const score = 0;
             yield postScore(player, category, score, difficulty, amount);
-            console.log("✅ Score posted successfully!");
+            // console.log("✅ Score posted successfully!");
             // Optional: clear data or redirect
             // localStorage.removeItem("quizSettings");
             window.location.href = "scoreboard.html";
         }
         catch (error) {
-            console.error("❌ Error posting score:", error);
+            // console.error("❌ Error posting score:", error);
             alert("Something went wrong while saving your score.");
         }
     }));
@@ -164,11 +166,12 @@ const incrementIndex = () => {
     }
 };
 const renderStepper = () => {
+    var _a;
     const oldStepper = document.querySelector(".stepper-container");
     if (oldStepper)
-        oldStepper.remove();
-    const stepperEl = document.createElement('div');
-    stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
+        oldStepper === null || oldStepper === void 0 ? void 0 : oldStepper.remove();
+    const stepperEl = document === null || document === void 0 ? void 0 : document.createElement('div');
+    (_a = stepperEl.classList) === null || _a === void 0 ? void 0 : _a.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
     const total = questionArray.length;
     const stepList = Array.from({ length: total }).map((question, i) => `
       <li role="listitem" class="stepper-item ${i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"} rounded-full w-2 h-2 flex items-center justify-center" aria-label="Question ${i + 1} of ${questionArray.length}">
@@ -183,7 +186,7 @@ const renderStepper = () => {
       </ul>
       <p class="text-xs text-white opacity-50" aria-live="off">${index + 1} of ${questionArray.length}</p>
     </nav>`;
-    question.before(stepperEl);
+    question === null || question === void 0 ? void 0 : question.before(stepperEl);
 };
 const shuffleAnswers = (array) => {
     // swap each answer with a random answer, starting from the last answer in the list until i is equal to the first item
@@ -270,9 +273,9 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-        console.log(result);
+        // console.log(result);
         // html.innerHTML = result;
-        console.log(result.length);
+        // console.log(result.length);
         /* result.map((player, i) => {
           console.log(player.username);
           return html.innerHTML += player.username;
@@ -287,7 +290,7 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
       </tr>
     `).join("");
         document.getElementById("user-scores").innerHTML = html;
-        result.forEach((element) => console.log(element));
+        // result.forEach((element) => console.log(element));
     }
     catch (error) {
         console.error('Error:', error);
@@ -296,7 +299,7 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
 /* ------ Post scores ------ */
 // async function postScore(username, score) {
 const postScore = (username, category, score, difficulty, amount) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Posting new to scoreboard:", username);
+    // console.log("Posting new to scoreboard:", username);
     const response = yield fetch(SCORE_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -313,7 +316,7 @@ const postScore = (username, category, score, difficulty, amount) => __awaiter(v
         throw new Error(`Server error: ${response.status}`);
     try {
         const result = yield response.json();
-        console.log("✅ Posted successfully:", result);
+        // console.log("✅ Posted successfully:", result);
         return result;
     }
     catch (_a) {
@@ -329,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
     // set focus to first form element as default on start & scoreboard page (as both have filterForm)
     if (filterForm) {
         const firstFilterElement = filterForm.querySelector(".form-element");
-        console.log("first element in focus");
+        // console.log("first element in focus")
         firstFilterElement.focus();
     }
 }));

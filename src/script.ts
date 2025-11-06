@@ -101,7 +101,9 @@ const fetchQuizAPI = async () => {
 
     // console.log("Quiz questions fetched:", questionArray);
     // incrementIndex(); fucks up stepper, starts at 2 all the time, fix below
-    insertQuestionsAndAnswers(questionArray, index);
+    if (document.body.contains(document.getElementById("question"))) {
+      insertQuestionsAndAnswers(questionArray, index);
+    }
   }
 
   catch (error) {
@@ -236,10 +238,10 @@ const incrementIndex = () => {
 
 const renderStepper = () => {
   const oldStepper = document.querySelector(".stepper-container");
-  if (oldStepper) oldStepper.remove();
+  if (oldStepper) oldStepper?.remove();
 
-  const stepperEl = document.createElement('div');
-  stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
+  const stepperEl = document?.createElement('div');
+  stepperEl.classList?.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
 
   const total = questionArray.length;
   
@@ -260,7 +262,7 @@ const renderStepper = () => {
       <p class="text-xs text-white opacity-50" aria-live="off">${index + 1} of ${questionArray.length}</p>
     </nav>`;
 
-  question.before(stepperEl);
+  question?.before(stepperEl);
 }
 
 
@@ -275,7 +277,6 @@ const shuffleAnswers = (array: string[]) => {
 
 
 const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) => {
-
   renderStepper();
   // empty elements before filling them
   question.innerHTML = "";

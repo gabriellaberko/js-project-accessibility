@@ -47,5 +47,7 @@ declare const checkAnswer: (chosenAnswer: string, index: number) => void;
 declare const countAndSaveScore: () => void;
 declare const SCORE_API_URL = "https://postgres.daniellauding.se/quiz_scores";
 declare const fetchScores: () => Promise<void>;
+declare let allScores: any[];
+declare function initScoreFilters(): Promise<void>;
 declare const postScore: (username: string, category: number, score: number, difficulty: string, amount: number) => Promise<any>;
 //# sourceMappingURL=script.d.ts.map

@@ -402,6 +402,53 @@ const fetchScores = async () => {
   }
 }
 
+/* ------ Filter logic ------ */
+
+let allScores = [];
+
+async function initScoreFilters() {
+  try {
+    // Wait for the first fetch to complete
+    const response = await fetch(SCORE_API_URL);
+    allScores = await response.json();
+
+    // Add listeners once
+    ["category", "difficulty", "qty"].forEach((id) => {
+      document.getElementById(id)?.addEventListener("change", () => {
+        const c = (document.getElementById("category") as HTMLSelectElement).value;
+        const d = (document.getElementById("difficulty") as HTMLSelectElement).value.toLowerCase();
+        const q = (document.getElementById("qty") as HTMLSelectElement).value;
+
+        const filtered = allScores.filter(
+          (s) =>
+            (!c || String(s.category) === c) &&
+            (!d || s.difficulty.toLowerCase() === d) &&
+            (!q || String(s.amount) === q)
+        );
+
+        const tbody = document.getElementById("user-scores");
+        tbody.innerHTML = filtered.length
+          ? filtered
+              .map(
+                (p, i) => `
+            <tr tabindex="0" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7]
+            odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-white text-xs font-medium">
+              <td class="py-3 px-4">${i + 1}</td>
+              <td class="py-3 px-4">${p.username}</td>
+              <td class="py-3 px-4">${p.score}</td>
+              <td class="py-3 px-4">${p.amount}</td>
+              <td class="py-3 px-4">${p.difficulty}</td>
+            </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="5" class="text-center text-gray-400 py-3">No results found.</td></tr>`;
+      });
+    });
+  } catch (err) {
+    console.error("Error setting up filters:", err);
+  }
+}
+
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
@@ -451,6 +498,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // console.log("first element in focus")
     firstFilterElement.focus();
   }
+  
+  if (document.getElementById("score-list")) initScoreFilters();
 });
 
 

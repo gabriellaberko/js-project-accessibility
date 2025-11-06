@@ -12,45 +12,39 @@
 <body class="bg-[rgba(16,22,38,1)]">
   <div class="wrapper h-[100dvh] grid grid-rows-[auto,1fr,auto]">
     <header class="flex gap-4 px-0 p-2 md:p-4 m-0">
-      <ul class= "nav-links list-style-none flex gap-4">
+      <ul class="nav-links list-style-none flex gap-4">
         <li>
-          <a 
-            href="/index.html"
+          <a href="/index.html"
             class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7] rounded-sm inline-flex items-center justify-center"
             aria-label="back to start page">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
             <span class="sr-only">Back</span>
           </a>
         </li>
       </ul>
       <div>
-        <img
-          class="logo"
-          src=""
-          alt="brand-logo">
-     </div>
+        <img class="logo" src="" alt="brand-logo">
+      </div>
     </header>
 
-    <main class="flex flex-col items-center gap-16 h-full">
+    <main class="flex flex-col items-center gap-16 h-full py-">
 
-  <!-- Filter-form -->
-      <section 
-        class="scoreboard-section w-full max-w-3xl mx-auto flex gap-4 flex-col px-4"
-        id="scoreboard-section"
+      <!-- Filter-form -->
+      <section class="scoreboard-section w-full max-w-3xl mx-auto flex gap-4 flex-col px-4" id="scoreboard-section"
         aria-labelledby="filter-title">
         <h1 id="filter-title" class="text-3xl text-center font-bold text-[rgba(255,255,255,1)]">Scoreboard</h1>
 
         <form class="filter-form w-full" id="filter-form">
           <fieldset class="flex gap-2 flex-col gap-4">
-            <legend>Filter results</legend>
+            <legend class="hidden">Filter results</legend>
+
             <!-- Category -->
             <div class="relative w-full">
               <label for="category" class="sr-only">Category</label>
-               <select 
-                id="category" 
-                name="category" 
+              <select id="category" name="category"
                 class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select category</option>
                 <option value="9">General knowledge</option>
@@ -67,9 +61,7 @@
             <!-- Difficulty -->
             <div class="relative w-full">
               <label for="difficulty" class="sr-only">Difficulty</label>
-              <select 
-                id="difficulty" 
-                name="difficulty" 
+              <select id="difficulty" name="difficulty"
                 class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select difficulty</option>
                 <option value="Easy">Easy</option>
@@ -86,9 +78,7 @@
             <!-- Number of questions -->
             <div class="relative w-full">
               <label for="qty" class="sr-only">Number of questions</label>
-              <select 
-                id="qty" 
-                name="qty" 
+              <select id="qty" name="qty"
                 class="form-element w-full appearance-none rounded-md bg-transparent focus:bg-[#1F2937] border border-2 border-gray-600 text-gray-200 text-md px-5 pr-12 focus:ring-2 focus:ring-blue-500 focus:outline-none h-14">
                 <option value="" disabled selected>Select number of questions</option>
                 <option value="Easy">10</option>
@@ -105,30 +95,37 @@
         </form>
 
         <!-- Scoreboard -->
-        <div 
-          class="scoreboard bg-[rgba(56,65,82,1)] max-w-3xl flex flex-col" 
-          role="region"
-          aria-label="Score results">
+        <section aria-labelledby="score-list" class="scoreboard relative overflow-x-auto rounded-lg shadow-sm">
 
-          <table id="score-list" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
+          <table id="score-list" class="w-full text-left text-xs uppercase bg-[rgba(255,255,255,0.07)]">
+            <caption class="sr-only">List of players, scores, and difficulty levels</caption> <!--For accessibility -->
 
             <!-- Header row -->
             <thead>
-              <tr class="grid grid-cols-[48px,1fr,110px,110px,120px] text-white text-xs font-medium py-3 px-4 gap-x-2">
-              <th>Rank</th>
-              <th>Player</th>
-              <th>Score</th>
-              <th>Amount</th>
-              <th>Difficulty</th>
+              <tr>
+                <!-- <tr class="grid grid-cols-6 text-white text-xs font-medium"> -->
+                <th scope="col" class="py-3 px-4">#</th>
+                <th scope="col" class="py-3 px-4">Player</th>
+                <th scope="col" class="py-3 px-4">Score</th>
+                <th scope="col" class="py-3 px-4">Amount</th>
+                <th scope="col" class="py-3 px-4">Difficulty</th>
               </tr>
             </thead>
+
+
+            <!-- User-scores from API -->
+            <tbody id="user-scores"
+              class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
+            </tbody>
           </table>
-          <ul id="user-scores" class="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto rounded-lg shadow-sm">
-          </ul>
-        </div>
-      <button id="playAgainBtn" class="play-again-btn rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center flex">Play again</button>
+        </section>
+
+        <button id="playAgainBtn"
+          class="play-again-btn rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center flex">Play
+          again</button>
     </main>
   </div>
   <script src="/dist/script.js"></script>
 </body>
+
 </html>

@@ -242,11 +242,10 @@ const renderStepper = () => {
   stepperEl.classList.add("stepper-container", "flex", "items-center", "justify-center", "gap-2", "mb-4");
 
   const total = questionArray.length;
-  
+
   const stepList = Array.from({ length: total }).map((question, i) => `
-      <li role="listitem" class="stepper-item ${
-        i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"
-      } rounded-full w-2 h-2 flex items-center justify-center" aria-label="Question ${i + 1} of ${questionArray.length}">
+      <li role="listitem" class="stepper-item ${i === index ? "text-white bg-[#6481B1]" : "text-gray-400 bg-[#4D5563]"
+    } rounded-full w-2 h-2 flex items-center justify-center" aria-label="Question ${i + 1} of ${questionArray.length}">
         <span class="sr-only hidden">${i + 1} of ${questionArray.length}</span>
       </li>
     `)
@@ -293,14 +292,14 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
   shuffleAnswers(answerList);
 
   answerList.forEach(answer => {
-     answers.innerHTML += ` 
+    answers.innerHTML += ` 
       <button class="answer-button hover:bg-[#5875a5] min-h-14 rounded-sm p-4 text-white w-full md:w-1/2 bg-[rgba(56,65,82,1)]">${answer}</button>
      `
   });
 
   // set focus to first button as default
   const firstButton = answers.querySelector(".answer-button");
-  if(firstButton) {
+  if (firstButton) {
     firstButton.focus();
     firstButton.click();
   }
@@ -328,7 +327,7 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   });
 
   // display message of choice and right/wrong answer
-  if(chosenAnswer === questionArray[index]?.correctAnswer) {
+  if (chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
     <p class=" rounded-md text-sm p-2 px-3 text-center text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
@@ -383,13 +382,13 @@ const fetchScores = async () => {
     }); */
 
     const html = result.map((player, i) => `
-      <tb class="grid grid-cols-5 auto-cols-auto justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4 player-${i}">
-        <span>${i + 1}</span>
-        <span>${player.username}</span>
-        <span>${player.score} points</span>
-        <span>${player.amount}</span>
-        <span>${player.difficulty}</span>
-      </tb>
+      <tr class="odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium rounded-4 player-${i}">
+        <td class="py-3 px-4">${i + 1}</td>
+        <td class="py-3 px-4">${player.username}</td>
+        <td class="py-3 px-4">${player.score}</td>
+        <td class="py-3 px-4">${player.amount}</td>
+        <td class="py-3 px-4">${player.difficulty}</td>
+      </tr>
     `).join("");
 
     document.getElementById("user-scores").innerHTML = html;
@@ -445,7 +444,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (document.getElementById("score-list")) fetchScores();
 
   // set focus to first form element as default on start & scoreboard page (as both have filterForm)
-  if(filterForm) {
+  if (filterForm) {
     const firstFilterElement = filterForm.querySelector(".form-element") as HTMLElement;
     console.log("first element in focus")
     firstFilterElement.focus();
@@ -516,15 +515,15 @@ answers?.addEventListener("click", (e) => {
 
   const target = e.target as HTMLElement || null;
   const clickedAnswerButton = target?.closest(".answer-button") as HTMLElement || null;
-  if(clickedAnswerButton) {
-  chosenAnswer = clickedAnswerButton.innerText;
+  if (clickedAnswerButton) {
+    chosenAnswer = clickedAnswerButton.innerText;
   }
 
   // reset styling (outline) on all buttons
   document.querySelectorAll(".answer-button").forEach(btn => {
     btn.classList.remove("outline", "outline-3", "outline-[rgba(110,157,231,1)]");
   });
-  
+
 
   // highlight chosen button with outline
   clickedAnswerButton.classList.toggle("outline");
@@ -545,14 +544,14 @@ answers?.addEventListener("click", (e) => {
 filterForm?.addEventListener("keydown", (e) => {
 
   const el = e.target;
-  
+
   // collect focusable elements
   const formElements = Array.from(
     filterForm.querySelectorAll(
       'select, input:not([type="hidden"]), button, [tabindex]:not([tabindex="-1"])'
     )
   );
-  const formElementIndex = formElements.indexOf(document. activeElement);
+  const formElementIndex = formElements.indexOf(document.activeElement);
 
   // 🧠 Handle <select> separately when user presses Enter
   if (el.tagName === "SELECT" && e.key === "Enter") {
@@ -570,7 +569,7 @@ filterForm?.addEventListener("keydown", (e) => {
     formElements[i + 1].focus();
   }
 
-  switch(e.key) {
+  switch (e.key) {
 
     case "Enter":
       // Allow Enter to activate radios, checkboxes, or buttons only
@@ -582,17 +581,17 @@ filterForm?.addEventListener("keydown", (e) => {
         e.preventDefault();
       }
       break;
-    case " ": 
+    case " ":
     case "Spacebar":
       e.preventDefault(); // safety check
-      if(startButton){
+      if (startButton) {
         startButton.click();
       }
       break;
     case "ArrowRight":
     case "ArrowDown":
       e.preventDefault(); // safety check
-      if(formElementIndex < formElements.length - 1){
+      if (formElementIndex < formElements.length - 1) {
         formElements[formElementIndex + 1].focus();
       } else {
         formElements[0].focus();
@@ -602,7 +601,7 @@ filterForm?.addEventListener("keydown", (e) => {
     case "ArrowUp":
       e.preventDefault(); // safety check
       // go the other way around from arrow right and down
-      if(formElementIndex > 0){
+      if (formElementIndex > 0) {
         formElements[formElementIndex - 1].focus();
       } else {
         formElements[formElements.length - 1].focus();
@@ -619,26 +618,26 @@ answers?.addEventListener("keydown", (e) => {
 
   const buttonIndex = buttons.indexOf(document.activeElement);
 
-  switch(e.key) {
+  switch (e.key) {
     case "Enter":
       e.preventDefault(); // safety check
       document.activeElement.click();
       break;
-    case " ": 
+    case " ":
     case "Spacebar":
       e.preventDefault(); // safety check
-      if(!submitAnswerButton.classList.contains("hidden")){
+      if (!submitAnswerButton.classList.contains("hidden")) {
         submitAnswerButton.click();
-      } else if (!nextQuestionBtn.classList.contains("hidden")){
+      } else if (!nextQuestionBtn.classList.contains("hidden")) {
         nextQuestionBtn.click();
-      } else if (finishQuizBtn){
+      } else if (finishQuizBtn) {
         finishQuizBtn.click();
       }
       break;
     case "ArrowRight":
     case "ArrowDown":
       e.preventDefault(); // safety check
-      if(buttonIndex < buttons.length - 1){
+      if (buttonIndex < buttons.length - 1) {
         buttons[buttonIndex + 1].focus();
       } else {
         buttons[0].focus();
@@ -648,7 +647,7 @@ answers?.addEventListener("keydown", (e) => {
     case "ArrowUp":
       e.preventDefault(); // safety check
       // go the other way around from arrow right and down
-      if(buttonIndex > 0){
+      if (buttonIndex > 0) {
         buttons[buttonIndex - 1].focus();
       } else {
         buttons[buttons.length - 1].focus();
@@ -666,13 +665,13 @@ answers?.addEventListener("keydown", (e) => {
 
 
 celebrationDialog?.addEventListener("keydown", (e) => {
-  switch(e.key) {
+  switch (e.key) {
 
-    case " ": 
+    case " ":
     case "Spacebar":
     case "Enter":
       e.preventDefault(); // safety check
-      if(finishQuizBtn){
+      if (finishQuizBtn) {
         playAgainBtn.click();
       }
       break;
@@ -682,12 +681,12 @@ celebrationDialog?.addEventListener("keydown", (e) => {
 
 
 scoreboardSection?.addEventListener("keydown", (e) => {
-  switch(e.key) {
+  switch (e.key) {
 
-    case " ": 
+    case " ":
     case "Spacebar":
       e.preventDefault(); // safety check
-      if(playAgainBtn){
+      if (playAgainBtn) {
         playAgainBtn.click();
       }
       break;

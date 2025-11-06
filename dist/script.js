@@ -28,6 +28,7 @@ const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const scoreboardSection = document.getElementById("scoreboard-section");
+const celebrationDialog = document.getElementById("celebration-modal");
 /* ------ FETCH API DATA ------ */
 const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     const stored = localStorage.getItem("quizSettings");
@@ -277,13 +278,13 @@ const fetchScores = () => __awaiter(void 0, void 0, void 0, function* () {
           return html.innerHTML += player.username;
         }); */
         const html = result.map((player, i) => `
-      <tb class="grid grid-cols-5 auto-cols-auto justify-center gap-x odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium py-3 px-4 rounded-4 player-${i}">
-        <span>${i + 1}</span>
-        <span>${player.username}</span>
-        <span>${player.score} points</span>
-        <span>${player.amount}</span>
-        <span>${player.difficulty}</span>
-      </tb>
+      <tr class="odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium rounded-4 player-${i}">
+        <td class="py-3 px-4">${i + 1}</td>
+        <td class="py-3 px-4">${player.username}</td>
+        <td class="py-3 px-4">${player.score}</td>
+        <td class="py-3 px-4">${player.amount}</td>
+        <td class="py-3 px-4">${player.difficulty}</td>
+      </tr>
     `).join("");
         document.getElementById("user-scores").innerHTML = html;
         result.forEach((element) => console.log(element));
@@ -450,17 +451,6 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
             break;
     }
 });
-scoreboardSection === null || scoreboardSection === void 0 ? void 0 : scoreboardSection.addEventListener("keydown", (e) => {
-    switch (e.key) {
-        case " ":
-        case "Spacebar":
-            e.preventDefault(); // safety check
-            if (playAgainBtn) {
-                playAgainBtn.click();
-            }
-            break;
-    }
-});
 // quiz page:
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("keydown", (e) => {
     const buttons = Array.from(answers.querySelectorAll(".answer-button"));
@@ -509,6 +499,29 @@ answers === null || answers === void 0 ? void 0 : answers.addEventListener("keyd
             break;
         case "End":
             //move to last item
+            break;
+    }
+});
+celebrationDialog === null || celebrationDialog === void 0 ? void 0 : celebrationDialog.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case " ":
+        case "Spacebar":
+        case "Enter":
+            e.preventDefault(); // safety check
+            if (finishQuizBtn) {
+                playAgainBtn.click();
+            }
+            break;
+    }
+});
+scoreboardSection === null || scoreboardSection === void 0 ? void 0 : scoreboardSection.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case " ":
+        case "Spacebar":
+            e.preventDefault(); // safety check
+            if (playAgainBtn) {
+                playAgainBtn.click();
+            }
             break;
     }
 });

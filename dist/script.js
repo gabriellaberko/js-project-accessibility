@@ -219,6 +219,7 @@ const insertQuestionsAndAnswers = (array, index) => {
         firstButton.focus();
         firstButton.click();
     }
+    startQuestionTimer(10000);
 };
 const checkAnswer = (chosenAnswer, index) => {
     var _a;
@@ -399,6 +400,7 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
     window.location.href = "quiz.html";
 });
 submitAnswerButton === null || submitAnswerButton === void 0 ? void 0 : submitAnswerButton.addEventListener("click", () => {
+    stopQuestionTimer();
     submitAnswerButton.classList.add("hidden");
     nextQuestionBtn.classList.remove("hidden");
     checkAnswer(chosenAnswer, index);
@@ -434,6 +436,65 @@ answers === null || answers === void 0 ? void 0 : answers.addEventListener("clic
     clickedAnswerButton.classList.toggle("outline-3");
     clickedAnswerButton.classList.toggle("outline-[rgba(110,157,231,1)]");
 });
+/* ------ TIMER LOGIC ------ */
+let timerId = null;
+function stopQuestionTimer() {
+    if (timerId !== null) {
+        clearInterval(timerId);
+        timerId = null;
+    }
+}
+function startQuestionTimer(durationMs = 10000) {
+    stopQuestionTimer();
+    const fill = document.getElementById("timerFill");
+    const text = document.getElementById("timerText");
+    const submit = document.getElementById("submitAnswerBtn");
+    let start = performance.now();
+    timerId = window.setInterval(() => {
+        var _a;
+        const elapsed = performance.now() - start;
+        const remaining = Math.max(0, durationMs - elapsed);
+        const pct = Math.min(100, Math.round((elapsed / durationMs) * 100));
+        const secondsLeft = Math.max(0, Math.floor(remaining / 1000));
+        // animate bar + number
+        if (fill)
+            fill.style.width = pct + "%";
+        if (text)
+            text.textContent = `${secondsLeft}s`;
+        if (pct >= 100) {
+            // time’s up: lock UI
+            stopQuestionTimer();
+            document.querySelectorAll(".answer-button").forEach((b) => {
+                var _a;
+                const btn = b;
+                btn.disabled = true;
+                btn.setAttribute("aria-disabled", "true");
+                btn.classList.add("opacity-50", "cursor-not-allowed");
+                if (btn.innerText === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
+                    btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]", "text-[rgba(150,231,110,1)]", "animate__animated", "animate__pulse");
+                }
+                else {
+                    btn.classList.add("bg-[rgba(82,63,56,1)]", "text-[rgba(231,110,110,1)]", "outline", "outline-3", "outline-[rgba(231,110,110,1)]");
+                }
+            });
+            const correct = (_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer;
+            conclusionDiv.innerHTML = `
+        <p class="animate__animated animate__pulse rounded-md text-sm p-2 px-3 text-center text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">
+          Time’s up! The correct answer was: <strong>${correct}</strong>
+        </p>
+      `;
+            if (submit) {
+                submit.textContent = "Continue to next question";
+                submit.disabled = false; // make sure it's clickable
+                submit.classList.remove("hidden");
+                submit.addEventListener("click", () => {
+                    submit.textContent = "Check answer";
+                    incrementIndex();
+                }, { once: true });
+            }
+        }
+    }, 50);
+}
 /* ------ ACCESSIBILITY LOGIC ------ */
 /*---- Keyboard Navigation ----*/
 // start page & scoreboard page:
@@ -497,7 +558,6 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
             break;
     }
 });
-// quiz page:
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("keydown", (e) => {
     const buttons = Array.from(answers.querySelectorAll(".answer-button"));
     const buttonIndex = buttons.indexOf(document.activeElement);

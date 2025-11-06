@@ -304,7 +304,8 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
     firstButton.focus();
     firstButton.click();
   }
-
+  
+  startQuestionTimer(10000);
 };
 
 
@@ -533,6 +534,7 @@ filterForm?.addEventListener("submit", (e) => {
 
 
 submitAnswerButton?.addEventListener("click", () => {
+  stopQuestionTimer();
   submitAnswerButton.classList.add("hidden");
   nextQuestionBtn.classList.remove("hidden");
 
@@ -583,6 +585,92 @@ answers?.addEventListener("click", (e) => {
 });
 
 
+/* ------ TIMER LOGIC ------ */
+
+
+let timerId: number | null = null;
+
+function stopQuestionTimer() {
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function startQuestionTimer(durationMs = 10000) {
+  stopQuestionTimer();
+
+  const fill = document.getElementById("timerFill") as HTMLElement;
+  const text = document.getElementById("timerText") as HTMLElement;
+  const submit = document.getElementById("submitAnswerBtn") as HTMLButtonElement;
+
+  let start = performance.now();
+
+  timerId = window.setInterval(() => {
+    const elapsed = performance.now() - start;
+    const remaining = Math.max(0, durationMs - elapsed);
+    const pct = Math.min(100, Math.round((elapsed / durationMs) * 100));
+    const secondsLeft = Math.max(0, Math.floor(remaining / 1000));
+
+    // animate bar + number
+    if (fill) fill.style.width = pct + "%";
+    if (text) text.textContent = `${secondsLeft}s`;
+
+    if (pct >= 100) {
+      // time’s up: lock UI
+      stopQuestionTimer();
+      document.querySelectorAll(".answer-button").forEach((b: Element) => {
+        const btn = b as HTMLButtonElement;
+        btn.disabled = true;
+        btn.setAttribute("aria-disabled", "true");
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+
+        if (btn.innerText === questionArray[index]?.correctAnswer) {
+          btn.classList.add(
+            "bg-[rgba(56,82,64,1)]",
+            "outline",
+            "outline-3",
+            "outline-[rgba(150,231,110,1)]",
+            "text-[rgba(150,231,110,1)]",
+            "animate__animated",
+            "animate__pulse"
+          );
+        } else {
+          btn.classList.add(
+            "bg-[rgba(82,63,56,1)]",
+            "text-[rgba(231,110,110,1)]",
+            "outline",
+            "outline-3",
+            "outline-[rgba(231,110,110,1)]"
+          );
+        }
+
+      });
+
+      const correct = questionArray[index]?.correctAnswer;
+      conclusionDiv.innerHTML = `
+        <p class="animate__animated animate__pulse rounded-md text-sm p-2 px-3 text-center text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">
+          Time’s up! The correct answer was: <strong>${correct}</strong>
+        </p>
+      `;
+
+      if (submit) {
+        submit.textContent = "Continue to next question";
+        submit.disabled = false; // make sure it's clickable
+        submit.classList.remove("hidden");
+
+        submit.addEventListener(
+          "click",
+          () => {
+            submit.textContent = "Check answer";
+            incrementIndex();
+          },
+          { once: true }
+        );
+      }
+    }
+  }, 50);
+}
 
 
 /* ------ ACCESSIBILITY LOGIC ------ */
@@ -662,8 +750,6 @@ filterForm?.addEventListener("keydown", (e) => {
 });
 
 
-
-// quiz page:
 answers?.addEventListener("keydown", (e) => {
   const buttons = Array.from(answers.querySelectorAll(".answer-button"));
 

@@ -93,7 +93,7 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 class="text-2xl font-bold text-white" id="score-heading">${accumulatedScore} points</h3>
+        <h3 class="text-2xl font-bold text-white" id="score-heading animate__animated animate__pulse">${accumulatedScore} points</h3>
       </div>
     </div>
     <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
@@ -231,6 +231,7 @@ const checkAnswer = (chosenAnswer, index) => {
             btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
             btn.classList.add("text-[rgba(150,231,110,1)]");
             btn.classList.add("outline", "outline-3", "outline-[rgba(150,231,110,1)]");
+            btn.classList.add("animate__animated", "animate__pulse");
         }
         else {
             btn.classList.add("bg-[rgba(82,63,56,1)]");
@@ -241,12 +242,12 @@ const checkAnswer = (chosenAnswer, index) => {
     // display message of choice and right/wrong answer
     if (chosenAnswer === ((_a = questionArray[index]) === null || _a === void 0 ? void 0 : _a.correctAnswer)) {
         conclusionDiv.innerHTML = `
-    <p class=" rounded-md text-sm p-2 px-3 text-center text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
+    <p class="animate__animated animate__pulse rounded-md text-sm p-2 px-3 text-center text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
     }
     else {
         conclusionDiv.innerHTML = `
-    <p class="rounded-md p-2 px-3 text-center text-sm text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
+    <p class="animate__animated animate__pulse rounded-md p-2 px-3 text-center text-sm text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
     }
 };

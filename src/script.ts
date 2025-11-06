@@ -52,6 +52,7 @@ const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElemen
 const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
 const playAgainBtn = document.getElementById("playAgainBtn") as HTMLElement;
 const scoreboardSection = document.getElementById("scoreboard-section") as HTMLElement;
+const celebrationDialog = document.getElementById("celebration-modal") as HTMLElement;
 
 
 
@@ -611,19 +612,6 @@ filterForm?.addEventListener("keydown", (e) => {
 });
 
 
-scoreboardSection?.addEventListener("keydown", (e) => {
-  switch(e.key) {
-
-    case " ": 
-    case "Spacebar":
-      e.preventDefault(); // safety check
-      if(playAgainBtn){
-        playAgainBtn.click();
-      }
-      break;
-  }
-});
-
 
 // quiz page:
 answers?.addEventListener("keydown", (e) => {
@@ -641,7 +629,7 @@ answers?.addEventListener("keydown", (e) => {
       e.preventDefault(); // safety check
       if(!submitAnswerButton.classList.contains("hidden")){
         submitAnswerButton.click();
-      } else if (!nextQuestionBtn.classList.  contains("hidden")){
+      } else if (!nextQuestionBtn.classList.contains("hidden")){
         nextQuestionBtn.click();
       } else if (finishQuizBtn){
         finishQuizBtn.click();
@@ -671,6 +659,37 @@ answers?.addEventListener("keydown", (e) => {
       break;
     case "End":
       //move to last item
+      break;
+  }
+});
+
+
+
+celebrationDialog?.addEventListener("keydown", (e) => {
+  switch(e.key) {
+
+    case " ": 
+    case "Spacebar":
+    case "Enter":
+      e.preventDefault(); // safety check
+      if(finishQuizBtn){
+        playAgainBtn.click();
+      }
+      break;
+  }
+});
+
+
+
+scoreboardSection?.addEventListener("keydown", (e) => {
+  switch(e.key) {
+
+    case " ": 
+    case "Spacebar":
+      e.preventDefault(); // safety check
+      if(playAgainBtn){
+        playAgainBtn.click();
+      }
       break;
   }
 });

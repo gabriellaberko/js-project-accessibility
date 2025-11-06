@@ -305,7 +305,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
     firstButton.click();
   }
   
-  startQuestionTimer(10000);
+  startQuestionTimer(30000);
 };
 
 

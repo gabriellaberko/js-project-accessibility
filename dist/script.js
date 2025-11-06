@@ -219,7 +219,7 @@ const insertQuestionsAndAnswers = (array, index) => {
         firstButton.focus();
         firstButton.click();
     }
-    startQuestionTimer(10000);
+    startQuestionTimer(30000);
 };
 const checkAnswer = (chosenAnswer, index) => {
     var _a;

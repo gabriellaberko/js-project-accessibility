@@ -71,9 +71,10 @@ const fetchQuizAPI = () => __awaiter(void 0, void 0, void 0, function* () {
     storedQuestionArray = JSON.parse(localStorage.getItem("storedQuestionArray"));
 });
 const celebrationModal = () => {
-    var _a, _b;
+    var _a;
     (_a = document.getElementById("celebration-modal")) === null || _a === void 0 ? void 0 : _a.remove();
     const modal = document.createElement("dialog");
+    const modalHeading = modal.querySelector("#celebration-title");
     modal.id = "celebration-modal";
     modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "my-auto", "mx-auto", "bg-[#101626]");
     modal.setAttribute("role", "dialog");
@@ -95,25 +96,30 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse">${accumulatedScore} points</h3>
-        <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points on this quiz.
-        </p>
+        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse" aria-live="assertive"> You scored ${accumulatedScore} points</h3>
       </div>
     </div>
-    <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
+    <button id="finishQuizBtn" aria-label="Submit to scoreboard" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
       Submit to scoreboard
     </button>
   `;
     document.body.appendChild(modal);
     const previouslyFocused = document.activeElement;
+    //Moving focus to the heading inside the modul
     modal.showModal();
-    modal.focus();
-    (_b = modal.querySelector("button")) === null || _b === void 0 ? void 0 : _b.focus();
+    const heading = modal.querySelector("#celebration-title");
+    modalHeading.setAttribute("tabindex", "-1");
+    modalHeading.focus();
+    setTimeout(() => {
+        var _a;
+        (_a = modal.querySelector("#finishQuizBtn")) === null || _a === void 0 ? void 0 : _a.focus();
+    }, 1500);
+    // modal.querySelector("button")?.focus();
     modal.addEventListener("close", () => {
         previouslyFocused === null || previouslyFocused === void 0 ? void 0 : previouslyFocused.focus();
     });
-    const focusable = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
-    focusable === null || focusable === void 0 ? void 0 : focusable.focus();
+    // const focusable = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
+    // focusable?.focus();
     // Move the button in here as its rendered
     const finishButton = modal.querySelector("#finishQuizBtn");
     finishButton === null || finishButton === void 0 ? void 0 : finishButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {

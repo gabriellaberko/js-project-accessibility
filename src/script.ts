@@ -119,8 +119,9 @@ const fetchQuizAPI = async () => {
 const celebrationModal = () => {
   document.getElementById("celebration-modal")?.remove();
 
-  const modal = document.createElement("dialog");
-  modal.id = "celebration-modal";
+  const modal = document.createElement("dialog") as HTMLDialogElement;
+  const modalHeading = modal.querySelector("#celebration-title") as HTMLElement;
+  modal.id = "celebration-modal"
   modal.classList.add("p-6", "rounded-xl", "backdrop:bg-black/50", "text-center", "my-auto", "mx-auto", "bg-[#101626]");
   modal.setAttribute("role", "dialog");
   modal.setAttribute("aria-modal", "true");
@@ -143,33 +144,39 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 class="text-2xl font-bold text-white" id="score-heading animate__animated animate__pulse">${accumulatedScore} points</h3>
+        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse" aria-live="assertive"> You scored ${accumulatedScore} points</h3>
       </div>
     </div>
-    <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
+    <button id="finishQuizBtn" aria-label="Submit to scoreboard" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
       Submit to scoreboard
     </button>
   `;
 
   document.body.appendChild(modal);
 
-  const previouslyFocused = document.activeElement;
+  const previouslyFocused = document.activeElement as HTMLElement | null;
 
+  //Moving focus to the heading inside the modul
   modal.showModal();
-  modal.focus();
+  const heading = modal.querySelector("#celebration-title");
+  modalHeading.setAttribute("tabindex", "-1");
+  modalHeading.focus();
 
-  modal.querySelector("button")?.focus();
+  setTimeout(() => {
+    modal.querySelector("#finishQuizBtn")?.focus();
+  }, 1500);
+
+  // modal.querySelector("button")?.focus();
 
   modal.addEventListener("close", () => {
     previouslyFocused?.focus();
   });
 
-  const focusable = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
-  focusable?.focus();
+  // const focusable = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
+  // focusable?.focus();
 
   // Move the button in here as its rendered
-
-  const finishButton = modal.querySelector("#finishQuizBtn");
+  const finishButton = modal.querySelector("#finishQuizBtn") as HTMLButtonElement;
   finishButton?.addEventListener("click", async () => {
     modal.close();
 
@@ -308,7 +315,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
     firstButton.focus();
     firstButton.click();
   }
-  
+
   startQuestionTimer(30000);
 };
 
@@ -434,8 +441,8 @@ async function initScoreFilters() {
         const tbody = document.getElementById("user-scores");
         tbody.innerHTML = filtered.length
           ? filtered
-              .map(
-                (p, i) => `
+            .map(
+              (p, i) => `
             <tr tabindex="0" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7]
             odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-white text-xs font-medium">
               <td class="py-3 px-4">${i + 1}</td>
@@ -444,8 +451,8 @@ async function initScoreFilters() {
               <td class="py-3 px-4">${p.amount}</td>
               <td class="py-3 px-4">${p.difficulty}</td>
             </tr>`
-              )
-              .join("")
+            )
+            .join("")
           : `<tr><td colspan="5" class="text-center text-gray-400 py-3">No results found.</td></tr>`;
       });
     });
@@ -503,7 +510,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // console.log("first element in focus")
     firstFilterElement.focus();
   }
-  
+
   if (document.getElementById("score-list")) initScoreFilters();
 });
 

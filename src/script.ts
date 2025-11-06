@@ -382,8 +382,8 @@ const fetchScores = async () => {
       return html.innerHTML += player.username;
     }); */
 
-    const html = result.map((player, i) => `
-      <tr class="odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium rounded-4 player-${i}">
+    const html = result.map((player, i) => `      
+      <tr tabindex="0" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7] focus:bg-[rgba(255,255,255,0.15)] transition-colors odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,1)] text-xs font-medium rounded-4 player-${i}">
         <td class="py-3 px-4">${i + 1}</td>
         <td class="py-3 px-4">${player.username}</td>
         <td class="py-3 px-4">${player.score}</td>

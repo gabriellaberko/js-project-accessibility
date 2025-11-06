@@ -143,7 +143,7 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 id="score-heading" aria-live="polite" role="status" class="text-2xl font-bold text-white" id="score-heading">${accumulatedScore} points</h3>
+        <h3 class="text-2xl font-bold text-white" id="score-heading animate__animated animate__pulse">${accumulatedScore} points</h3>
       </div>
     </div>
     <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
@@ -308,7 +308,8 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
     firstButton.focus();
     firstButton.click();
   }
-
+  
+  startQuestionTimer(30000);
 };
 
 
@@ -324,6 +325,7 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
       btn.classList.add("bg-[rgba(56,82,64,1)]", "outline", "outline-3", "outline-[rgba(150,231,110,1)]");
       btn.classList.add("text-[rgba(150,231,110,1)]");
       btn.classList.add("outline", "outline-3", "outline-[rgba(150,231,110,1)]");
+      btn.classList.add("animate__animated", "animate__pulse");
     } else {
       btn.classList.add("bg-[rgba(82,63,56,1)]");
       btn.classList.add("text-[rgba(231,110,110,1)]");
@@ -334,11 +336,11 @@ const checkAnswer = (chosenAnswer: string, index: number) => {
   // display message of choice and right/wrong answer
   if (chosenAnswer === questionArray[index]?.correctAnswer) {
     conclusionDiv.innerHTML = `
-    <p class=" rounded-md text-sm p-2 px-3 text-center text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
+    <p class="animate__animated animate__pulse rounded-md text-sm p-2 px-3 text-center text-[rgba(150,231,110,1)] bg-[rgba(56,82,64,1)]">You chose ${chosenAnswer} - It's the right answer. Good job!</p>
   `;
   } else {
     conclusionDiv.innerHTML = `
-    <p class="rounded-md p-2 px-3 text-center text-sm text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
+    <p class="animate__animated animate__pulse rounded-md p-2 px-3 text-center text-sm text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">You chose ${chosenAnswer} - Unfortunately, it's the wrong answer. Bad job!</p>
   `;
   }
 
@@ -405,6 +407,53 @@ const fetchScores = async () => {
   }
 }
 
+/* ------ Filter logic ------ */
+
+let allScores = [];
+
+async function initScoreFilters() {
+  try {
+    // Wait for the first fetch to complete
+    const response = await fetch(SCORE_API_URL);
+    allScores = await response.json();
+
+    // Add listeners once
+    ["category", "difficulty", "qty"].forEach((id) => {
+      document.getElementById(id)?.addEventListener("change", () => {
+        const c = (document.getElementById("category") as HTMLSelectElement).value;
+        const d = (document.getElementById("difficulty") as HTMLSelectElement).value.toLowerCase();
+        const q = (document.getElementById("qty") as HTMLSelectElement).value;
+
+        const filtered = allScores.filter(
+          (s) =>
+            (!c || String(s.category) === c) &&
+            (!d || s.difficulty.toLowerCase() === d) &&
+            (!q || String(s.amount) === q)
+        );
+
+        const tbody = document.getElementById("user-scores");
+        tbody.innerHTML = filtered.length
+          ? filtered
+              .map(
+                (p, i) => `
+            <tr tabindex="0" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7]
+            odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-white text-xs font-medium">
+              <td class="py-3 px-4">${i + 1}</td>
+              <td class="py-3 px-4">${p.username}</td>
+              <td class="py-3 px-4">${p.score}</td>
+              <td class="py-3 px-4">${p.amount}</td>
+              <td class="py-3 px-4">${p.difficulty}</td>
+            </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="5" class="text-center text-gray-400 py-3">No results found.</td></tr>`;
+      });
+    });
+  } catch (err) {
+    console.error("Error setting up filters:", err);
+  }
+}
+
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
@@ -454,6 +503,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // console.log("first element in focus")
     firstFilterElement.focus();
   }
+  
+  if (document.getElementById("score-list")) initScoreFilters();
 });
 
 
@@ -487,6 +538,7 @@ filterForm?.addEventListener("submit", (e) => {
 
 
 submitAnswerButton?.addEventListener("click", () => {
+  stopQuestionTimer();
   submitAnswerButton.classList.add("hidden");
   nextQuestionBtn.classList.remove("hidden");
 
@@ -537,6 +589,92 @@ answers?.addEventListener("click", (e) => {
 });
 
 
+/* ------ TIMER LOGIC ------ */
+
+
+let timerId: number | null = null;
+
+function stopQuestionTimer() {
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function startQuestionTimer(durationMs = 10000) {
+  stopQuestionTimer();
+
+  const fill = document.getElementById("timerFill") as HTMLElement;
+  const text = document.getElementById("timerText") as HTMLElement;
+  const submit = document.getElementById("submitAnswerBtn") as HTMLButtonElement;
+
+  let start = performance.now();
+
+  timerId = window.setInterval(() => {
+    const elapsed = performance.now() - start;
+    const remaining = Math.max(0, durationMs - elapsed);
+    const pct = Math.min(100, Math.round((elapsed / durationMs) * 100));
+    const secondsLeft = Math.max(0, Math.floor(remaining / 1000));
+
+    // animate bar + number
+    if (fill) fill.style.width = pct + "%";
+    if (text) text.textContent = `${secondsLeft}s`;
+
+    if (pct >= 100) {
+      // time’s up: lock UI
+      stopQuestionTimer();
+      document.querySelectorAll(".answer-button").forEach((b: Element) => {
+        const btn = b as HTMLButtonElement;
+        btn.disabled = true;
+        btn.setAttribute("aria-disabled", "true");
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+
+        if (btn.innerText === questionArray[index]?.correctAnswer) {
+          btn.classList.add(
+            "bg-[rgba(56,82,64,1)]",
+            "outline",
+            "outline-3",
+            "outline-[rgba(150,231,110,1)]",
+            "text-[rgba(150,231,110,1)]",
+            "animate__animated",
+            "animate__pulse"
+          );
+        } else {
+          btn.classList.add(
+            "bg-[rgba(82,63,56,1)]",
+            "text-[rgba(231,110,110,1)]",
+            "outline",
+            "outline-3",
+            "outline-[rgba(231,110,110,1)]"
+          );
+        }
+
+      });
+
+      const correct = questionArray[index]?.correctAnswer;
+      conclusionDiv.innerHTML = `
+        <p class="animate__animated animate__pulse rounded-md text-sm p-2 px-3 text-center text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">
+          Time’s up! The correct answer was: <strong>${correct}</strong>
+        </p>
+      `;
+
+      if (submit) {
+        submit.textContent = "Continue to next question";
+        submit.disabled = false; // make sure it's clickable
+        submit.classList.remove("hidden");
+
+        submit.addEventListener(
+          "click",
+          () => {
+            submit.textContent = "Check answer";
+            incrementIndex();
+          },
+          { once: true }
+        );
+      }
+    }
+  }, 50);
+}
 
 
 /* ------ ACCESSIBILITY LOGIC ------ */
@@ -616,8 +754,6 @@ filterForm?.addEventListener("keydown", (e) => {
 });
 
 
-
-// quiz page:
 answers?.addEventListener("keydown", (e) => {
   const buttons = Array.from(answers.querySelectorAll(".answer-button"));
 

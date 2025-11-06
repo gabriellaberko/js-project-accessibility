@@ -6,6 +6,7 @@
   <title>Quiz BONANZAAA</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 
 <body>
@@ -48,8 +49,10 @@
     </main>
     <footer class="flex flex-col justify-center items-center gap-2 p-4">
       <div class="timer flex w-full md:w-1/2 items-center gap-4">
-        <span class="indicator h-2 w-full bg-[rgba(182,192,208, 1)] block bg-[rgba(77,85,99,1)]"></span>
-        <p>10:32</p>
+        <span id="timerBar" class="indicator h-2 w-full bg-[rgba(77,85,99,1)] relative overflow-hidden">
+            <span id="timerFill" class="absolute left-0 top-0 h-full bg-[rgba(182,192,208,1)]" style="width:0%"></span>
+        </span>
+        <p id="timerText">10:32</p>
       </div>
       <nav 
         class="flex flex-col items-center w-full" 

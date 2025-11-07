@@ -53,4 +53,5 @@ declare const postScore: (username: string, category: number, score: number, dif
 declare let timerId: number | null;
 declare function stopQuestionTimer(): void;
 declare function startQuestionTimer(durationMs?: number): void;
+declare const keys: NodeListOf<HTMLElement>;
 //# sourceMappingURL=script.d.ts.map

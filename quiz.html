@@ -47,7 +47,49 @@
         </div>
       </section>
     </main>
+
     <footer class="flex flex-col justify-center items-center gap-2 p-4">
+
+<div class="visual-navigation flex flex-row gap-2 hidden md:flex">
+
+  <!-- Down arrow -->
+  <div class="key down-arrow w-10 h-10 flex items-center justify-center">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#384152" fill="none"/>
+      <path d="M10 6.5V13.5M10 13.5L13.5 10M10 13.5L6.5 10" stroke="#384152" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Up arrow -->
+  <div class="key up-arrow w-10 h-10 flex items-center justify-center">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#384152" fill="none"/>
+      <path d="M10 13.5L10 6.5M10 6.5L6.5 10M10 6.5L13.5 10" stroke="#384152" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Enter key -->
+  <div class="key enter-key w-10 h-10 flex items-center justify-center">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#384152" fill="none"/>
+      <path d="M14 6V6.7C14 8.38016 14 9.22024 13.673 9.86197C13.3854 10.4265 12.9265 10.8854 12.362 11.173C11.7202 11.5 10.8802 11.5 9.2 11.5H6M6 11.5L8.5 9M6 11.5L8.5 14" stroke="#384152" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+<!-- Space key -->
+<div class="key space-key w-10 h-10 flex items-center justify-center">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer border -->
+    <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#384152" fill="none"/>
+    <!-- Lowered U-shape "space bar" -->
+    <path d="M4 10 V14 H16 V10" stroke="#384152" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+</div>
+
+
+<!-- Timer -->
       <div class="timer flex w-full md:w-1/2 items-center gap-4">
         <span id="timerBar" class="indicator h-2 w-full bg-[rgba(77,85,99,1)] relative overflow-hidden">
             <span id="timerFill" class="absolute left-0 top-0 h-full bg-[rgba(182,192,208,1)]" style="width:0%"></span>

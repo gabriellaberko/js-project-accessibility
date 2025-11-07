@@ -27,6 +27,7 @@ const submitAnswerButton = document.getElementById("submitAnswerBtn");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
 const finishQuizBtn = document.getElementById("finishQuizBtn");
 const playAgainBtn = document.getElementById("playAgainBtn");
+const backToStartBtn = document.getElementById("back-to-start-button");
 const scoreboardSection = document.getElementById("scoreboard-section");
 const celebrationDialog = document.getElementById("celebration-modal");
 /* ------ FETCH API DATA ------ */
@@ -95,7 +96,7 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse">${accumulatedScore} points</h3>
+        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse" aria-live="assertive">${accumulatedScore} points</h3>
     <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points!
     </p>
       </div>
@@ -154,6 +155,14 @@ const decodeString = (string) => {
     const decodedString = textarea.value;
     return decodedString;
 };
+// const resetScores = () => {
+//   // reset scores
+//   let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
+//   accumulatedScore = 0;
+//   quizSettings.score = 0;
+//   // save it back to local storage
+//   localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+//   };
 const incrementIndex = () => {
     if (index < questionArray.length - 1) {
         index++;
@@ -415,15 +424,16 @@ nextQuestionBtn === null || nextQuestionBtn === void 0 ? void 0 : nextQuestionBt
     nextQuestionBtn.classList.add("hidden");
     incrementIndex();
 });
+// reset scores if navigating back to start
+[backToStartBtn, playAgainBtn].forEach(button => {
+    button === null || button === void 0 ? void 0 : button.addEventListener("click", () => {
+        // reset scores
+        localStorage.clear();
+    });
+});
 playAgainBtn === null || playAgainBtn === void 0 ? void 0 : playAgainBtn.addEventListener("click", () => {
-    // reset score
-    let quizSettings = JSON.parse(localStorage.getItem("quizSettings"));
-    accumulatedScore = 0;
-    quizSettings.score = 0;
-    // save it back to local storage
-    localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
-    // navigate to quiz page
-    window.location.href = "quiz.html";
+    // navigate to start page
+    window.location.href = "index.html";
 });
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("click", (e) => {
     const target = e.target || null;
@@ -562,6 +572,7 @@ filterForm === null || filterForm === void 0 ? void 0 : filterForm.addEventListe
             break;
     }
 });
+// quiz page 
 answers === null || answers === void 0 ? void 0 : answers.addEventListener("keydown", (e) => {
     const buttons = Array.from(answers.querySelectorAll(".answer-button"));
     const buttonIndex = buttons.indexOf(document.activeElement);
@@ -604,11 +615,15 @@ answers === null || answers === void 0 ? void 0 : answers.addEventListener("keyd
                 buttons[buttons.length - 1].focus();
             }
             break;
-        case "Home":
-            //move to first item
-            break;
-        case "End":
-            //move to last item
+    }
+});
+document.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case "Escape":
+            // reset scores
+            localStorage.clear();
+            // navigate to quiz page
+            window.location.href = "index.html";
             break;
     }
 });
@@ -633,6 +648,39 @@ scoreboardSection === null || scoreboardSection === void 0 ? void 0 : scoreboard
                 playAgainBtn.click();
             }
             break;
+    }
+});
+// Keyboard visualisation on quiz page
+const keys = document.querySelectorAll('.key');
+document.addEventListener('keydown', (e) => {
+    let keyToFlash = null;
+    switch (e.code) {
+        case 'ArrowUp':
+            keyToFlash = document.querySelector('.up-arrow');
+            break;
+        case 'ArrowDown':
+            keyToFlash = document.querySelector('.down-arrow');
+            break;
+        case 'Enter':
+            keyToFlash = document.querySelector('.enter-key');
+            break;
+        case 'Space':
+            keyToFlash = document.querySelector('.space-key');
+            break;
+    }
+    if (keyToFlash) {
+        const rect = keyToFlash.querySelector('rect');
+        const path = keyToFlash.querySelector('path');
+        if (rect && path) {
+            // flash color
+            rect.setAttribute('stroke', '#6683B4');
+            path.setAttribute('stroke', '#6683B4');
+            setTimeout(() => {
+                // revert to default grey
+                rect.setAttribute('stroke', '#384152');
+                path.setAttribute('stroke', '#384152');
+            }, 300);
+        }
     }
 });
 //# sourceMappingURL=script.js.map

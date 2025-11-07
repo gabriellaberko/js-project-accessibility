@@ -34,6 +34,7 @@ declare const submitAnswerButton: HTMLElement;
 declare const nextQuestionBtn: HTMLElement;
 declare const finishQuizBtn: HTMLElement;
 declare const playAgainBtn: HTMLElement;
+declare const backToStartBtn: HTMLElement;
 declare const scoreboardSection: HTMLElement;
 declare const celebrationDialog: HTMLElement;
 declare const fetchQuizAPI: () => Promise<void>;
@@ -53,4 +54,5 @@ declare const postScore: (username: string, category: number, score: number, dif
 declare let timerId: number | null;
 declare function stopQuestionTimer(): void;
 declare function startQuestionTimer(durationMs?: number): void;
+declare const keys: NodeListOf<HTMLElement>;
 //# sourceMappingURL=script.d.ts.map

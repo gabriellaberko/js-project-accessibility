@@ -51,6 +51,7 @@ const submitAnswerButton = document.getElementById("submitAnswerBtn") as HTMLEle
 const nextQuestionBtn = document.getElementById("nextQuestionBtn") as HTMLElement;
 const finishQuizBtn = document.getElementById("finishQuizBtn") as HTMLElement;
 const playAgainBtn = document.getElementById("playAgainBtn") as HTMLElement;
+const backToStartBtn = document.getElementById("back-to-start-button") as HTMLElement;
 const scoreboardSection = document.getElementById("scoreboard-section") as HTMLElement;
 const celebrationDialog = document.getElementById("celebration-modal") as HTMLElement;
 
@@ -143,7 +144,7 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse">${accumulatedScore} points</h3>
+        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse" aria-live="assertive">${accumulatedScore} points</h3>
     <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points!
     </p>
       </div>
@@ -221,6 +222,16 @@ const decodeString = (string: string) => {
   const decodedString = textarea.value;
   return decodedString;
 };
+
+
+// const resetScores = () => {
+//   // reset scores
+//   let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
+//   accumulatedScore = 0;
+//   quizSettings.score = 0;
+//   // save it back to local storage
+//   localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+//   };
 
 
 
@@ -557,16 +568,20 @@ nextQuestionBtn?.addEventListener("click", () => {
 });
 
 
-playAgainBtn?.addEventListener("click", () => {
-  // reset score
-  let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
-  accumulatedScore = 0;
-  quizSettings.score = 0;
-  // save it back to local storage
-  localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
 
-  // navigate to quiz page
-  window.location.href = "quiz.html";
+// reset scores if navigating back to start
+[backToStartBtn, playAgainBtn].forEach(button => {
+  button?.addEventListener("click", () => {
+    // reset scores
+    localStorage.clear();
+ });
+});
+
+
+
+playAgainBtn?.addEventListener("click", () => {
+  // navigate to start page
+  window.location.href = "index.html";
 });
 
 
@@ -684,6 +699,8 @@ function startQuestionTimer(durationMs = 10000) {
 
 /*---- Keyboard Navigation ----*/
 
+
+
 // start page & scoreboard page:
 
 filterForm?.addEventListener("keydown", (e) => {
@@ -756,6 +773,9 @@ filterForm?.addEventListener("keydown", (e) => {
 });
 
 
+
+// quiz page 
+
 answers?.addEventListener("keydown", (e) => {
   const buttons = Array.from(answers.querySelectorAll(".answer-button"));
 
@@ -796,15 +816,20 @@ answers?.addEventListener("keydown", (e) => {
         buttons[buttons.length - 1].focus();
       }
       break;
-    case "Home":
-      //move to first item
-      break;
-    case "End":
-      //move to last item
-      break;
   }
 });
 
+
+document.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "Escape":
+        // reset scores
+        localStorage.clear();
+        // navigate to quiz page
+        window.location.href = "index.html";
+      break;
+  }
+});
 
 
 celebrationDialog?.addEventListener("keydown", (e) => {
@@ -833,5 +858,44 @@ scoreboardSection?.addEventListener("keydown", (e) => {
         playAgainBtn.click();
       }
       break;
+  }
+});
+
+// Keyboard visualisation on quiz page
+const keys = document.querySelectorAll<HTMLElement>('.key');
+
+document.addEventListener('keydown', (e) => {
+  let keyToFlash: HTMLElement | null = null;
+
+  switch (e.code) {
+    case 'ArrowUp':
+      keyToFlash = document.querySelector<HTMLElement>('.up-arrow');
+      break;
+    case 'ArrowDown':
+      keyToFlash = document.querySelector<HTMLElement>('.down-arrow');
+      break;
+    case 'Enter':
+      keyToFlash = document.querySelector<HTMLElement>('.enter-key');
+      break;
+    case 'Space':
+      keyToFlash = document.querySelector<HTMLElement>('.space-key');
+      break;
+  }
+
+  if (keyToFlash) {
+    const rect = keyToFlash.querySelector<SVGRectElement>('rect');
+    const path = keyToFlash.querySelector<SVGPathElement>('path');
+
+    if (rect && path) {
+      // flash color
+      rect.setAttribute('stroke', '#6683B4');
+      path.setAttribute('stroke', '#6683B4');
+
+      setTimeout(() => {
+        // revert to default grey
+        rect.setAttribute('stroke', '#384152');
+        path.setAttribute('stroke', '#384152');
+      }, 300);
+    }
   }
 });

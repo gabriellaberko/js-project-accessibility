@@ -144,7 +144,7 @@ const celebrationModal = () => {
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse">${accumulatedScore} points</h3>
+        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse" aria-live="assertive">${accumulatedScore} points</h3>
     <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points!
     </p>
       </div>
@@ -222,6 +222,16 @@ const decodeString = (string: string) => {
   const decodedString = textarea.value;
   return decodedString;
 };
+
+
+// const resetScores = () => {
+//   // reset scores
+//   let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
+//   accumulatedScore = 0;
+//   quizSettings.score = 0;
+//   // save it back to local storage
+//   localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+//   };
 
 
 
@@ -563,11 +573,7 @@ nextQuestionBtn?.addEventListener("click", () => {
 [backToStartBtn, playAgainBtn].forEach(button => {
   button?.addEventListener("click", () => {
     // reset scores
-    let quizSettings = JSON.parse(localStorage.getItem("quizSettings")!);
-    accumulatedScore = 0;
-    quizSettings.score = 0;
-    // save it back to local storage
-    localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
+    localStorage.clear();
  });
 });
 
@@ -693,6 +699,8 @@ function startQuestionTimer(durationMs = 10000) {
 
 /*---- Keyboard Navigation ----*/
 
+
+
 // start page & scoreboard page:
 
 filterForm?.addEventListener("keydown", (e) => {
@@ -765,6 +773,9 @@ filterForm?.addEventListener("keydown", (e) => {
 });
 
 
+
+// quiz page 
+
 answers?.addEventListener("keydown", (e) => {
   const buttons = Array.from(answers.querySelectorAll(".answer-button"));
 
@@ -805,15 +816,20 @@ answers?.addEventListener("keydown", (e) => {
         buttons[buttons.length - 1].focus();
       }
       break;
-    case "Home":
-      //move to first item
-      break;
-    case "End":
-      //move to last item
-      break;
   }
 });
 
+
+document.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "Escape":
+        // reset scores
+        localStorage.clear();
+        // navigate to quiz page
+        window.location.href = "index.html";
+      break;
+  }
+});
 
 
 celebrationDialog?.addEventListener("keydown", (e) => {
@@ -845,7 +861,7 @@ scoreboardSection?.addEventListener("keydown", (e) => {
   }
 });
 
-// Keyboard visualisation
+// Keyboard visualisation on quiz page
 const keys = document.querySelectorAll<HTMLElement>('.key');
 
 document.addEventListener('keydown', (e) => {

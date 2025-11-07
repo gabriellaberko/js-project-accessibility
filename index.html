@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="css/styles.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-[#0B1120] text-gray-200 min-h-screen flex flex-col justify-center items-center px-4">
+  <body class="bg-[#0B1120] text-gray-200 min-h-screen flex flex-col justify-center items-center">
 
-    <div class="wrapper h-[100dvh] grid grid-rows-[auto,1fr,auto]  md:max-w-sm">
-      <header class="flex justify-between px-0 p-2 md:p-4 m-0">
+    <div class="wrapper h-[100dvh] grid grid-rows-[auto,1fr,auto] w-full justify-center px-4">
+      <header class="flex justify-between px-0 p-2 md:p-4 m-0 w-full w-screen px-4">
         <img
           class="logo"
           src=""
@@ -35,7 +35,7 @@
         </ul>
       </header>
       
-      <main class="w-full shadow-lg flex flex-col text-center justify-center md:self-center">
+      <main class="w-full shadow-lg flex flex-col text-center justify-center md:self-center md:max-w-sm mx-auto px-4">
         <section 
           class="intro-section mx-auto text-center mb-0 flex flex-col items-center mb-6 sm:mb-16 md:mb-12 md:mt-12" 
           aria-labelledby="intro-text">
@@ -151,7 +151,7 @@
           </form>
         </section>
       </main>
-     <footer class="py-8" role="contentinfo">
+     <footer class="py-8 md:max-w-sm mx-auto" role="contentinfo">
       <p class="text-center text-xs opacity-50">Made by Daniel, Gabriella, Leon & Marina © 2025. All rights reserved.</p>
     </footer>
     </div>

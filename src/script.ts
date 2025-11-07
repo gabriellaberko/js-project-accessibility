@@ -126,6 +126,8 @@ const celebrationModal = () => {
   modal.setAttribute("role", "dialog");
   modal.setAttribute("aria-modal", "true");
   modal.setAttribute("aria-labelledby", "celebration-title");
+  modal.setAttribute("aria-describedby", "celebration-description")
+  modal.setAttribute("tabindex", "-1");
 
   const svg = `<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.875 18.75C15.3832 18.75 13.9524 19.3426 12.8975 20.3975C11.8426 21.4524 11.25 22.8832 11.25 24.375C11.25 25.8668 11.8426 27.2976 12.8975 28.3525C13.9524 29.4074 15.3832 30 16.875 30H22.5C24.5711 30 26.25 31.6789 26.25 33.75C26.25 35.8211 24.5711 37.5 22.5 37.5H16.875C13.394 37.5 10.0556 36.1172 7.59422 33.6558C5.13281 31.1944 3.75 27.856 3.75 24.375C3.75 20.894 5.13281 17.5556 7.59422 15.0942C10.0556 12.6328 13.394 11.25 16.875 11.25H22.5C24.5711 11.25 26.25 12.9289 26.25 15C26.25 17.0711 24.5711 18.75 22.5 18.75H16.875Z" fill="#E7E56E"/>
@@ -138,14 +140,16 @@ const celebrationModal = () => {
 
   modal.innerHTML = `
     <h2 id="celebration-title" class="text-3xl font-bold mb-2 text-center text-white">You did it!</h2>
-    <p class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
+    <p id="celebration-description" class="mb-2 text-center text-gray-500">Great job finishing the quiz!</p>
     <div class="bg-[#384152] p-8 flex align-center justify-center flex-col items-center rounded-md mt-8">
       ${svg}
       <div class="flex flex-col items-center mt-4">
-        <h3 class="text-2xl font-bold text-white" id="score-heading animate__animated animate__pulse">${accumulatedScore} points</h3>
+        <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse">${accumulatedScore} points</h3>
+    <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points!
+    </p>
       </div>
     </div>
-    <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
+    <button id="finishQuizBtn" aria-label="Submit to scoreboard" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
       Submit to scoreboard
     </button>
   `;
@@ -153,7 +157,10 @@ const celebrationModal = () => {
   document.body.appendChild(modal);
 
   const previouslyFocused = document.activeElement;
+
   modal.showModal();
+  modal.focus();
+
   modal.querySelector("button")?.focus();
 
   modal.addEventListener("close", () => {
@@ -167,7 +174,6 @@ const celebrationModal = () => {
 
   const finishButton = modal.querySelector("#finishQuizBtn");
   finishButton?.addEventListener("click", async () => {
-    // console.log("Finish button clicked");
     modal.close();
 
     const stored = localStorage.getItem("quizSettings");
@@ -306,6 +312,7 @@ const insertQuestionsAndAnswers = (array: questionObjectFormat, index: number) =
     firstButton.click();
   }
 
+  startQuestionTimer(30000);
 };
 
 
@@ -403,6 +410,53 @@ const fetchScores = async () => {
   }
 }
 
+/* ------ Filter logic ------ */
+
+let allScores = [];
+
+async function initScoreFilters() {
+  try {
+    // Wait for the first fetch to complete
+    const response = await fetch(SCORE_API_URL);
+    allScores = await response.json();
+
+    // Add listeners once
+    ["category", "difficulty", "qty"].forEach((id) => {
+      document.getElementById(id)?.addEventListener("change", () => {
+        const c = (document.getElementById("category") as HTMLSelectElement).value;
+        const d = (document.getElementById("difficulty") as HTMLSelectElement).value.toLowerCase();
+        const q = (document.getElementById("qty") as HTMLSelectElement).value;
+
+        const filtered = allScores.filter(
+          (s) =>
+            (!c || String(s.category) === c) &&
+            (!d || s.difficulty.toLowerCase() === d) &&
+            (!q || String(s.amount) === q)
+        );
+
+        const tbody = document.getElementById("user-scores");
+        tbody.innerHTML = filtered.length
+          ? filtered
+            .map(
+              (p, i) => `
+            <tr tabindex="0" class="focus:outline-none focus:ring-2 focus:ring-[#6E9DE7]
+            odd:bg-[rgba(56,65,82,1)] even:bg-[rgba(255,255,255,0.07)] text-white text-xs font-medium">
+              <td class="py-3 px-4">${i + 1}</td>
+              <td class="py-3 px-4">${p.username}</td>
+              <td class="py-3 px-4">${p.score}</td>
+              <td class="py-3 px-4">${p.amount}</td>
+              <td class="py-3 px-4">${p.difficulty}</td>
+            </tr>`
+            )
+            .join("")
+          : `<tr><td colspan="5" class="text-center text-gray-400 py-3">No results found.</td></tr>`;
+      });
+    });
+  } catch (err) {
+    console.error("Error setting up filters:", err);
+  }
+}
+
 /* ------ Post scores ------ */
 
 // async function postScore(username, score) {
@@ -452,6 +506,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // console.log("first element in focus")
     firstFilterElement.focus();
   }
+
+  if (document.getElementById("score-list")) initScoreFilters();
 });
 
 
@@ -485,6 +541,7 @@ filterForm?.addEventListener("submit", (e) => {
 
 
 submitAnswerButton?.addEventListener("click", () => {
+  stopQuestionTimer();
   submitAnswerButton.classList.add("hidden");
   nextQuestionBtn.classList.remove("hidden");
 
@@ -543,6 +600,92 @@ answers?.addEventListener("click", (e) => {
 });
 
 
+/* ------ TIMER LOGIC ------ */
+
+
+let timerId: number | null = null;
+
+function stopQuestionTimer() {
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function startQuestionTimer(durationMs = 10000) {
+  stopQuestionTimer();
+
+  const fill = document.getElementById("timerFill") as HTMLElement;
+  const text = document.getElementById("timerText") as HTMLElement;
+  const submit = document.getElementById("submitAnswerBtn") as HTMLButtonElement;
+
+  let start = performance.now();
+
+  timerId = window.setInterval(() => {
+    const elapsed = performance.now() - start;
+    const remaining = Math.max(0, durationMs - elapsed);
+    const pct = Math.min(100, Math.round((elapsed / durationMs) * 100));
+    const secondsLeft = Math.max(0, Math.floor(remaining / 1000));
+
+    // animate bar + number
+    if (fill) fill.style.width = pct + "%";
+    if (text) text.textContent = `${secondsLeft}s`;
+
+    if (pct >= 100) {
+      // time’s up: lock UI
+      stopQuestionTimer();
+      document.querySelectorAll(".answer-button").forEach((b: Element) => {
+        const btn = b as HTMLButtonElement;
+        btn.disabled = true;
+        btn.setAttribute("aria-disabled", "true");
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+
+        if (btn.innerText === questionArray[index]?.correctAnswer) {
+          btn.classList.add(
+            "bg-[rgba(56,82,64,1)]",
+            "outline",
+            "outline-3",
+            "outline-[rgba(150,231,110,1)]",
+            "text-[rgba(150,231,110,1)]",
+            "animate__animated",
+            "animate__pulse"
+          );
+        } else {
+          btn.classList.add(
+            "bg-[rgba(82,63,56,1)]",
+            "text-[rgba(231,110,110,1)]",
+            "outline",
+            "outline-3",
+            "outline-[rgba(231,110,110,1)]"
+          );
+        }
+
+      });
+
+      const correct = questionArray[index]?.correctAnswer;
+      conclusionDiv.innerHTML = `
+        <p class="animate__animated animate__pulse rounded-md text-sm p-2 px-3 text-center text-[rgba(231,110,110,1)] bg-[rgba(82,63,56,1)]">
+          Time’s up! The correct answer was: <strong>${correct}</strong>
+        </p>
+      `;
+
+      if (submit) {
+        submit.textContent = "Continue to next question";
+        submit.disabled = false; // make sure it's clickable
+        submit.classList.remove("hidden");
+
+        submit.addEventListener(
+          "click",
+          () => {
+            submit.textContent = "Check answer";
+            incrementIndex();
+          },
+          { once: true }
+        );
+      }
+    }
+  }, 50);
+}
 
 
 /* ------ ACCESSIBILITY LOGIC ------ */
@@ -622,8 +765,6 @@ filterForm?.addEventListener("keydown", (e) => {
 });
 
 
-
-// quiz page:
 answers?.addEventListener("keydown", (e) => {
   const buttons = Array.from(answers.querySelectorAll(".answer-button"));
 

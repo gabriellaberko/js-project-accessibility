@@ -641,7 +641,7 @@ scoreboardSection === null || scoreboardSection === void 0 ? void 0 : scoreboard
             break;
     }
 });
-// keyboard visual
+// Keyboard visualisation
 const keys = document.querySelectorAll('.key');
 document.addEventListener('keydown', (e) => {
     let keyToFlash = null;

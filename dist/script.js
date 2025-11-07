@@ -97,11 +97,11 @@ const celebrationModal = () => {
       ${svg}
       <div class="flex flex-col items-center mt-4">
         <h3 id="score-heading" class="text-2xl font-bold text-white animate__animated animate__pulse">${accumulatedScore} points</h3>
-        <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points on this quiz.
-        </p>
+    <p id="celebration-announcement" class="sr-only" aria-live="assertive"> You scored ${accumulatedScore} points!
+    </p>
       </div>
     </div>
-    <button id="finishQuizBtn" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
+    <button id="finishQuizBtn" aria-label="Submit to scoreboard" class="rounded-md font-bold p-4 bg-[#6683b4] text-white text-xl w-full transition-colors duration-200 hover:bg-[#5875a5] h-14 flex items-center justify-center w-full flex mt-8">
       Submit to scoreboard
     </button>
   `;
@@ -639,6 +639,39 @@ scoreboardSection === null || scoreboardSection === void 0 ? void 0 : scoreboard
                 playAgainBtn.click();
             }
             break;
+    }
+});
+// keyboard visual
+const keys = document.querySelectorAll('.key');
+document.addEventListener('keydown', (e) => {
+    let keyToFlash = null;
+    switch (e.code) {
+        case 'ArrowUp':
+            keyToFlash = document.querySelector('.up-arrow');
+            break;
+        case 'ArrowDown':
+            keyToFlash = document.querySelector('.down-arrow');
+            break;
+        case 'Enter':
+            keyToFlash = document.querySelector('.enter-key');
+            break;
+        case 'Space':
+            keyToFlash = document.querySelector('.space-key');
+            break;
+    }
+    if (keyToFlash) {
+        const rect = keyToFlash.querySelector('rect');
+        const path = keyToFlash.querySelector('path');
+        if (rect && path) {
+            // flash color
+            rect.setAttribute('stroke', '#6683B4');
+            path.setAttribute('stroke', '#6683B4');
+            setTimeout(() => {
+                // revert to default grey
+                rect.setAttribute('stroke', '#384152');
+                path.setAttribute('stroke', '#384152');
+            }, 300);
+        }
     }
 });
 //# sourceMappingURL=script.js.map

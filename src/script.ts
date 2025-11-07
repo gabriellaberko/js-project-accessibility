@@ -844,3 +844,42 @@ scoreboardSection?.addEventListener("keydown", (e) => {
       break;
   }
 });
+
+// Keyboard visualisation
+const keys = document.querySelectorAll<HTMLElement>('.key');
+
+document.addEventListener('keydown', (e) => {
+  let keyToFlash: HTMLElement | null = null;
+
+  switch (e.code) {
+    case 'ArrowUp':
+      keyToFlash = document.querySelector<HTMLElement>('.up-arrow');
+      break;
+    case 'ArrowDown':
+      keyToFlash = document.querySelector<HTMLElement>('.down-arrow');
+      break;
+    case 'Enter':
+      keyToFlash = document.querySelector<HTMLElement>('.enter-key');
+      break;
+    case 'Space':
+      keyToFlash = document.querySelector<HTMLElement>('.space-key');
+      break;
+  }
+
+  if (keyToFlash) {
+    const rect = keyToFlash.querySelector<SVGRectElement>('rect');
+    const path = keyToFlash.querySelector<SVGPathElement>('path');
+
+    if (rect && path) {
+      // flash color
+      rect.setAttribute('stroke', '#6683B4');
+      path.setAttribute('stroke', '#6683B4');
+
+      setTimeout(() => {
+        // revert to default grey
+        rect.setAttribute('stroke', '#384152');
+        path.setAttribute('stroke', '#384152');
+      }, 300);
+    }
+  }
+});
